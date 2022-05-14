@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1035074751699",
+    "project_id": "modulelogin-9a256",
+    "storage_bucket": "modulelogin-9a256.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1035074751699:android:05f6e47cd7463971ae1826",
+        "android_client_info": {
+          "package_name": "com.example.finalnoteapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1035074751699-k9c6kouinv1dht5oipnfgpltc7ds5bql.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDsebhOINKbDdA66P5b4BX5c8-gzf2TxQ4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1035074751699-k9c6kouinv1dht5oipnfgpltc7ds5bql.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
