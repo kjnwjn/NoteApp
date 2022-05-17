@@ -3,6 +3,7 @@
     package="com.example.finalnoteapp">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
         android:allowBackup="true"
@@ -12,25 +13,21 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FinalNoteApp">
         <activity
+            android:name=".VertifyEmail"
+            android:exported="false" />
+        <activity
             android:name=".FlashActivity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ForgotPassword"
-            android:exported="false" />
+        <activity android:name=".ForgotPassword" />
         <activity android:name=".MainActivity" />
-        <activity
-            android:name=".LoginActivity"
-            android:exported="false">
-
-        </activity>
+        <activity android:name=".LoginActivity" />
         <activity android:name=".RegisterActivity" />
-        <activity android:name=".ConfirmOtpActivity" />
     </application>
 
 </manifest>

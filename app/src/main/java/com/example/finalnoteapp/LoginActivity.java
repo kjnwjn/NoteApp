@@ -60,13 +60,13 @@ public class LoginActivity extends AppCompatActivity {
                             progressDialog.dismiss();
                             if (task.isSuccessful()) {
                                 // Sign in success, update UI with the signed-in user's information
-                                Log.d("TAG", "signInWithEmail:success");
-                                FirebaseUser user = mAuth.getCurrentUser();
+                                Log.e("TAG", "signInWithEmail:success");
                                 Intent i = new Intent(LoginActivity.this,MainActivity.class);
                                 startActivity(i);
+                                finishAffinity();
                             } else {
                                 // If sign in fails, display a message to the user.
-                                Log.w("TAG", "signInWithEmail:failure", task.getException());
+                                Log.e("TAG", "signInWithEmail:failure", task.getException());
                                 Toast.makeText(LoginActivity.this, "Authentication failed.",
                                         Toast.LENGTH_SHORT).show();
 
@@ -95,7 +95,6 @@ public class LoginActivity extends AppCompatActivity {
         if(!TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches()){
             return true;
         }else{
-            Toast.makeText(this, "Invalid Email", Toast.LENGTH_SHORT).show();
             return false;
         }
     }

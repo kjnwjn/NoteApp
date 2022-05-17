@@ -7,50 +7,63 @@
     tools:context=".MainActivity">
 
     <TextView
+        android:id="@+id/confirmOtpTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="CONFIRM OTP"
+        android:layout_marginTop="30dip"
+        android:gravity="center"
+        android:text="VERIFY EMAIL"
         android:textColor="@color/white"
         android:textSize="35dp"
-        android:textStyle="bold"
-        android:gravity="center"
-        android:layout_marginTop="30dip"
-        android:id="@+id/confirmOtpTitle"/>
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/otpCode"
-        android:layout_below="@+id/confirmOtpTitle"
-        android:hint="Enter your otp code"
-        android:textColorHint="@color/white"
-        android:textColor="@color/white"
-        android:layout_margin="10dp"
-        android:padding="20dp"
-        android:background="#84a2f1"
-        android:drawableLeft="@drawable/ic_confirmation"
-        android:drawablePadding="15dp"/>
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnConfirm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/otpCode"
-        android:text="Cònirm"
-        android:backgroundTint="@color/white"
-        android:textColor="@color/black"
-        android:layout_centerHorizontal="true"/>
+        android:textStyle="bold" />
 
     <TextView
+        android:id="@+id/verifyEmailTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/confirmOtpTitle"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:gravity="center"
+        android:padding="20dp"
+        android:text="Please verify your email!"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        android:textSize="20dp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnVerify"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="or sign in with"
-        android:id="@+id/others"
-        android:textSize="15dp"
-        android:textStyle="bold"
+        android:layout_below="@+id/verifyEmailTitle"
+        android:layout_centerHorizontal="true"
+        android:backgroundTint="@color/white"
+        android:text="VERIFY"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:id="@+id/skip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btnVerify"
         android:gravity="center"
+        android:text="Skip"
+        android:textColor="@color/white"></TextView>
+
+
+    <TextView
+        android:id="@+id/others"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_above="@+id/iconLayout"
         android:layout_centerHorizontal="true"
-        />
+        android:gravity="center"
+        android:text="or sign in with"
+        android:textSize="15dp"
+        android:textColor="@color/white"
+        android:textStyle="bold" />
 
     <LinearLayout
         android:layout_width="match_parent"

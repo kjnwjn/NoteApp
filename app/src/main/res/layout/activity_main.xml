@@ -2,19 +2,30 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center">
+    android:gravity="center"
+    android:orientation="vertical">
+
     <TextView
+        android:id="@+id/verify"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/email"
-        android:hint="1234"
         android:gravity="center"
-        android:textSize="20dp"/>
+        android:text="Click here!Please verify your email now!"
+        android:textColor="@color/purple_700"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:hint="1234"
+        android:textSize="20dp" />
+
     <Button
+        android:id="@+id/logoutBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Logout"
-        android:id="@+id/logoutBtn"></Button>
+        android:text="Logout"></Button>
 
 </LinearLayout>

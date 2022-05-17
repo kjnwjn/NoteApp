@@ -38,7 +38,7 @@ public class ForgotPassword extends AppCompatActivity {
 
 
     private void forgotPass() {
-        if(isValidEmail(binding.email.getText())){
+        if(isValidEmail(binding.email.getText().toString().trim())){
             FirebaseAuth auth = FirebaseAuth.getInstance();
             String emailAddress = binding.email.getText().toString();
             pro.show();
@@ -65,7 +65,7 @@ public class ForgotPassword extends AppCompatActivity {
          if(!TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches()){
              return true;
          }else{
-             Toast.makeText(this, "Invalid Email", Toast.LENGTH_SHORT).show();
+             binding.email.setError("Invalid Email");
              return false;
          }
     }

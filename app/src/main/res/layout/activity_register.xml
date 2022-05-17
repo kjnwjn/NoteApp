@@ -16,24 +16,31 @@
         android:gravity="center"
         android:layout_marginTop="30dip"
         android:id="@+id/SignUpTitle"/>
+
     <EditText
+        android:id="@+id/email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/email"
         android:layout_below="@+id/SignUpTitle"
-        android:hint="Enter your email"
-        android:textColorHint="@color/white"
-        android:textColor="@color/white"
-        android:layout_margin="10dp"
-        android:padding="20dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
         android:background="#84a2f1"
         android:drawableLeft="@drawable/ic_email"
-        android:drawablePadding="15dp"/>
+        android:drawablePadding="15dp"
+        android:hint="Enter your email"
+        android:padding="20dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white" />
+
+
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/password"
         android:layout_below="@+id/email"
+        android:inputType="textPassword"
         android:hint="Enter your password"
         android:textColorHint="@color/white"
         android:textColor="@color/white"
@@ -48,6 +55,7 @@
         android:id="@+id/ConfirmPassword"
         android:layout_below="@+id/password"
         android:hint="Confirm your password"
+        android:inputType="textPassword"
         android:textColorHint="@color/white"
         android:textColor="@color/white"
         android:layout_margin="10dp"

@@ -31,7 +31,6 @@ public class FlashActivity extends AppCompatActivity {
 
         }else{
             Intent i = new Intent(this,MainActivity.class);
-            i.putExtra("email",user.getEmail());
             startActivity(i);
         }
         finish();
