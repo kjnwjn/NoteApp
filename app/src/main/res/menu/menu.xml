@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <item
+        android:id="@+id/actionSearch"
+        android:contentDescription="Tìm kiếm ghi chú"
+        android:icon="@drawable/ic_baseline_search_24"
+        android:title=""
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        app:showAsAction="ifRoom|collapseActionView"></item>
+    <item
+        android:id="@+id/view"
+        android:icon="@drawable/ic_baseline_grid_view_24"
+        android:title=""
+        app:showAsAction="ifRoom|collapseActionView"></item>
+    <item android:id="@+id/account"
+        android:icon="@drawable/ic_baseline_account_circle_24"
+        android:title="profile"
+        app:showAsAction="ifRoom|collapseActionView"></item>
+    <item android:id="@+id/logoutItem"
+        android:icon="@drawable/ic_baseline_account_circle_24"
+        android:title="logout"
+        app:showAsAction="ifRoom|collapseActionView"></item>
+
+
+</menu>

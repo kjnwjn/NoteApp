@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <group android:checkableBehavior="single">
+        <item android:id="@+id/app_note"
+            android:title="@string/app_note"
+            android:icon="@drawable/ic_baseline_wb_incandescent_24"/>
+        <item android:id="@+id/reminder"
+            android:title="@string/app_loinhac"
+            android:icon="@drawable/ic_baseline_notifications"/>
+        <item android:id="@+id/app_new_reminder"
+            android:title="@string/app_taonhanmoi"
+            android:icon="@drawable/ic_baseline_add_add_24"/>
+        <item android:id="@+id/app_savingNote"
+            android:title="@string/app_luutru"
+            android:icon="@drawable/ic_baseline_save_alt_24"/>
+        <item android:id="@+id/app_trashbin"
+            android:title="@string/app_trashbin"
+            android:icon="@drawable/ic_baseline_delete_24"/>
+        <item android:id="@+id/app_setting"
+            android:title="@string/app_setting"
+            android:icon="@drawable/ic_baseline_settings_24"/>
+    </group>
+</menu>
