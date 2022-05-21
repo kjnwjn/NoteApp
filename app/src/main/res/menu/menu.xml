@@ -20,10 +20,6 @@
         android:icon="@drawable/ic_baseline_account_circle_24"
         android:title="profile"
         app:showAsAction="ifRoom|collapseActionView"></item>
-    <item android:id="@+id/logoutItem"
-        android:icon="@drawable/ic_baseline_account_circle_24"
-        android:title="logout"
-        app:showAsAction="ifRoom|collapseActionView"></item>
 
 
 </menu>

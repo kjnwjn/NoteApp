@@ -1,3 +1,6 @@
+
+
+
 package com.example.finalnoteapp;
 
 import androidx.annotation.NonNull;
@@ -14,16 +17,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
-import android.view.ContextMenu;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import com.example.finalnoteapp.databinding.ActivityMainBinding;
@@ -34,12 +32,10 @@ import com.example.finalnoteapp.fragment.SavingNoteFragment;
 import com.example.finalnoteapp.fragment.SettingFragment;
 import com.example.finalnoteapp.fragment.TrashbinFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity  implements NavigationView.OnNavigationItemSelectedListener {
     private static final int FRAGMENT_HOME = 0;
     private static final int FRAGMENT_REMINDER = 1;
     private static final int FRAGMENT_NEW_REMINDER = 2;
@@ -55,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ProgressDialog progressDialog;
     private FirebaseAuth auth;
     private Toolbar toolbar;
+    private NavigationView nav;
 
 
     @Override
@@ -64,52 +61,38 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(binding.getRoot());
         initView();
 
-
+        mDrawerLayout = binding.drawerLayout;
         auth = FirebaseAuth.getInstance();
-        if(!auth.getCurrentUser().isEmailVerified() ){
-            binding.verify.setVisibility(View.VISIBLE);
+        if (!auth.getCurrentUser().isEmailVerified()) {
+            binding.appBarMain.contentMain.verify.setVisibility(View.VISIBLE);
         }
-        binding.verify.setOnClickListener(view -> {
+        binding.appBarMain.contentMain.verify.setOnClickListener(view -> {
             progressDialog.show();
             auth = FirebaseAuth.getInstance();
             auth.getCurrentUser().sendEmailVerification().addOnCompleteListener((OnCompleteListener<Void>) unused -> {
                 progressDialog.dismiss();
                 Toast.makeText(this, "Verify Email successfully!", Toast.LENGTH_SHORT).show();
-                binding.verify.setVisibility(View.GONE);
+                binding.appBarMain.contentMain.verify.setVisibility(View.GONE);
             });
         });
 
+        toolbar = findViewById(binding.appBarMain.toolbar.getId());
         setSupportActionBar(toolbar);
+        replaceFragment(new HomeFragment());
+//        binding.navigationView.getMenu().findItem(R.id.app_note).setCheckable(true);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar
-                ,R.string.app_nav_drawer_open,R.string.app_nav_drawer_close);
+                , R.string.app_nav_drawer_open, R.string.app_nav_drawer_close);
         mDrawerLayout.addDrawerListener(toggle);
         toggle.syncState();
-
-        NavigationView nav = findViewById(R.id.navigation_view);
+        nav = findViewById(R.id.navigation_view);
+        nav.getMenu().findItem(R.id.app_note).setChecked(true);
         nav.setNavigationItemSelectedListener(this);
-
 
     }
 
 
-
     private void initView() {
-        //SearchBar
-        itemRV = binding.idRVItem;
-        toolbar  = binding.toolbar;
-        mDrawerLayout = binding.drawerLayout;
         progressDialog = new ProgressDialog(this);
-        //Tool bar
-
-
-        binding.logoutBtn.setOnClickListener(view -> {
-            FirebaseAuth.getInstance().signOut();
-            Intent i = new Intent(this,LoginActivity.class);
-            startActivity(i);
-            finish();
-        });
-        replaceFragment(new HomeFragment());
-        binding.navigationView.getMenu().findItem(R.id.app_note).setCheckable(true);
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -128,10 +111,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // below line is to call set on query text listener method.
         return super.onCreateOptionsMenu(menu);
     }
-
+//
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.actionSearch:
                 Toast.makeText(this, "view was changed", Toast.LENGTH_SHORT).show();
                 break;
@@ -141,7 +124,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.logoutItem:
                 FirebaseAuth.getInstance().signOut();
-                Intent i = new Intent(this,LoginActivity.class);
+                Intent i = new Intent(this, LoginActivity.class);
                 startActivity(i);
                 finish();
                 break;
@@ -151,36 +134,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        int id = item.getItemId();
-        switch (id){
+
+        switch (item.getItemId()){
             case R.id.app_note:
-                Log.e("nav" ,"home");
                 if(mCurrentFragment != FRAGMENT_HOME){
                     replaceFragment(new HomeFragment());
                     mCurrentFragment = FRAGMENT_HOME;
                 }
                 break;
             case R.id.reminder:
-                Log.e("nav" ,"reminder");
-                Toast.makeText(this,"reminder" ,Toast.LENGTH_SHORT).show();
                 if(mCurrentFragment != FRAGMENT_REMINDER){
                     replaceFragment(new ReminderFragment());
                     mCurrentFragment = FRAGMENT_REMINDER;
                 }
                 break;
             case R.id.app_new_reminder:
-                Log.e("nav" ,"app_new_reminder");
-
-                Toast.makeText(this,"app_new_reminder" ,Toast.LENGTH_SHORT).show();
-
                 if(mCurrentFragment != FRAGMENT_NEW_REMINDER){
                     replaceFragment(new NewReminderFragment());
                     mCurrentFragment = FRAGMENT_NEW_REMINDER;
                 }
                 break;
             case R.id.app_savingNote:
-                Log.e("nav" ,"app_savingNote");
-
                 Toast.makeText(this,"app_savingNote" ,Toast.LENGTH_SHORT).show();
                 if(mCurrentFragment != FRAGMENT_SAVING_NOTE){
                     replaceFragment(new SavingNoteFragment());
@@ -188,8 +162,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
                 break;
             case R.id.app_trashbin:
-                Log.e("nav" ,"app_trashbin");
-
                 Toast.makeText(this,"app_trashbin" ,Toast.LENGTH_SHORT).show();
                 if(mCurrentFragment != FRAGMENT_TRANSBIN){
                     replaceFragment(new TrashbinFragment());
@@ -197,17 +169,32 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
                 break;
             case R.id.app_setting:
-                Log.e("nav" ,"app_setting");
-
                 if(mCurrentFragment != FRAGMENT_SETTING){
                     replaceFragment(new SettingFragment());
                     mCurrentFragment = FRAGMENT_SETTING;
                 }
                 break;
+            case R.id.logout:
+                FirebaseAuth.getInstance().signOut();
+                Intent i = new Intent(this, LoginActivity.class);
+                startActivity(i);
+                finish();
+                break;
+            default:
+                if(mCurrentFragment != FRAGMENT_HOME){
+                    replaceFragment(new HomeFragment());
+//                    item.setChecked(true);
+                    mCurrentFragment = FRAGMENT_HOME;
+                }
+                break;
         }
+
         mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
+
 
     @Override
     public void onBackPressed() {
@@ -219,11 +206,172 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
+
     private void replaceFragment(Fragment fragment){
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.content_frame,fragment);
-        transaction.commit();
+
+        try {
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(binding.appBarMain.contentMain.contentFrame.getId(), fragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
+        }catch (Exception e){
+            Log.e("error","error: "+e);
+        }
     }
 
 
 }
+
+//
+//package com.example.finalnoteapp;
+//
+//import androidx.annotation.NonNull;
+//import androidx.appcompat.app.ActionBarDrawerToggle;
+//import androidx.appcompat.app.AppCompatActivity;
+//import androidx.appcompat.widget.Toolbar;
+//import androidx.core.view.GravityCompat;
+//import androidx.drawerlayout.widget.DrawerLayout;
+//import androidx.fragment.app.Fragment;
+//import androidx.fragment.app.FragmentTransaction;
+//
+//import android.os.Bundle;
+//import android.util.Log;
+//import android.view.MenuItem;
+//
+//import com.example.finalnoteapp.fragment.HomeFragment;
+//import com.example.finalnoteapp.fragment.NewReminderFragment;
+//import com.example.finalnoteapp.fragment.ReminderFragment;
+//import com.example.finalnoteapp.fragment.SavingNoteFragment;
+//import com.example.finalnoteapp.fragment.SettingFragment;
+//import com.example.finalnoteapp.fragment.TrashbinFragment;
+//import com.google.android.material.navigation.NavigationView;
+//
+//public class MainActivity extends AppCompatActivity {
+//
+//    private static final int FRAGMENT_HOME = 0;
+//    private static final int FRAGMENT_REMINDER = 1;
+//    private static final int FRAGMENT_NEW_REMINDER = 2;
+//    private static final int FRAGMENT_TRANSBIN = 3;
+//    private static final int FRAGMENT_SETTING = 4;
+//    private static final int FRAGMENT_SAVING_NOTE = 5;
+//    private int mCurrentFragment = FRAGMENT_HOME;
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        setContentView(R.layout.activity_main);
+//        Toolbar toolbar = findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
+//
+//        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+//        ActionBarDrawerToggle toogle = new ActionBarDrawerToggle(
+//                this,
+//                drawer,
+//                toolbar,
+//                R.string.app_nav_drawer_open,
+//                R.string.app_nav_drawer_close
+//        );
+//        drawer.addDrawerListener(toogle);
+//        toogle.syncState();
+//
+//        FragmentTransaction fragmentTransaction = getSupportFragmentManager().
+//                beginTransaction();
+//        fragmentTransaction.replace(R.id.flContent, new HomeFragment());
+//        fragmentTransaction.commit();
+//
+//        NavigationView navigationView = findViewById(R.id.nav_view);
+//        navigationView.getMenu().findItem(R.id.app_note).setChecked(true);
+//        navigationView.setNavigationItemSelectedListener(
+//                new NavigationView.OnNavigationItemSelectedListener() {
+//                    @Override
+//                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+//                        displayView(item);
+//                        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+//                        drawer.closeDrawer(GravityCompat.START);
+//                        return false;
+//                    }
+//                }
+//        );
+//    }
+//
+//    @Override
+//    public void onBackPressed() {
+//        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+//        if(drawer.isDrawerOpen(GravityCompat.START)){
+//            drawer.closeDrawer(GravityCompat.START);
+//        }else{
+//            super.onBackPressed();
+//        }
+//
+//    }
+//    public void displayView(MenuItem item){
+//        Fragment fragment = null;
+//        switch (item.getItemId()) {
+//            case R.id.app_note:
+//                if (mCurrentFragment != FRAGMENT_HOME) {
+//                    replaceFragment(new HomeFragment());
+//
+//                    mCurrentFragment = FRAGMENT_HOME;
+//                }
+//                break;
+//            case R.id.reminder:
+//                if (mCurrentFragment != FRAGMENT_REMINDER) {
+//                    replaceFragment(new ReminderFragment());
+////                    item.setChecked(true);
+//                    mCurrentFragment = FRAGMENT_REMINDER;
+//                }
+//                break;
+//            case R.id.app_new_reminder:
+//
+//                if (mCurrentFragment != FRAGMENT_NEW_REMINDER) {
+//                    replaceFragment(new NewReminderFragment());
+////                    item.setChecked(true);
+//                    mCurrentFragment = FRAGMENT_NEW_REMINDER;
+//                }
+//                break;
+//            case R.id.app_savingNote:
+//                if (mCurrentFragment != FRAGMENT_SAVING_NOTE) {
+//                    replaceFragment(new SavingNoteFragment());
+////                    item.setChecked(true);
+//                    mCurrentFragment = FRAGMENT_SAVING_NOTE;
+//                }
+//                break;
+//            case R.id.app_trashbin:
+//                if (mCurrentFragment != FRAGMENT_TRANSBIN) {
+//                    replaceFragment(new TrashbinFragment());
+////                    item.setChecked(true);
+//                    mCurrentFragment = FRAGMENT_TRANSBIN;
+//                }
+//                break;
+//            case R.id.app_setting:
+//
+//                if (mCurrentFragment != FRAGMENT_SETTING) {
+//                    replaceFragment(new SettingFragment());
+////                    item.setChecked(true);
+//                    mCurrentFragment = FRAGMENT_SETTING;
+//                }
+//                break;
+//            default:
+//
+//                if (mCurrentFragment != FRAGMENT_HOME) {
+//                    replaceFragment(new HomeFragment());
+////                    item.setChecked(true);
+//                    mCurrentFragment = FRAGMENT_HOME;
+//                }
+//                break;
+//        }
+//        item.setChecked(true);
+//
+//    }
+//    private void replaceFragment(Fragment fragment){
+//        try {
+//            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+//            transaction.replace(R.id.flContent, fragment);
+//            transaction.addToBackStack(null);
+//            transaction.commit();
+//        }catch (Exception e){
+//            Log.e("error","error: "+e);
+//        }
+//    }
+//
+//}
+//
