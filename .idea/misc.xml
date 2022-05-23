@@ -10,11 +10,13 @@
         <entry key="..\:/Users/admin/AndroidStudioProjects/FinalNoteApp/app/src/main/res/drawable/ic_baseline_save_alt_24.xml" value="0.1" />
         <entry key="..\:/Users/admin/AndroidStudioProjects/FinalNoteApp/app/src/main/res/drawable/ic_password.xml" value="0.1655" />
         <entry key="..\:/Users/admin/AndroidStudioProjects/FinalNoteApp/app/src/main/res/drawable/ic_phone.xml" value="0.1655" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/FinalNoteApp/app/src/main/res/drawable/ic_view_list.xml" value="0.1295" />
         <entry key="..\:/Users/admin/AndroidStudioProjects/FinalNoteApp/app/src/main/res/layout/activity_confirmotp.xml" value="0.25" />
         <entry key="..\:/Users/admin/AndroidStudioProjects/FinalNoteApp/app/src/main/res/layout/activity_flash.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/admin/AndroidStudioProjects/FinalNoteApp/app/src/main/res/layout/activity_forgot_password.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/admin/AndroidStudioProjects/FinalNoteApp/app/src/main/res/layout/activity_login.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/admin/AndroidStudioProjects/FinalNoteApp/app/src/main/res/layout/activity_main.xml" value="0.18" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/FinalNoteApp/app/src/main/res/layout/activity_note.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/admin/AndroidStudioProjects/FinalNoteApp/app/src/main/res/layout/activity_pnconfirm_otp.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/admin/AndroidStudioProjects/FinalNoteApp/app/src/main/res/layout/activity_register.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/admin/AndroidStudioProjects/FinalNoteApp/app/src/main/res/layout/activity_type_phone_number_to_confirm_otp.xml" value="0.19010416666666666" />
@@ -28,11 +30,14 @@
         <entry key="..\:/Users/admin/AndroidStudioProjects/FinalNoteApp/app/src/main/res/layout/fragment_setting.xml" value="0.16032608695652173" />
         <entry key="..\:/Users/admin/AndroidStudioProjects/FinalNoteApp/app/src/main/res/layout/fragment_test.xml" value="0.16032608695652173" />
         <entry key="..\:/Users/admin/AndroidStudioProjects/FinalNoteApp/app/src/main/res/layout/fragment_trashbin.xml" value="0.16032608695652173" />
-        <entry key="..\:/Users/admin/AndroidStudioProjects/FinalNoteApp/app/src/main/res/layout/layout_header_nav.xml" value="0.1" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/FinalNoteApp/app/src/main/res/layout/layout_header_nav.xml" value="0.5" />
         <entry key="..\:/Users/admin/AndroidStudioProjects/FinalNoteApp/app/src/main/res/layout/nav_bottom_menu.xml" value="0.25" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/FinalNoteApp/app/src/main/res/layout/note_item_grid.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/FinalNoteApp/app/src/main/res/layout/note_item_list.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/admin/AndroidStudioProjects/FinalNoteApp/app/src/main/res/menu/bottom_nav_menu.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/admin/AndroidStudioProjects/FinalNoteApp/app/src/main/res/menu/menu.xml" value="0.2" />
         <entry key="..\:/Users/admin/AndroidStudioProjects/FinalNoteApp/app/src/main/res/menu/menu_nav.xml" value="0.2" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/FinalNoteApp/app/src/main/res/menu/menu_note_details.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/admin/AndroidStudioProjects/FinalNoteApp/app/src/main/res/menu/menu_user_details.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/admin/AndroidStudioProjects/FinalNoteApp/app/src/main/res/xml/activity_confirmotp.xml" value="0.20416666666666666" />
       </map>
