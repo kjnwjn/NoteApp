@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.finalnoteapp.R;
 import com.example.finalnoteapp.data.Note;
 import com.example.finalnoteapp.fragment.HomeFragment;
+import com.example.finalnoteapp.fragment.TrashbinFragment;
 
 import java.util.List;
 
@@ -21,8 +22,14 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.MyHolder> {
 
     private HomeFragment context;
     private List<Note> notes;
+    private TrashbinFragment contextTrashbin;
     public NoteAdapter(HomeFragment context, List<Note> notes){
         this.context = context;
+        this.notes = notes;
+    }
+
+    public NoteAdapter(TrashbinFragment contextTrashbin, List<Note> notes){
+        this.contextTrashbin = contextTrashbin;
         this.notes = notes;
     }
 

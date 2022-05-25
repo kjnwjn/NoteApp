@@ -115,9 +115,12 @@ public class HomeFragment extends Fragment {
                 notes = new ArrayList<>();
                 for (DataSnapshot childSnapshot:
                      snapshot.getChildren()) {
-                    String text = String.valueOf(childSnapshot.child("text").getValue());
-                    String title = String.valueOf(childSnapshot.child("title").getValue());
-                    notes.add(new Note(title,text,null,null,null,null,false, false,null,null,false,null));
+                    if (String.valueOf(childSnapshot.child("inTrash").getValue()).equals("false")){
+                        String text = String.valueOf(childSnapshot.child("text").getValue());
+                        String title = String.valueOf(childSnapshot.child("title").getValue());
+                        notes.add(new Note(title,text,null,null,null,null,false, false,null,null,false,null));
+                    }
+
                 }
 //                Log.d("tag", String.valueOf(snapshot.getValue()));
                 Collections.reverse(notes);
@@ -128,6 +131,8 @@ public class HomeFragment extends Fragment {
                 recyclerView.setLayoutManager(mGridLayoutManager);
                 recyclerView.setHasFixedSize(true);
                 recyclerView.setAdapter(noteAdapter);
+
+
             }
 
             @Override

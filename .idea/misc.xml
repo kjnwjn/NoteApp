@@ -45,9 +45,11 @@
         <entry key="..\:/Users/vuhau/AndroidStudioProjects/NoteApp/app/src/main/res/layout/activity_login.xml" value="0.22826086956521738" />
         <entry key="..\:/Users/vuhau/AndroidStudioProjects/NoteApp/app/src/main/res/layout/activity_main.xml" value="0.22826086956521738" />
         <entry key="..\:/Users/vuhau/AndroidStudioProjects/NoteApp/app/src/main/res/layout/activity_note.xml" value="0.22826086956521738" />
+        <entry key="..\:/Users/vuhau/AndroidStudioProjects/NoteApp/app/src/main/res/layout/activity_vertify_email.xml" value="0.12158054711246201" />
         <entry key="..\:/Users/vuhau/AndroidStudioProjects/NoteApp/app/src/main/res/layout/content_main.xml" value="0.22826086956521738" />
         <entry key="..\:/Users/vuhau/AndroidStudioProjects/NoteApp/app/src/main/res/layout/fragment_home.xml" value="0.22826086956521738" />
         <entry key="..\:/Users/vuhau/AndroidStudioProjects/NoteApp/app/src/main/res/layout/fragment_new_reminder.xml" value="0.22826086956521738" />
+        <entry key="..\:/Users/vuhau/AndroidStudioProjects/NoteApp/app/src/main/res/layout/fragment_trashbin.xml" value="0.25" />
         <entry key="..\:/Users/vuhau/AndroidStudioProjects/NoteApp/app/src/main/res/layout/note_item_grid.xml" value="0.22826086956521738" />
         <entry key="..\:/Users/vuhau/AndroidStudioProjects/NoteApp/app/src/main/res/layout/note_item_list.xml" value="0.22826086956521738" />
       </map>

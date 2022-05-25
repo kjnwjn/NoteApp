@@ -200,6 +200,7 @@ import java.util.Calendar;
               DatabaseReference databaseReference = mDatabase.child("User").child(userId).child("NoteList").child(noteID); //dẫn databaseRef tới note
               databaseReference.child("title").setValue(noteTitle);//set note's title
               databaseReference.child("text").setValue(noteTextContent);//set note's text
+              databaseReference.child("inTrash").setValue(false);
 
               finish();
 
