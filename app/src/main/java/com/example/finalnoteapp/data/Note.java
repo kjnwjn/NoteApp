@@ -6,32 +6,49 @@ import android.os.Parcelable;
 import java.util.List;
 
 
-public class Note implements Parcelable{
+public class Note{
     public static final int TYPE_LIST = 1;
     public static final int TYPE_GRID = 2;
     private int typeDisplay;
 
+    private String noteID;
     private String title;
-    private List<String> content;
-    private Boolean prioritize;
-    private List<String> reminder;
+    private String text;
+    private String image;
+    private String audio;
+    private String video;
+    private List<String> listLabel;
+    private boolean pin;
+    private boolean hasPassword;
     private String password;
-    private String label_name;
-    private String user_id;
+    private String remindTime;
+    private boolean inTrash;
+    private String dateInTrash;
 
-    public Note(String user_id) {
-        this.user_id = user_id;
-    }
-    public Note(String title, List<String> content, Boolean prioritize, List<String> reminder, String password, String label_name, String user_id) {
+
+    public Note(String noteID, String title, String text, String image, String audio, String video, List<String> listLabel, boolean pin, boolean hasPassword, String password, String remindTime, boolean inTrash, String dateInTrash) {
+        this.noteID = noteID;
         this.title = title;
-        this.content = content;
-        this.prioritize = prioritize;
-        this.reminder = reminder;
+        this.text = text;
+        this.image = image;
+        this.audio = audio;
+        this.video = video;
+        this.listLabel = listLabel;
+        this.pin = pin;
+        this.hasPassword = hasPassword;
         this.password = password;
-        this.label_name = label_name;
-        this.user_id = user_id;
+        this.remindTime = remindTime;
+        this.inTrash = inTrash;
+        this.dateInTrash = dateInTrash;
     }
 
+    public String getNoteID() {
+        return noteID;
+    }
+
+    public void setNoteID(String noteID) {
+        this.noteID = noteID;
+    }
 
     public static int getTypeList() {
         return TYPE_LIST;
@@ -57,28 +74,60 @@ public class Note implements Parcelable{
         this.title = title;
     }
 
-    public List<String> getContent() {
-        return content;
+    public String getText() {
+        return text;
     }
 
-    public void setContent(List<String> content) {
-        this.content = content;
+    public void setText(String text) {
+        this.text = text;
     }
 
-    public Boolean getPrioritize() {
-        return prioritize;
+    public String getImage() {
+        return image;
     }
 
-    public void setPrioritize(Boolean prioritize) {
-        this.prioritize = prioritize;
+    public void setImage(String image) {
+        this.image = image;
     }
 
-    public List<String> getReminder() {
-        return reminder;
+    public String getAudio() {
+        return audio;
     }
 
-    public void setReminder(List<String> reminder) {
-        this.reminder = reminder;
+    public void setAudio(String audio) {
+        this.audio = audio;
+    }
+
+    public String getVideo() {
+        return video;
+    }
+
+    public void setVideo(String video) {
+        this.video = video;
+    }
+
+    public List<String> getListLabel() {
+        return listLabel;
+    }
+
+    public void setListLabel(List<String> listLabel) {
+        this.listLabel = listLabel;
+    }
+
+    public boolean isPin() {
+        return pin;
+    }
+
+    public void setPin(boolean pin) {
+        this.pin = pin;
+    }
+
+    public boolean isHasPassword() {
+        return hasPassword;
+    }
+
+    public void setHasPassword(boolean hasPassword) {
+        this.hasPassword = hasPassword;
     }
 
     public String getPassword() {
@@ -89,64 +138,27 @@ public class Note implements Parcelable{
         this.password = password;
     }
 
-    public String getLabel_name() {
-        return label_name;
+    public String getRemindTime() {
+        return remindTime;
     }
 
-    public void setLabel_name(String label_name) {
-        this.label_name = label_name;
+    public void setRemindTime(String remindTime) {
+        this.remindTime = remindTime;
     }
 
-    public String getUser_id() {
-        return user_id;
+    public boolean isInTrash() {
+        return inTrash;
     }
 
-    public void setUser_id(String user_id) {
-        this.user_id = user_id;
+    public void setInTrash(boolean inTrash) {
+        this.inTrash = inTrash;
     }
 
-    public static Creator<Note> getCREATOR() {
-        return CREATOR;
+    public String getDateInTrash() {
+        return dateInTrash;
     }
 
-    protected Note(Parcel in) {
-        typeDisplay = in.readInt();
-        title = in.readString();
-        content = in.createStringArrayList();
-        byte tmpPrioritize = in.readByte();
-        prioritize = tmpPrioritize == 0 ? null : tmpPrioritize == 1;
-        reminder = in.createStringArrayList();
-        password = in.readString();
-        label_name = in.readString();
-        user_id = in.readString();
-    }
-
-    public static final Creator<Note> CREATOR = new Creator<Note>() {
-        @Override
-        public Note createFromParcel(Parcel in) {
-            return new Note(in);
-        }
-
-        @Override
-        public Note[] newArray(int size) {
-            return new Note[size];
-        }
-    };
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeInt(typeDisplay);
-        parcel.writeString(title);
-        parcel.writeStringList(content);
-        parcel.writeByte((byte) (prioritize == null ? 0 : prioritize ? 1 : 2));
-        parcel.writeStringList(reminder);
-        parcel.writeString(password);
-        parcel.writeString(label_name);
-        parcel.writeString(user_id);
+    public void setDateInTrash(String dateInTrash) {
+        this.dateInTrash = dateInTrash;
     }
 }

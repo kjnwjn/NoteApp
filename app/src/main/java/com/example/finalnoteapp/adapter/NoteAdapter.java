@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.finalnoteapp.R;
 import com.example.finalnoteapp.data.Note;
 import com.example.finalnoteapp.fragment.HomeFragment;
+import com.example.finalnoteapp.fragment.TrashbinFragment;
 
 import java.util.List;
 
@@ -21,8 +22,14 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.MyHolder> {
 
     private HomeFragment context;
     private List<Note> notes;
+    private TrashbinFragment contextTrashbin;
     public NoteAdapter(HomeFragment context, List<Note> notes){
         this.context = context;
+        this.notes = notes;
+    }
+
+    public NoteAdapter(TrashbinFragment contextTrashbin, List<Note> notes){
+        this.contextTrashbin = contextTrashbin;
         this.notes = notes;
     }
 
@@ -53,7 +60,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.MyHolder> {
         if(note == null){
             return;
         }
-        holder.imageNote.setImageResource(R.drawable.flashlayout);
+        holder.content.setText(note.getText());
         holder.title.setText(note.getTitle());
     }
 
@@ -66,12 +73,13 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.MyHolder> {
     }
 
     public static class MyHolder extends RecyclerView.ViewHolder{
-        ImageView imageNote;
+        TextView content;
         TextView title;
         public MyHolder(@NonNull View itemView) {
             super(itemView);
-            imageNote = itemView.findViewById(R.id.imageNote);
+
             title = itemView.findViewById(R.id.title);
+            content = itemView.findViewById(R.id.content);
         }
     }
 }
