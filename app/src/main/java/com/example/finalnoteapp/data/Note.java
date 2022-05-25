@@ -11,6 +11,7 @@ public class Note{
     public static final int TYPE_GRID = 2;
     private int typeDisplay;
 
+    private String noteID;
     private String title;
     private String text;
     private String image;
@@ -25,7 +26,8 @@ public class Note{
     private String dateInTrash;
 
 
-    public Note(String title, String text, String image, String audio, String video, List<String> listLabel, boolean pin, boolean hasPassword, String password, String remindTime, boolean inTrash, String dateInTrash) {
+    public Note(String noteID, String title, String text, String image, String audio, String video, List<String> listLabel, boolean pin, boolean hasPassword, String password, String remindTime, boolean inTrash, String dateInTrash) {
+        this.noteID = noteID;
         this.title = title;
         this.text = text;
         this.image = image;
@@ -38,6 +40,14 @@ public class Note{
         this.remindTime = remindTime;
         this.inTrash = inTrash;
         this.dateInTrash = dateInTrash;
+    }
+
+    public String getNoteID() {
+        return noteID;
+    }
+
+    public void setNoteID(String noteID) {
+        this.noteID = noteID;
     }
 
     public static int getTypeList() {

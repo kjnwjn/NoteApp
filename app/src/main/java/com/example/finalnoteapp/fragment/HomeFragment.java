@@ -118,7 +118,8 @@ public class HomeFragment extends Fragment {
                     if (String.valueOf(childSnapshot.child("inTrash").getValue()).equals("false")){
                         String text = String.valueOf(childSnapshot.child("text").getValue());
                         String title = String.valueOf(childSnapshot.child("title").getValue());
-                        notes.add(new Note(title,text,null,null,null,null,false, false,null,null,false,null));
+                        String noteId = String.valueOf(childSnapshot.getKey());
+                        notes.add(new Note(noteId, title,text,null,null,null,null,false, false,null,null,false,null));
                     }
 
                 }

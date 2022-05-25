@@ -85,7 +85,8 @@ public class NewReminderFragment extends Fragment {
                 for (DataSnapshot childSnapshot:
                         snapshot.getChildren()) {
                     String text = String.valueOf(childSnapshot.child("tagName").getValue());
-                    tags.add(new Tag(text));
+                    String tagID = String.valueOf(childSnapshot.getKey());
+                    tags.add(new Tag(tagID ,text));
 
                 }
 //                Log.d("tag", String.valueOf(snapshot.getValue()));
