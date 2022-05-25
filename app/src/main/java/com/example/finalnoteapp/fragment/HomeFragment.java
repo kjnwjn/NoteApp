@@ -80,8 +80,6 @@ public class HomeFragment extends Fragment {
         btnAdd.setOnClickListener(view1 -> {
             Intent intent = new Intent(getContext(), NoteActivity.class);
             startActivityForResult(intent,1);
-//            onClickRequestPermission();
-//            openGallery();
         });
     }
 

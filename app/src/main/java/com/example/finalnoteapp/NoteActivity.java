@@ -25,6 +25,7 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
@@ -78,7 +79,6 @@ import java.util.Calendar;
             binding = ActivityNoteBinding.inflate(getLayoutInflater());
             setContentView(binding.getRoot());
             initViews();
-//            Toolbar toolbar = findViewById(R.id.toolbar_note_activity);
             setSupportActionBar(binding.toolbarNoteActivity);
 
 
@@ -165,6 +165,12 @@ import java.util.Calendar;
             i.setType("image/*");
             i.setAction(Intent.ACTION_GET_CONTENT);
             mActivityResultLauncher.launch(i.createChooser(i,"Select picture"));
+        }
+
+        @Override
+        protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+            super.onActivityResult(requestCode, resultCode, data);
+            Log.e("TAG","path: "+ data.getData());
         }
 
         @Override
