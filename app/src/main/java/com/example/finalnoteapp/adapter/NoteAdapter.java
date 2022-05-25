@@ -53,7 +53,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.MyHolder> {
         if(note == null){
             return;
         }
-        holder.imageNote.setImageResource(R.drawable.flashlayout);
+        holder.content.setText(note.getText());
         holder.title.setText(note.getTitle());
     }
 
@@ -66,12 +66,13 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.MyHolder> {
     }
 
     public static class MyHolder extends RecyclerView.ViewHolder{
-        ImageView imageNote;
+        TextView content;
         TextView title;
         public MyHolder(@NonNull View itemView) {
             super(itemView);
-            imageNote = itemView.findViewById(R.id.imageNote);
+
             title = itemView.findViewById(R.id.title);
+            content = itemView.findViewById(R.id.content);
         }
     }
 }

@@ -31,6 +31,10 @@ import androidx.core.app.ActivityCompat;
 import com.example.finalnoteapp.databinding.ActivityNoteBinding;
 import com.example.finalnoteapp.fragment.HomeFragment;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.IOException;
 import java.util.Calendar;
@@ -46,6 +50,9 @@ import java.util.Calendar;
         private ImageView app_image_upload;
         private ImageView app_image_view;
         private Toolbar toolbar;
+
+        private DatabaseReference mDatabase;
+
 
 
         private ActivityResultLauncher<Intent> mActivityResultLauncher = registerForActivityResult(
@@ -81,7 +88,7 @@ import java.util.Calendar;
 //            Toolbar toolbar = findViewById(R.id.toolbar_note_activity);
             setSupportActionBar(binding.toolbarNoteActivity);
 
-
+            mDatabase = FirebaseDatabase.getInstance().getReference();
         }
 
         private void initViews() {
@@ -182,6 +189,16 @@ import java.util.Calendar;
 
               String noteTitle = note_title.getEditText().getText().toString();
               String noteTextContent = note_text_content.getEditText().getText().toString();
+
+              FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+              String userId = user.getUid(); //lấy UID của user hiện tại
+              String noteID = mDatabase.push().getKey(); //tạo id cho note
+              DatabaseReference databaseReference = mDatabase.child("User").child(userId).child("NoteList").child(noteID); //dẫn databaseRef tới note
+              databaseReference.child("title").setValue(noteTitle);//set note's title
+              databaseReference.child("text").setValue(noteTextContent);//set note's text
+
+              finish();
+
 //            String dateResult =  txtDate.getEditText().getText().toString() + txtTime.getEditText().getText().toString();
 //
 //
@@ -197,6 +214,7 @@ import java.util.Calendar;
 //            }
 //
 //            finish();
+
         }
     }
 

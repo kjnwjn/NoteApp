@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +39,13 @@ import com.example.finalnoteapp.data.Note;
 import com.example.finalnoteapp.databinding.ActivityFlashBinding;
 import com.example.finalnoteapp.databinding.FragmentHomeBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -54,6 +62,11 @@ public class HomeFragment extends Fragment {
     private ImageView app_image_upload;
     private FloatingActionButton btnAdd;
 
+    DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    String userId = user.getUid();
+    DatabaseReference noteListRef = mDatabase.child("User").child(userId).child("NoteList");
+
 
 
     @Nullable
@@ -65,13 +78,7 @@ public class HomeFragment extends Fragment {
 
         initView(view);
         initNotes();
-        noteAdapter = new NoteAdapter(this,notes);
-        mGridLayoutManager = new GridLayoutManager(getContext(),2);
-        mLinearLayoutManager = new LinearLayoutManager(getContext());
-        setTypeDisplayRecyclerView(Note.TYPE_GRID);
-        recyclerView.setLayoutManager(mGridLayoutManager);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(noteAdapter);
+
         return view;
     }
 
@@ -100,13 +107,31 @@ public class HomeFragment extends Fragment {
         }
     }
     private void initNotes(){
-        notes = new ArrayList<>();
-        notes.add(new Note("quan",null,true,null,null,null,"dsaudusa"));
-        notes.add(new Note("a",null,true,null,null,null,"dưqedwq"));
-        notes.add(new Note("b",null,true,null,null,null,"dsausadsaddusa"));
-        notes.add(new Note("c",null,true,null,null,null,"qưqe"));
-        notes.add(new Note("d",null,true,null,null,null,"qưewq"));
-        notes.add(new Note("e",null,true,null,null,null,"sadd"));
+//        notes = new ArrayList<>();
+        noteListRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                notes = new ArrayList<>();
+                for (DataSnapshot childSnapshot:
+                     snapshot.getChildren()) {
+                    String text = String.valueOf(childSnapshot.child("text").getValue());
+                    String title = String.valueOf(childSnapshot.child("title").getValue());
+                    notes.add(new Note(title,text,null,null,null,null,false,null,null,false,null));
+                }
+//                Log.d("tag", String.valueOf(snapshot.getValue()));
+                noteAdapter = new NoteAdapter(HomeFragment.this,notes);
+                mGridLayoutManager = new GridLayoutManager(getContext(),2);
+                mLinearLayoutManager = new LinearLayoutManager(getContext());
+                setTypeDisplayRecyclerView(Note.TYPE_GRID);
+                recyclerView.setLayoutManager(mGridLayoutManager);
+                recyclerView.setHasFixedSize(true);
+                recyclerView.setAdapter(noteAdapter);
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }
