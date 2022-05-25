@@ -190,6 +190,10 @@ import java.util.Calendar;
               String noteTitle = note_title.getEditText().getText().toString();
               String noteTextContent = note_text_content.getEditText().getText().toString();
 
+              if(noteTitle.isEmpty()){
+                  noteTitle = "Untitle";
+              }
+
               FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
               String userId = user.getUid(); //lấy UID của user hiện tại
               String noteID = mDatabase.push().getKey(); //tạo id cho note
