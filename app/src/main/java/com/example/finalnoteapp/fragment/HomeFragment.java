@@ -49,6 +49,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
@@ -116,9 +117,10 @@ public class HomeFragment extends Fragment {
                      snapshot.getChildren()) {
                     String text = String.valueOf(childSnapshot.child("text").getValue());
                     String title = String.valueOf(childSnapshot.child("title").getValue());
-                    notes.add(new Note(title,text,null,null,null,null,false,null,null,false,null));
+                    notes.add(new Note(title,text,null,null,null,null,false, false,null,null,false,null));
                 }
 //                Log.d("tag", String.valueOf(snapshot.getValue()));
+                Collections.reverse(notes);
                 noteAdapter = new NoteAdapter(HomeFragment.this,notes);
                 mGridLayoutManager = new GridLayoutManager(getContext(),2);
                 mLinearLayoutManager = new LinearLayoutManager(getContext());

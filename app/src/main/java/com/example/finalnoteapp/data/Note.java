@@ -17,6 +17,7 @@ public class Note{
     private String audio;
     private String video;
     private List<String> listLabel;
+    private boolean pin;
     private boolean hasPassword;
     private String password;
     private String remindTime;
@@ -24,13 +25,14 @@ public class Note{
     private String dateInTrash;
 
 
-    public Note(String title, String text, String image, String audio, String video, List<String> listLabel, boolean hasPassword, String password, String remindTime, boolean inTrash, String dateInTrash) {
+    public Note(String title, String text, String image, String audio, String video, List<String> listLabel, boolean pin, boolean hasPassword, String password, String remindTime, boolean inTrash, String dateInTrash) {
         this.title = title;
         this.text = text;
         this.image = image;
         this.audio = audio;
         this.video = video;
         this.listLabel = listLabel;
+        this.pin = pin;
         this.hasPassword = hasPassword;
         this.password = password;
         this.remindTime = remindTime;
@@ -100,6 +102,14 @@ public class Note{
 
     public void setListLabel(List<String> listLabel) {
         this.listLabel = listLabel;
+    }
+
+    public boolean isPin() {
+        return pin;
+    }
+
+    public void setPin(boolean pin) {
+        this.pin = pin;
     }
 
     public boolean isHasPassword() {
