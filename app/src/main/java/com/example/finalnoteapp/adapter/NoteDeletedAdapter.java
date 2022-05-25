@@ -17,7 +17,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.finalnoteapp.EditNote;
 import com.example.finalnoteapp.R;
 import com.example.finalnoteapp.data.Note;
-import com.example.finalnoteapp.databinding.ActivityEditNoteBinding;
 import com.example.finalnoteapp.fragment.HomeFragment;
 import com.example.finalnoteapp.fragment.TrashbinFragment;
 import com.google.firebase.auth.FirebaseAuth;
@@ -30,7 +29,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
-public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.MyHolder> {
+public class NoteDeletedAdapter extends RecyclerView.Adapter<NoteDeletedAdapter.MyHolder> {
 
 
     private HomeFragment context;
@@ -43,12 +42,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.MyHolder> {
 
 
 
-    public NoteAdapter(HomeFragment context, List<Note> notes){
-        this.context = context;
-        this.notes = notes;
-    }
-
-    public NoteAdapter(TrashbinFragment contextTrashbin, List<Note> notes){
+    public NoteDeletedAdapter(TrashbinFragment contextTrashbin, List<Note> notes){
         this.contextTrashbin = contextTrashbin;
         this.notes = notes;
     }
@@ -65,10 +59,10 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.MyHolder> {
         View view = null;
         switch (viewType){
             case Note.TYPE_GRID:
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.note_item_grid,parent,false);
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.note_item_in_trashbin_grid,parent,false);
                 break;
             case Note.TYPE_LIST:
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.note_item_list,parent,false);
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.note_item_in_trashbin_list,parent,false);
                 break;
         }
         return new MyHolder(view);
@@ -82,19 +76,21 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.MyHolder> {
         }
         holder.content.setText(note.getText());
         holder.title.setText(note.getTitle());
-        holder.noteContent.setOnClickListener(view -> editNote(note));
-        holder.deleteBtn.setOnClickListener(view -> deleteNote(position));
+        holder.noteContent.setOnClickListener(view -> noteDeletedDetails(note));
+        holder.restoreNoteBtn.setOnClickListener(view -> restoreNote(position));
     }
 
-    private void deleteNote(Integer position) {
-        DatabaseReference noteListRef = mDatabase.child("User").child(userId).child("NoteList");
+    private void noteDeletedDetails(Note note) {
+        Intent intent = new Intent(context.getContext(), EditNote.class);
+        intent.putExtra("note",note);
+        context.startActivityForResult(intent,12);
     }
 
-    private void editNote(Note note) {
-            Intent intent = new Intent(context.getContext(), EditNote.class);
-            intent.putExtra("note",note);
-            context.startActivityForResult(intent,12);
+    private void restoreNote(int position) {
+
     }
+
+
 
     @Override
     public int getItemCount() {
@@ -108,13 +104,13 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.MyHolder> {
         TextView content;
         TextView title;
         LinearLayout noteContent;
-        ImageView deleteBtn ;
+        ImageView restoreNoteBtn ;
         public MyHolder(@NonNull View itemView) {
             super(itemView);
-            noteContent = itemView.findViewById(R.id.noteContent);
-            title = itemView.findViewById(R.id.title);
-            content = itemView.findViewById(R.id.content);
-            deleteBtn = itemView.findViewById(R.id.deleteBtn);
+            noteContent = itemView.findViewById(R.id.noteDeletedContent);
+            title = itemView.findViewById(R.id.deletedtitle);
+            content = itemView.findViewById(R.id.deletedcontent);
+            restoreNoteBtn = itemView.findViewById(R.id.restoreNoteBtn);
         }
     }
 }

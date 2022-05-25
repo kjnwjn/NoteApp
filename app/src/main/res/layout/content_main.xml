@@ -12,6 +12,7 @@
             android:gravity="center"
             android:text="Click here!Please verify your email now!"
             android:textColor="@color/purple_700"
+            android:translationZ="10dp"
             android:visibility="gone"
             />
 

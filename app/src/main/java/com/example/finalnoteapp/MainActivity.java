@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
 
         toolbar = findViewById(binding.appBarMain.toolbar.getId());
         setSupportActionBar(toolbar);
-        replaceFragment(new HomeFragment());
+        replaceFragment(new HomeFragment(),"FRAGMENT_HOME");
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar
                 , R.string.app_nav_drawer_open, R.string.app_nav_drawer_close);
         mDrawerLayout.addDrawerListener(toggle);
@@ -173,39 +173,39 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
         switch (item.getItemId()){
             case R.id.app_note:
                 if(mCurrentFragment != FRAGMENT_HOME){
-                    replaceFragment(new HomeFragment());
+                    replaceFragment(new HomeFragment(),"FRAGMENT_HOME");
                     mCurrentFragment = FRAGMENT_HOME;
                 }
                 break;
             case R.id.reminder:
                 if(mCurrentFragment != FRAGMENT_REMINDER){
-                    replaceFragment(new ReminderFragment());
+                    replaceFragment(new ReminderFragment(),"FRAGMENT_REMINDER");
                     mCurrentFragment = FRAGMENT_REMINDER;
                 }
                 break;
             case R.id.app_new_reminder:
                 if(mCurrentFragment != FRAGMENT_NEW_REMINDER){
-                    replaceFragment(new NewReminderFragment());
+                    replaceFragment(new NewReminderFragment(),"FRAGMENT_NEW_REMINDER");
                     mCurrentFragment = FRAGMENT_NEW_REMINDER;
                 }
                 break;
             case R.id.app_savingNote:
                 Toast.makeText(this,"app_savingNote" ,Toast.LENGTH_SHORT).show();
                 if(mCurrentFragment != FRAGMENT_SAVING_NOTE){
-                    replaceFragment(new SavingNoteFragment());
+                    replaceFragment(new SavingNoteFragment(),"FRAGMENT_SAVING_NOTE");
                     mCurrentFragment = FRAGMENT_SAVING_NOTE;
                 }
                 break;
             case R.id.app_trashbin:
                 Toast.makeText(this,"app_trashbin" ,Toast.LENGTH_SHORT).show();
                 if(mCurrentFragment != FRAGMENT_TRANSBIN){
-                    replaceFragment(new TrashbinFragment());
+                    replaceFragment(new TrashbinFragment(),"FRAGMENT_TRANSBIN");
                     mCurrentFragment = FRAGMENT_TRANSBIN;
                 }
                 break;
             case R.id.app_setting:
                 if(mCurrentFragment != FRAGMENT_SETTING){
-                    replaceFragment(new SettingFragment());
+                    replaceFragment(new SettingFragment(),"FRAGMENT_SETTING");
                     mCurrentFragment = FRAGMENT_SETTING;
                 }
                 break;
@@ -217,7 +217,7 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
                 break;
             default:
                 if(mCurrentFragment != FRAGMENT_HOME){
-                    replaceFragment(new HomeFragment());
+                    replaceFragment(new HomeFragment(),"FRAGMENT_HOME");
 //                    item.setChecked(true);
                     mCurrentFragment = FRAGMENT_HOME;
                 }
@@ -242,11 +242,11 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
     }
 
 
-    private void replaceFragment(Fragment fragment){
+    private void replaceFragment(Fragment fragment,String name){
 
         try {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(binding.appBarMain.contentMain.contentFrame.getId(), fragment);
+            transaction.replace(binding.appBarMain.contentMain.contentFrame.getId(), fragment,name);
             transaction.addToBackStack(null);
             transaction.commit();
         }catch (Exception e){

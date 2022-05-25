@@ -6,7 +6,7 @@ import android.os.Parcelable;
 import java.util.List;
 
 
-public class Note{
+public class Note implements Parcelable {
     public static final int TYPE_LIST = 1;
     public static final int TYPE_GRID = 2;
     private int typeDisplay;
@@ -41,6 +41,35 @@ public class Note{
         this.inTrash = inTrash;
         this.dateInTrash = dateInTrash;
     }
+
+    protected Note(Parcel in) {
+        typeDisplay = in.readInt();
+        noteID = in.readString();
+        title = in.readString();
+        text = in.readString();
+        image = in.readString();
+        audio = in.readString();
+        video = in.readString();
+        listLabel = in.createStringArrayList();
+        pin = in.readByte() != 0;
+        hasPassword = in.readByte() != 0;
+        password = in.readString();
+        remindTime = in.readString();
+        inTrash = in.readByte() != 0;
+        dateInTrash = in.readString();
+    }
+
+    public static final Creator<Note> CREATOR = new Creator<Note>() {
+        @Override
+        public Note createFromParcel(Parcel in) {
+            return new Note(in);
+        }
+
+        @Override
+        public Note[] newArray(int size) {
+            return new Note[size];
+        }
+    };
 
     public String getNoteID() {
         return noteID;
@@ -160,5 +189,28 @@ public class Note{
 
     public void setDateInTrash(String dateInTrash) {
         this.dateInTrash = dateInTrash;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(typeDisplay);
+        parcel.writeString(noteID);
+        parcel.writeString(title);
+        parcel.writeString(text);
+        parcel.writeString(image);
+        parcel.writeString(audio);
+        parcel.writeString(video);
+        parcel.writeStringList(listLabel);
+        parcel.writeByte((byte) (pin ? 1 : 0));
+        parcel.writeByte((byte) (hasPassword ? 1 : 0));
+        parcel.writeString(password);
+        parcel.writeString(remindTime);
+        parcel.writeByte((byte) (inTrash ? 1 : 0));
+        parcel.writeString(dateInTrash);
     }
 }

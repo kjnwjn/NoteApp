@@ -20,6 +20,7 @@ import com.example.finalnoteapp.MainActivity;
 import com.example.finalnoteapp.NoteActivity;
 import com.example.finalnoteapp.R;
 import com.example.finalnoteapp.adapter.NoteAdapter;
+import com.example.finalnoteapp.adapter.NoteDeletedAdapter;
 import com.example.finalnoteapp.data.Note;
 import com.example.finalnoteapp.databinding.FragmentSavingNoteBinding;
 import com.example.finalnoteapp.databinding.FragmentSettingBinding;
@@ -41,7 +42,7 @@ public class TrashbinFragment extends Fragment {
 
     public static RecyclerView recyclerView;
     private FragmentTrashbinBinding binding;
-    public static NoteAdapter noteAdapter;
+    public static NoteDeletedAdapter noteDeletedAdapter;
     public static GridLayoutManager mGridLayoutManager;
     public static LinearLayoutManager mLinearLayoutManager;
     public static List<Note> notes;
@@ -91,13 +92,13 @@ public class TrashbinFragment extends Fragment {
                 }
 //                Log.d("tag", String.valueOf(snapshot.getValue()));
                 Collections.reverse(notes);
-                noteAdapter = new NoteAdapter(TrashbinFragment.this,notes);
+                noteDeletedAdapter = new NoteDeletedAdapter(TrashbinFragment.this,notes);
                 mGridLayoutManager = new GridLayoutManager(getContext(),2);
                 mLinearLayoutManager = new LinearLayoutManager(getContext());
                 setTypeDisplayRecyclerView(Note.TYPE_GRID);
                 recyclerView.setLayoutManager(mGridLayoutManager);
                 recyclerView.setHasFixedSize(true);
-                recyclerView.setAdapter(noteAdapter);
+                recyclerView.setAdapter(noteDeletedAdapter);
             }
 
             @Override

@@ -50,6 +50,7 @@
         <!--            android:digits=""-->
     </com.google.android.material.textfield.TextInputLayout>
 
+
     <ImageView
         android:id="@+id/app_image_view"
         android:layout_width="match_parent"
@@ -76,6 +77,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/contentText"
         android:layout_marginTop="20dp"/>
+
 
     <include
         android:id="@+id/nav_bottom_menu"

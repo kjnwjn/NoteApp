@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -62,11 +63,13 @@ public class HomeFragment extends Fragment {
     public static List<Note> notes;
     private ImageView app_image_upload;
     private FloatingActionButton btnAdd;
+    private ImageView deleteBtn;
 
     DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     String userId = user.getUid();
     DatabaseReference noteListRef = mDatabase.child("User").child(userId).child("NoteList");
+
 
 
 
@@ -89,6 +92,7 @@ public class HomeFragment extends Fragment {
             Intent intent = new Intent(getContext(), NoteActivity.class);
             startActivityForResult(intent,1);
         });
+
     }
 
 
