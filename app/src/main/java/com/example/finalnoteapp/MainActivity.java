@@ -149,20 +149,20 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
             mCurrentTypeDisplay =  Note.TYPE_LIST;
             HomeFragment.recyclerView.setLayoutManager(HomeFragment.mLinearLayoutManager);
 
-            TrashbinFragment.setTypeDisplayRecyclerView(Note.TYPE_LIST);
-            mCurrentTypeDisplay =  Note.TYPE_LIST;
-            TrashbinFragment.recyclerView.setLayoutManager(TrashbinFragment.mLinearLayoutManager);
+//            TrashbinFragment.setTypeDisplayRecyclerView(Note.TYPE_LIST);
+//            mCurrentTypeDisplay =  Note.TYPE_LIST;
+//            TrashbinFragment.recyclerView.setLayoutManager(TrashbinFragment.mLinearLayoutManager);
         }else{
             HomeFragment.setTypeDisplayRecyclerView(Note.TYPE_GRID);
             mCurrentTypeDisplay =  Note.TYPE_GRID;
             HomeFragment.recyclerView.setLayoutManager(HomeFragment.mGridLayoutManager);
 
-            TrashbinFragment.setTypeDisplayRecyclerView(Note.TYPE_GRID);
-            mCurrentTypeDisplay =  Note.TYPE_GRID;
-            TrashbinFragment.recyclerView.setLayoutManager(TrashbinFragment.mGridLayoutManager);
+//            TrashbinFragment.setTypeDisplayRecyclerView(Note.TYPE_GRID);
+//            mCurrentTypeDisplay =  Note.TYPE_GRID;
+//            TrashbinFragment.recyclerView.setLayoutManager(TrashbinFragment.mGridLayoutManager);
         }
         HomeFragment.noteAdapter.notifyDataSetChanged();
-        TrashbinFragment.noteDeletedAdapter.notifyDataSetChanged();
+//        TrashbinFragment.noteDeletedAdapter.notifyDataSetChanged();
         setIconToolbar();
 
     }

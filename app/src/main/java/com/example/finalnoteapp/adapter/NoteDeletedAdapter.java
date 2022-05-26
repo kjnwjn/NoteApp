@@ -15,6 +15,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.finalnoteapp.EditNote;
+import com.example.finalnoteapp.NoteDeletedDetail;
 import com.example.finalnoteapp.R;
 import com.example.finalnoteapp.data.Note;
 import com.example.finalnoteapp.fragment.HomeFragment;
@@ -81,7 +82,7 @@ public class NoteDeletedAdapter extends RecyclerView.Adapter<NoteDeletedAdapter.
     }
 
     private void noteDeletedDetails(Note note) {
-        Intent intent = new Intent(context.getContext(), EditNote.class);
+        Intent intent = new Intent(context.getContext(), NoteDeletedDetail.class);
         intent.putExtra("note",note);
         context.startActivityForResult(intent,12);
     }

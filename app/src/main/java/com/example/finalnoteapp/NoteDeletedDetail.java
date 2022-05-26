@@ -23,12 +23,12 @@ public class NoteDeletedDetail extends AppCompatActivity {
         binding = ActivityNoteDeletedDetailBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         initViews();
-        setSupportActionBar(binding.toolbarNoteDeletedActivity);
+        setSupportActionBar(binding.toolbarNoteDeletedActivityActivity);
         mDatabase = FirebaseDatabase.getInstance().getReference();
         Intent intent = getIntent();
         note = intent.getParcelableExtra("note");
-        binding.noteTitle.getEditText().setText(note.getTitle());
-        binding.noteDeletedTextContent.getEditText().setText(note.getText());
+        binding.noteDeletedtitle.setText(note.getTitle());
+        binding.noteDeletedtextContent.setText(note.getText());
     }
 
     private void initViews() {
