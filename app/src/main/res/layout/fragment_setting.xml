@@ -1,16 +1,132 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/holo_orange_light"
-    android:gravity="center"
-    android:orientation="vertical">
-
-    <TextView
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@android:color/black"
+    android:orientation="vertical"
+    android:paddingTop="20dp"
+    android:paddingLeft="10dp">
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Setting Fragment"
-        android:textColor="@color/black"
-        android:textSize="25dp"></TextView>
-</LinearLayout>
+        android:id="@+id/label"
+        app:layout_constraintTop_toTopOf="parent">
+        <ImageView
+            android:layout_width="33dp"
+            android:layout_height="50dp"
+            android:paddingTop="4dp"
+            android:src="@drawable/ic_baseline_settings"
+            android:layout_alignParentLeft="true"
+            android:id="@+id/icon_setting"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="Setting"
+            android:textColor="@color/white"
+            android:textSize="40dp"
+            android:paddingLeft="10dp"
+            android:layout_toRightOf="@id/icon_setting"
+            />
+    </RelativeLayout>
+    <TextView
+        app:layout_constraintTop_toBottomOf="@id/label"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:gravity="fill"
+        android:layout_marginTop="25dp"
+        android:text="Các tùy chọn hiển thị"
+        android:textColor="@color/dodgerblue"
+        android:textSize="18dp"
+        android:id="@+id/hienthi" />
+    <RelativeLayout
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/hienthi"
+        android:id="@+id/font">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_margin="5dp"
+            android:text="Thiết lập font chữ"
+            android:textColor="@color/white"
+            android:textSize="20dp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_baseline_arrow_forward_ios"
+            android:paddingRight="20dp"
+            android:paddingTop="8dp"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/font"
+        android:id="@+id/delTime">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_margin="5dp"
+            android:text="Thiết lập thời gian ghi chú tự xóa"
+            android:textSize="20dp"
+            android:textColor="@color/white" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_baseline_arrow_forward_ios"
+            android:paddingRight="20dp"
+            android:paddingTop="8dp"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/delTime"
+        android:id="@+id/sound">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_margin="5dp"
+            android:text="Thay đổi âm thanh thông báo"
+            android:textSize="20dp"
+            android:textColor="@color/white" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_baseline_arrow_forward_ios"
+            android:paddingRight="20dp"
+            android:paddingTop="8dp"/>
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/accSetting"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_margin="5dp"
+        android:text="Các tùy chọn tài khoản"
+        android:textColor="@color/dodgerblue"
+        android:textSize="18dp"
+        android:gravity="fill"
+        app:layout_constraintTop_toBottomOf="@+id/sound"/>
+    <RelativeLayout
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/accSetting"
+        android:id="@+id/changePass">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_margin="5dp"
+            android:layout_height="30dp"
+            android:text="Đổi mật khẩu"
+            android:textSize="20dp"
+            android:textColor="@color/white" />
+    </RelativeLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
