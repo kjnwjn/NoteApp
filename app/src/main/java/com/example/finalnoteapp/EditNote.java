@@ -26,6 +26,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -91,6 +92,7 @@ public class EditNote extends AppCompatActivity {
         binding.noteTitle.getEditText().setText(note.getTitle());
         binding.noteTextContent.getEditText().setText(note.getText());
         binding.timeRemind.setText(note.getRemindTime());
+        setDeleteRemindVisibility();
 
     }
 
@@ -105,8 +107,19 @@ public class EditNote extends AppCompatActivity {
             if(!time_remind.getText().toString().trim().equals("")){
                 time_remind.setText("");
             }
+            setDeleteRemindVisibility();
         });
+        setDeleteRemindVisibility();
+    }
 
+    public void setDeleteRemindVisibility(){
+        if(time_remind.getText().toString().trim().equals("")){
+            binding.btnDeleteRemind.setVisibility(View.INVISIBLE);
+            binding.txtNgayNhac.setVisibility(View.INVISIBLE);
+        }else{
+            binding.btnDeleteRemind.setVisibility(View.VISIBLE);
+            binding.txtNgayNhac.setVisibility(View.VISIBLE);
+        }
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -163,13 +176,14 @@ public class EditNote extends AppCompatActivity {
         final Calendar currentDate = Calendar.getInstance();
         Calendar date = Calendar.getInstance();
         StringBuilder s = new StringBuilder();
-        new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+        time_remind.setText("Ngày nhắc");
+        DatePickerDialog dialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
 
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 date.set(year, monthOfYear, dayOfMonth);
                 s.append(dayOfMonth +"/"  + (monthOfYear+1) + "/" + year + ' ');
-                new TimePickerDialog(EditNote.this, new TimePickerDialog.OnTimeSetListener() {
+                TimePickerDialog dialog1 = new TimePickerDialog(EditNote.this, new TimePickerDialog.OnTimeSetListener() {
 
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
@@ -179,9 +193,16 @@ public class EditNote extends AppCompatActivity {
                         binding.timeRemind.setText(s);
                         Log.v("TAG", "The choosen one " + date.getTime());
                     }
-                }, currentDate.get(Calendar.HOUR_OF_DAY), currentDate.get(Calendar.MINUTE), false).show();
+
+
+                }, currentDate.get(Calendar.HOUR_OF_DAY), currentDate.get(Calendar.MINUTE), false);
+                dialog1.setButton(TimePickerDialog.BUTTON_NEGATIVE, null, dialog1);
+                dialog1.show();
             }
-        }, currentDate.get(Calendar.YEAR), currentDate.get(Calendar.MONTH), currentDate.get(Calendar.DATE)).show();
+        }, currentDate.get(Calendar.YEAR), currentDate.get(Calendar.MONTH), currentDate.get(Calendar.DATE));
+        dialog.setButton(DatePickerDialog.BUTTON_NEGATIVE, null, dialog);
+        dialog.show();
+        setDeleteRemindVisibility();
     }
     private void onClickRequestPermission() {
         if(Build.VERSION.SDK_INT < Build.VERSION_CODES.M){

@@ -106,8 +106,9 @@ import java.util.Calendar;
                 if(!time_remind.getText().toString().trim().equals("")){
                     time_remind.setText("");
                 }
-
+                setDeleteRemindVisibility();
             });
+            setDeleteRemindVisibility();
 
 
 
@@ -132,6 +133,14 @@ import java.util.Calendar;
 //                }, hour, minutes, true);
 //                dialog.show();
 //            });
+        }
+
+        public void setDeleteRemindVisibility(){
+            if(time_remind.getText().toString().trim().equals("")){
+                binding.btnDeleteRemind.setVisibility(View.INVISIBLE);
+            }else{
+                binding.btnDeleteRemind.setVisibility(View.VISIBLE);
+            }
         }
 
         @Override
@@ -168,13 +177,14 @@ import java.util.Calendar;
             final Calendar currentDate = Calendar.getInstance();
             Calendar date = Calendar.getInstance();
             StringBuilder s = new StringBuilder();
-            new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+            time_remind.setText("Ngày nhắc");
+            DatePickerDialog dialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
 
                 @Override
                 public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                     date.set(year, monthOfYear, dayOfMonth);
                     s.append(dayOfMonth +"/"  + (monthOfYear+1) + "/" + year + ' ');
-                    new TimePickerDialog(NoteActivity.this, new TimePickerDialog.OnTimeSetListener() {
+                    TimePickerDialog dialog1 = new TimePickerDialog(NoteActivity.this, new TimePickerDialog.OnTimeSetListener() {
 
                         @Override
                         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
@@ -184,9 +194,16 @@ import java.util.Calendar;
                             binding.timeRemind.setText(s);
                             Log.v("TAG", "The choosen one " + date.getTime());
                         }
-                    }, currentDate.get(Calendar.HOUR_OF_DAY), currentDate.get(Calendar.MINUTE), false).show();
+
+
+                    }, currentDate.get(Calendar.HOUR_OF_DAY), currentDate.get(Calendar.MINUTE), false);
+                    dialog1.setButton(TimePickerDialog.BUTTON_NEGATIVE, null, dialog1);
+                    dialog1.show();
                 }
-            }, currentDate.get(Calendar.YEAR), currentDate.get(Calendar.MONTH), currentDate.get(Calendar.DATE)).show();
+            }, currentDate.get(Calendar.YEAR), currentDate.get(Calendar.MONTH), currentDate.get(Calendar.DATE));
+            dialog.setButton(DatePickerDialog.BUTTON_NEGATIVE, null, dialog);
+            dialog.show();
+            setDeleteRemindVisibility();
         }
         private void onClickRequestPermission() {
             if(Build.VERSION.SDK_INT < Build.VERSION_CODES.M){
