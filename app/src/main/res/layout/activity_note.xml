@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".NoteActivity">
+    tools:context=".NoteActivity"
+    android:id="@+id/edit_note_RelativeLayout">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/action_bar_note_activity"

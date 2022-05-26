@@ -3,6 +3,7 @@ package com.example.finalnoteapp;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -34,16 +35,25 @@ import androidx.core.app.ActivityCompat;
 
 import com.example.finalnoteapp.databinding.ActivityNoteBinding;
 import com.example.finalnoteapp.fragment.HomeFragment;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.UUID;
 
-    public class NoteActivity extends AppCompatActivity {
+public class NoteActivity extends AppCompatActivity {
 
 
         private static final int MY_REQUEST_CODE = 10;
@@ -55,7 +65,10 @@ import java.util.Calendar;
         private ImageView app_image_upload;
         private ImageView app_image_view;
         private Toolbar toolbar;
-
+        public Uri imageUrl;
+        private FirebaseStorage storage;
+        private StorageReference storageReference;
+        private Task<Uri> downloadImageUrl;
         private DatabaseReference mDatabase;
 
 
@@ -70,11 +83,12 @@ import java.util.Calendar;
                             if(data == null){
                                 return;
                             }
-                            Uri uri = data.getData();
+                            imageUrl = data.getData();
                             Bitmap bitmap = null;
                             try {
-                                bitmap = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), uri);
+                                bitmap = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), imageUrl);
                                 app_image_view.setImageBitmap(bitmap);
+                                uploadImage();
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
@@ -91,7 +105,9 @@ import java.util.Calendar;
             setContentView(binding.getRoot());
             initViews();
             setSupportActionBar(binding.toolbarNoteActivity);
-
+            mDatabase = FirebaseDatabase.getInstance().getReference();
+            storage = FirebaseStorage.getInstance();
+            storageReference = storage.getReference();
             mDatabase = FirebaseDatabase.getInstance().getReference();
         }
 
@@ -111,28 +127,6 @@ import java.util.Calendar;
             setDeleteRemindVisibility();
 
 
-
-//            txtDate.getEditText().setOnClickListener(view ->{
-//                Calendar cal = Calendar.getInstance();
-//                cal.setTimeInMillis(System.currentTimeMillis());
-//                int year = cal.get(Calendar.YEAR);
-//                int month = cal.get(Calendar.MONTH);
-//                int day = cal.get(Calendar.DAY_OF_MONTH);
-//                DatePickerDialog dialog = new DatePickerDialog(this, (datePicker, y, m, d) -> {
-//                    txtDate.getEditText().setText(d +"/"  + (m+1) + "/" + y);
-//                },year,month,day);
-//                dialog.show();
-//            });
-//            txtTime.getEditText().setOnClickListener(view ->{
-//                Calendar cal = Calendar.getInstance();
-//                cal.setTimeInMillis(System.currentTimeMillis());
-//                int hour = cal.get(Calendar.HOUR);
-//                int minutes = cal.get(Calendar.MINUTE);
-//                TimePickerDialog dialog = new TimePickerDialog(this, (timePicker, h, m) -> {
-//                    txtTime.getEditText().setText(h +":" + m);
-//                }, hour, minutes, true);
-//                dialog.show();
-//            });
         }
 
         public void setDeleteRemindVisibility(){
@@ -224,13 +218,46 @@ import java.util.Calendar;
             mActivityResultLauncher.launch(i.createChooser(i,"Select picture"));
         }
 
-        @Override
-        protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-            super.onActivityResult(requestCode, resultCode, data);
-            Log.e("TAG","path: "+ data.getData());
-        }
 
-        @Override
+    private void uploadImage() {
+        final ProgressDialog pd  = new ProgressDialog(this);
+        pd.setTitle("Uploading Image ...");
+        pd.show();
+        final String randomKey = UUID.randomUUID().toString();
+        Log.e("url","key: "+ randomKey);
+        StorageReference riversRef = storageReference.child("images/"+ randomKey);
+        riversRef.putFile(imageUrl)
+                // Register observers to listen for when the download is done or if it fails
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        Log.e("TAG","msg: "+exception);
+                        // Handle unsuccessful uploads
+                        pd.dismiss();
+
+                    }
+                }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
+                // ...
+                pd.dismiss();
+                downloadImageUrl = taskSnapshot.getStorage().getDownloadUrl();
+                Log.e("url","url: "+ downloadImageUrl);
+                Snackbar.make(binding.editNoteRelativeLayout,"image uploaded !",Snackbar.LENGTH_LONG);
+            }
+        })
+                .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+                        double progressPecent = (100.00 * snapshot.getBytesTransferred() / snapshot.getTotalByteCount());
+                        pd.setMessage("Progress : " + (int) progressPecent + "%");
+                    }
+                });
+    }
+
+
+    @Override
         public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);
             if(requestCode == MY_REQUEST_CODE){

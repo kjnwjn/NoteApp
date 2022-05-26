@@ -12,6 +12,7 @@ import androidx.core.app.ActivityCompat;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -29,21 +30,32 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.example.finalnoteapp.data.Note;
 import com.example.finalnoteapp.databinding.ActivityEditNoteBinding;
 import com.example.finalnoteapp.databinding.ActivityNoteBinding;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.UUID;
 
 public class EditNote extends AppCompatActivity {
     public static final int MY_REQUEST_CODE_FOR_EDIT_NOTE = 11;
@@ -54,6 +66,10 @@ public class EditNote extends AppCompatActivity {
     private TextInputLayout note_text_content;
     private TextView time_remind;
     private Note note;
+    public Uri imageUrl;
+    private FirebaseStorage storage;
+    private StorageReference storageReference;
+    private Task<Uri> downloadImageUrl;
 
     private ActivityResultLauncher<Intent> mActivityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
@@ -65,11 +81,12 @@ public class EditNote extends AppCompatActivity {
                         if(data == null){
                             return;
                         }
-                        Uri uri = data.getData();
+                        imageUrl = data.getData();
                         Bitmap bitmap = null;
                         try {
-                            bitmap = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), uri);
+                            bitmap = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), imageUrl);
                             app_image_view.setImageBitmap(bitmap);
+                            uploadImage();
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -87,6 +104,8 @@ public class EditNote extends AppCompatActivity {
         initViews();
         setSupportActionBar(binding.toolbarNoteActivity);
         mDatabase = FirebaseDatabase.getInstance().getReference();
+        storage = FirebaseStorage.getInstance();
+        storageReference = storage.getReference();
         Intent intent = getIntent();
         note = intent.getParcelableExtra("note");
         binding.noteTitle.getEditText().setText(note.getTitle());
@@ -149,6 +168,8 @@ public class EditNote extends AppCompatActivity {
     }
 
     private void saveData() {
+//        uploadImage();
+
         String noteTitle = note_title.getEditText().getText().toString();
         String noteTextContent = note_text_content.getEditText().getText().toString();
         String remindTime = time_remind.getText().toString();
@@ -223,10 +244,44 @@ public class EditNote extends AppCompatActivity {
         mActivityResultLauncher.launch(i.createChooser(i,"Select picture"));
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-//        Log.e("TAG","path: "+ data.getData());
+
+
+    private void uploadImage() {
+        final ProgressDialog pd  = new ProgressDialog(this);
+        pd.setTitle("Uploading Image ...");
+        pd.show();
+        final String randomKey = UUID.randomUUID().toString();
+        StorageReference riversRef = storageReference.child("images/"+ randomKey);
+        Log.e("url","key: "+ randomKey);
+        riversRef.putFile(imageUrl)
+        // Register observers to listen for when the download is done or if it fails
+        .addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                Log.e("TAG","msg: "+exception);
+                // Handle unsuccessful uploads
+                pd.dismiss();
+
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
+                // ...
+                pd.dismiss();
+                downloadImageUrl = taskSnapshot.getStorage().getDownloadUrl();
+
+                Log.e("url","url: "+ downloadImageUrl);
+                Snackbar.make(binding.editNoteRelativeLayout,"image uploaded !",Snackbar.LENGTH_LONG);
+            }
+        })
+        .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+                double progressPecent = (100.00 * snapshot.getBytesTransferred() / snapshot.getTotalByteCount());
+                pd.setMessage("Progress : " + (int) progressPecent + "%");
+            }
+        });
     }
 
     @Override
