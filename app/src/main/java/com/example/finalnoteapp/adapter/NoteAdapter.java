@@ -87,7 +87,10 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.MyHolder> {
     }
 
     private void deleteNote(Integer position) {
-        DatabaseReference noteListRef = mDatabase.child("User").child(userId).child("NoteList");
+        Note note = notes.get(position);
+        String noteID = note.getNoteID();
+        DatabaseReference noteListRef = mDatabase.child("User").child(userId).child("NoteList").child(noteID);
+        noteListRef.child("inTrash").setValue(true);
     }
 
     private void editNote(Note note) {
