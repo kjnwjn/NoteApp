@@ -33,6 +33,9 @@ import android.widget.TimePicker;
 import com.example.finalnoteapp.data.Note;
 import com.example.finalnoteapp.databinding.ActivityEditNoteBinding;
 import com.example.finalnoteapp.databinding.ActivityNoteBinding;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -45,6 +48,8 @@ public class EditNote extends AppCompatActivity {
     private ActivityEditNoteBinding binding;
     private DatabaseReference mDatabase;
     private ImageView app_image_view;
+    private TextInputLayout note_title;
+    private TextInputLayout note_text_content;
     private Note note;
 
     private ActivityResultLauncher<Intent> mActivityResultLauncher = registerForActivityResult(
@@ -86,6 +91,8 @@ public class EditNote extends AppCompatActivity {
     }
 
     private void initViews() {
+        note_title = binding.noteTitle;
+        note_text_content = binding.noteTextContent;
         app_image_view = binding.appImageView;
         ImageView appImageUpload  =findViewById(R.id.app_image_upload);
         appImageUpload.setOnClickListener(view -> onClickRequestPermission());
@@ -119,6 +126,22 @@ public class EditNote extends AppCompatActivity {
     }
 
     private void saveData() {
+        String noteTitle = note_title.getEditText().getText().toString();
+        String noteTextContent = note_text_content.getEditText().getText().toString();
+
+        if(noteTitle.isEmpty()){
+            noteTitle = "Untitle";
+        }
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String userId = user.getUid(); //lấy UID của user hiện tại
+        String noteID = note.getNoteID(); //tạo id cho note
+        DatabaseReference databaseReference = mDatabase.child("User").child(userId).child("NoteList").child(noteID); //dẫn databaseRef tới note
+        databaseReference.child("title").setValue(noteTitle);//set note's title
+        databaseReference.child("text").setValue(noteTextContent);//set note's text
+        databaseReference.child("inTrash").setValue(false);
+
+        finish();
     }
 
     private void pin() {
