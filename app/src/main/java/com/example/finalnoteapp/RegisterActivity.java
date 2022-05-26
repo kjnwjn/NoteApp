@@ -10,11 +10,19 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.example.finalnoteapp.adapter.NoteAdapter;
+import com.example.finalnoteapp.data.Note;
 import com.example.finalnoteapp.databinding.ActivityMainBinding;
 import com.example.finalnoteapp.databinding.ActivityRegisterBinding;
+import com.example.finalnoteapp.fragment.HomeFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
@@ -24,8 +32,14 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -33,6 +47,10 @@ public class RegisterActivity extends AppCompatActivity {
     private ActivityRegisterBinding binding;
     private ProgressDialog progressDialog;
     private String confirmPassword;
+
+
+    DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +89,10 @@ public class RegisterActivity extends AppCompatActivity {
                             progressDialog.dismiss();
 
                             if (task.isSuccessful()) {
+                                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                                String userId = user.getUid();
+
+                                initUser(userId);
                                 // Sign in success, update UI with the signed-in user's information
                                 Toast.makeText(RegisterActivity.this, "Register successfully",
                                         Toast.LENGTH_SHORT).show();
@@ -85,6 +107,25 @@ public class RegisterActivity extends AppCompatActivity {
 
                     });
         }
+
+    }
+
+    private void initUser(String userId) {
+        DatabaseReference userListRef = mDatabase.getRef().child("User");
+        userListRef.setValue(userId, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
+                Log.e("tag","create user successfully");
+            }
+        });
+
+        DatabaseReference userActive = mDatabase.getRef().child("User").child(userId).child("active");
+        userActive.setValue(false, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
+                Log.e("tag","set active user successfully");
+            }
+        });
 
     }
 

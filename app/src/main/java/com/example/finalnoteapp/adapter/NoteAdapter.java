@@ -17,7 +17,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.finalnoteapp.EditNote;
 import com.example.finalnoteapp.R;
 import com.example.finalnoteapp.data.Note;
-import com.example.finalnoteapp.databinding.ActivityEditNoteBinding;
 import com.example.finalnoteapp.fragment.HomeFragment;
 import com.example.finalnoteapp.fragment.TrashbinFragment;
 import com.google.firebase.auth.FirebaseAuth;
