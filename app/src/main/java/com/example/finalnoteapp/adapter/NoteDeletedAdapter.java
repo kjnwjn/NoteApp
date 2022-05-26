@@ -87,7 +87,10 @@ public class NoteDeletedAdapter extends RecyclerView.Adapter<NoteDeletedAdapter.
     }
 
     private void restoreNote(int position) {
-
+        Note note = notes.get(position);
+        String noteID = note.getNoteID();
+        DatabaseReference noteListRef = mDatabase.child("User").child(userId).child("NoteList").child(noteID);
+        noteListRef.child("inTrash").setValue(false);
     }
 
 
