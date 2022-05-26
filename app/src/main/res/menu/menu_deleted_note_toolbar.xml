@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <item
+        android:id="@+id/deleteForever"
+        android:icon="@drawable/ic_baseline_delete_24"
+        app:showAsAction="ifRoom"
+        android:title="Save"
+        ></item>
+    <item
+        android:id="@+id/restoreNoteInToolbar"
+        android:icon="@drawable/ic_restore"
+        app:showAsAction="ifRoom"
+        android:title="Save"
+        ></item>
+    <item
+        android:id="@+id/backToTrashbin"
+        android:icon="@drawable/ic_return"
+        app:showAsAction="ifRoom"
+        android:title="Save"
+        ></item>
+</menu>
