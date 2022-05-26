@@ -70,19 +70,27 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/titleTest"
         android:layout_marginTop="20dp"/>
-    <TextView
-        android:id="@+id/timeRemind"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="15sp"
-        android:layout_below="@+id/contentText"
-        android:layout_marginTop="20dp"/>
-    <Button
-        android:id="@+id/btnDeleteRemind"
-        android:layout_weight="1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Delete"/>
+        android:orientation="horizontal"
+        android:layout_below="@+id/contentText">
+        <TextView
+            android:id="@+id/timeRemind"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="match_parent"
+            android:paddingLeft="15sp"
+            android:layout_below="@+id/contentText"
+            android:layout_marginTop="20dp"/>
+        <Button
+            android:id="@+id/btnDeleteRemind"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Delete"/>
+
+    </LinearLayout>
 
     <include
         android:id="@+id/nav_bottom_menu"
