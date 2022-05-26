@@ -120,8 +120,12 @@ public class HomeFragment extends Fragment {
                     if (String.valueOf(childSnapshot.child("inTrash").getValue()).equals("false")){
                         String text = String.valueOf(childSnapshot.child("text").getValue());
                         String title = String.valueOf(childSnapshot.child("title").getValue());
+                        String remindTime = String.valueOf(childSnapshot.child("remindTime").getValue());
+                        if(remindTime == "null"){
+                            remindTime = "";
+                        }
                         String noteId = String.valueOf(childSnapshot.getKey());
-                        notes.add(new Note(noteId, title,text,null,null,null,null,false, false,null,null,false,null));
+                        notes.add(new Note(noteId, title,text,null,null,null,null,false, false,null, remindTime,false,null));
                     }
 
                 }

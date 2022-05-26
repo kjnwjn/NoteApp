@@ -74,6 +74,7 @@
         android:id="@+id/timeRemind"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingLeft="15sp"
         android:layout_below="@+id/contentText"
         android:layout_marginTop="20dp"/>
 

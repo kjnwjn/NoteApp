@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 import android.util.*;
@@ -50,6 +51,7 @@ import java.util.Calendar;
         private TextInputLayout note_title;
         private TextInputLayout note_text_content;
         private ActivityNoteBinding binding;
+        private TextView time_remind;
         private ImageView app_image_upload;
         private ImageView app_image_view;
         private Toolbar toolbar;
@@ -96,6 +98,7 @@ import java.util.Calendar;
         private void initViews() {
             note_title = binding.noteTitle;
             note_text_content = binding.noteTextContent;
+            time_remind = binding.timeRemind;
             app_image_upload = binding.navBottomMenu.appImageUpload;
             app_image_view = binding.appImageView;
             app_image_upload.setOnClickListener(view -> onClickRequestPermission());
@@ -171,7 +174,7 @@ import java.util.Calendar;
                         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                             date.set(Calendar.HOUR_OF_DAY, hourOfDay);
                             date.set(Calendar.MINUTE, minute);
-                            s.append(hourOfDay +"/"  + minute );
+                            s.append(hourOfDay +":"  + minute );
                             binding.timeRemind.setText(s);
                             Log.v("TAG", "The choosen one " + date.getTime());
                         }
@@ -219,6 +222,7 @@ import java.util.Calendar;
 
               String noteTitle = note_title.getEditText().getText().toString();
               String noteTextContent = note_text_content.getEditText().getText().toString();
+              String remindTime = time_remind.getText().toString();
 
               if(noteTitle.isEmpty()){
                   noteTitle = "Untitle";
@@ -230,6 +234,7 @@ import java.util.Calendar;
               DatabaseReference databaseReference = mDatabase.child("User").child(userId).child("NoteList").child(noteID); //dẫn databaseRef tới note
               databaseReference.child("title").setValue(noteTitle);//set note's title
               databaseReference.child("text").setValue(noteTextContent);//set note's text
+              databaseReference.child("remindTime").setValue(remindTime);
               databaseReference.child("inTrash").setValue(false);
 
               finish();
