@@ -102,6 +102,12 @@ import java.util.Calendar;
             app_image_upload = binding.navBottomMenu.appImageUpload;
             app_image_view = binding.appImageView;
             app_image_upload.setOnClickListener(view -> onClickRequestPermission());
+            binding.btnDeleteRemind.setOnClickListener(view -> {
+                if(!time_remind.getText().toString().trim().equals("")){
+                    time_remind.setText("");
+                }
+
+            });
 
 
 

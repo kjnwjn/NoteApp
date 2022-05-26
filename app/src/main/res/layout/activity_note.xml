@@ -77,6 +77,12 @@
         android:paddingLeft="15sp"
         android:layout_below="@+id/contentText"
         android:layout_marginTop="20dp"/>
+    <Button
+        android:id="@+id/btnDeleteRemind"
+        android:layout_weight="1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delete"/>
 
     <include
         android:id="@+id/nav_bottom_menu"

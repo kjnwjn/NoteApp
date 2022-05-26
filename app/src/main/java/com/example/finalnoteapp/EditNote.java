@@ -101,6 +101,11 @@ public class EditNote extends AppCompatActivity {
         app_image_view = binding.appImageView;
         ImageView appImageUpload  =findViewById(R.id.app_image_upload);
         appImageUpload.setOnClickListener(view -> onClickRequestPermission());
+        binding.btnDeleteRemind.setOnClickListener(view -> {
+            if(!time_remind.getText().toString().trim().equals("")){
+                time_remind.setText("");
+            }
+        });
 
     }
     @Override
@@ -213,4 +218,6 @@ public class EditNote extends AppCompatActivity {
         }
 
     }
+
+
 }
