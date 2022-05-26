@@ -33,9 +33,8 @@ import java.util.List;
 public class NoteDeletedAdapter extends RecyclerView.Adapter<NoteDeletedAdapter.MyHolder> {
 
 
-    private HomeFragment context;
+    private TrashbinFragment context;
     private List<Note> notes;
-    private TrashbinFragment contextTrashbin;
     DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     String userId = user.getUid();
@@ -43,8 +42,8 @@ public class NoteDeletedAdapter extends RecyclerView.Adapter<NoteDeletedAdapter.
 
 
 
-    public NoteDeletedAdapter(TrashbinFragment contextTrashbin, List<Note> notes){
-        this.contextTrashbin = contextTrashbin;
+    public NoteDeletedAdapter(TrashbinFragment context, List<Note> notes){
+        this.context = context;
         this.notes = notes;
     }
 
@@ -82,7 +81,7 @@ public class NoteDeletedAdapter extends RecyclerView.Adapter<NoteDeletedAdapter.
     }
 
     private void noteDeletedDetails(Note note) {
-        Intent intent = new Intent(context.getContext(), NoteDeletedDetail.class);
+        Intent intent = new Intent(TrashbinFragment.recyclerView.getContext(), NoteDeletedDetail.class);
         intent.putExtra("note",note);
         context.startActivityForResult(intent,12);
     }
