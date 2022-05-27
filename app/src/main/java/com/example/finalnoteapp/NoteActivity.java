@@ -33,6 +33,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import com.bumptech.glide.Glide;
 import com.example.finalnoteapp.databinding.ActivityNoteBinding;
 import com.example.finalnoteapp.fragment.HomeFragment;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -42,8 +43,11 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -69,9 +73,13 @@ public class NoteActivity extends AppCompatActivity {
         public Uri imageUrl;
         private FirebaseStorage storage;
         private StorageReference storageReference;
-        private Task<Uri> downloadImageUrl;
+        private String  downloadImageUrl;
         private DatabaseReference mDatabase;
         boolean isPin = false;
+        private FirebaseUser user;
+        private String userId;
+        private  String noteID ;
+        DatabaseReference databaseReference;
 
 
 
@@ -130,6 +138,7 @@ public class NoteActivity extends AppCompatActivity {
             });
             setDeleteRemindVisibility();
             setPinStateText();
+
         }
 
         public void setPinStateText(){
@@ -256,12 +265,17 @@ public class NoteActivity extends AppCompatActivity {
                 }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
-                // ...
-                pd.dismiss();
-                downloadImageUrl = taskSnapshot.getStorage().getDownloadUrl();
+
+                riversRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uridownload) {
+                        pd.dismiss();
+                        downloadImageUrl = uridownload.toString();
+                    }
+                });
                 Log.e("url","url: "+ downloadImageUrl);
                 Snackbar.make(binding.editNoteRelativeLayout,"image uploaded !",Snackbar.LENGTH_LONG);
+
             }
         })
                 .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
@@ -304,6 +318,22 @@ public class NoteActivity extends AppCompatActivity {
               databaseReference.child("remindTime").setValue(remindTime);
               databaseReference.child("inTrash").setValue(false);
               databaseReference.child("isPin").setValue(isPin);
+              if(downloadImageUrl != null){
+                    databaseReference.child("image").setValue(downloadImageUrl);
+              }
+                databaseReference.child("image").addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        String imageLink = snapshot.getValue(String.class);
+                        Glide.with(binding.getRoot()).load(imageLink).into(binding.appImageView);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        return;
+
+                    }
+                });
 
               finish();
 

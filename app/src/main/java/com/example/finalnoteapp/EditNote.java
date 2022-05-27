@@ -35,6 +35,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.finalnoteapp.data.Note;
 import com.example.finalnoteapp.databinding.ActivityEditNoteBinding;
 import com.example.finalnoteapp.databinding.ActivityNoteBinding;
@@ -45,8 +46,11 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -71,8 +75,13 @@ public class EditNote extends AppCompatActivity {
     public Uri imageUrl;
     private FirebaseStorage storage;
     private StorageReference storageReference;
-    private Task<Uri> downloadImageUrl;
+    private String downloadImageUrl;
     boolean isPin;
+    private FirebaseUser user;
+    private String userId;
+    private  String noteID ;
+    DatabaseReference databaseReference;
+
 
     private ActivityResultLauncher<Intent> mActivityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
@@ -117,7 +126,26 @@ public class EditNote extends AppCompatActivity {
         isPin = note.isPin();
         setDeleteRemindVisibility();
         setPinStateText();
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        userId = user.getUid(); //lấy UID của user hiện tại
+        noteID = note.getNoteID(); //tạo id cho note
+        databaseReference = mDatabase.child("User").child(userId).child("NoteList").child(noteID);
+
+        databaseReference.child("image").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String imageLink = snapshot.getValue(String.class);
+                Glide.with(binding.getRoot()).load(imageLink).into(binding.appImageView);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                return;
+
+            }
+        });
     }
+
 
     private void initViews() {
         note_title = binding.noteTitle;
@@ -154,6 +182,7 @@ public class EditNote extends AppCompatActivity {
             binding.txtNgayNhac.setVisibility(View.VISIBLE);
         }
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 //            getMenuInflater().inflate(R.menu.menu_user_details,menu);
@@ -192,15 +221,14 @@ public class EditNote extends AppCompatActivity {
             noteTitle = "Untitle";
         }
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        String userId = user.getUid(); //lấy UID của user hiện tại
-        String noteID = note.getNoteID(); //tạo id cho note
-        DatabaseReference databaseReference = mDatabase.child("User").child(userId).child("NoteList").child(noteID); //dẫn databaseRef tới note
         databaseReference.child("title").setValue(noteTitle);//set note's title
         databaseReference.child("text").setValue(noteTextContent);//set note's text
         databaseReference.child("remindTime").setValue(remindTime);
         databaseReference.child("inTrash").setValue(false);
         databaseReference.child("isPin").setValue(isPin);
+        if(downloadImageUrl != null){
+            databaseReference.child("image").setValue(downloadImageUrl);
+        }
 
         finish();
     }
@@ -287,13 +315,17 @@ public class EditNote extends AppCompatActivity {
         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
-                // ...
-                pd.dismiss();
-                downloadImageUrl = taskSnapshot.getStorage().getDownloadUrl();
 
+                riversRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uridownload) {
+                        pd.dismiss();
+                        downloadImageUrl = uridownload.toString();
+                    }
+                });
                 Log.e("url","url: "+ downloadImageUrl);
                 Snackbar.make(binding.editNoteRelativeLayout,"image uploaded !",Snackbar.LENGTH_LONG);
+
             }
         })
         .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {

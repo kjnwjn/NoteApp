@@ -26,6 +26,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.finalnoteapp.data.Note;
 import com.example.finalnoteapp.databinding.ActivityMainBinding;
 import com.example.finalnoteapp.databinding.LayoutHeaderNavBinding;
@@ -39,6 +40,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity  implements NavigationView.OnNavigationItemSelectedListener {
     private static final int FRAGMENT_HOME = 0;
@@ -93,6 +97,7 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
         nav = findViewById(R.id.navigation_view);
         nav.getMenu().findItem(R.id.app_note).setChecked(true);
         nav.setNavigationItemSelectedListener(this);
+
 
     }
 
