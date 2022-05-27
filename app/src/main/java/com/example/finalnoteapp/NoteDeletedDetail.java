@@ -14,6 +14,8 @@ import com.example.finalnoteapp.data.Note;
 import com.example.finalnoteapp.databinding.ActivityEditNoteBinding;
 import com.example.finalnoteapp.databinding.ActivityNoteDeletedDetailBinding;
 import com.example.finalnoteapp.fragment.TrashbinFragment;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -35,6 +37,7 @@ public class NoteDeletedDetail extends AppCompatActivity {
         note = intent.getParcelableExtra("note");
         binding.noteDeletedtitle.setText(note.getTitle());
         binding.noteDeletedtextContent.setText(note.getText());
+
     }
 
     private void initViews() {
@@ -60,16 +63,22 @@ public class NoteDeletedDetail extends AppCompatActivity {
                 restoreNote();
                 break;
             case R.id.backToTrashbin:
-                Intent i = new Intent(this, TrashbinFragment.class);
-                startActivity(i);
-                finishAffinity();
+                finish();
         }
         return super.onOptionsItemSelected(item);
     }
 
     private void restoreNote() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String userId = user.getUid();
+        mDatabase.child("User").child(userId).child("NoteList").child(note.getNoteID()).child("inTrash").setValue(false);
+        finish();
     }
 
     private void deleteforever() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String userId = user.getUid();
+        mDatabase.child("User").child(userId).child("NoteList").child(note.getNoteID()).removeValue();
+        finish();
     }
 }
