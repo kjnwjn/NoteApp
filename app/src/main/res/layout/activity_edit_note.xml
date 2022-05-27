@@ -71,6 +71,7 @@
         android:layout_below="@+id/titleTest_deleted"
         android:text="Trạng thái ghim: "
         android:paddingLeft="15sp"
+        android:textSize="18sp"
         android:layout_marginTop="20dp"/>
     <TextView
         android:id="@+id/contentText"
