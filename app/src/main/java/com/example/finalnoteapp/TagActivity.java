@@ -18,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ImageView;
+import android.widget.Toast;
 import android.widget.Toolbar;
 
 import com.example.finalnoteapp.databinding.ActivityNoteBinding;
@@ -25,8 +26,11 @@ import com.example.finalnoteapp.databinding.ActivityTagBinding;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
 
@@ -83,19 +87,37 @@ public class TagActivity extends AppCompatActivity {
     }
 
     private void saveData() {
-        String tagName = inputTagName.getEditText().getText().toString();
+        String tagName = inputTagName.getEditText().getText().toString().trim();
 
         if(tagName.isEmpty()){
             tagName = "Untitle tag";
         }
 
+
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String userId = user.getUid(); //lấy UID của user hiện tại
-        String tagID = mDatabase.push().getKey(); //tạo id cho note
-        DatabaseReference databaseReference = mDatabase.child("User").child(userId).child("TagList").child(tagID); //dẫn databaseRef tới note
-        databaseReference.child("tagName").setValue(tagName);//set note's title
+        String tagID = mDatabase.push().getKey(); //tạo id
+        DatabaseReference databaseReference = mDatabase.child("User").child(userId).child("TagList");
+        String finalTagName = tagName;
+        databaseReference.orderByChild("tagName").equalTo(tagName).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()){
+                    Toast.makeText(TagActivity.this, "Tên nhãn này đã tồn tại", Toast.LENGTH_SHORT).show();
+                }else {
+                    databaseReference.child(tagID).child("tagName").setValue(finalTagName);
+                    finish();
+                }
+            }
 
-        finish();
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        //databaseReference.child("tagName").setValue(tagName);
+
+        //finish();
     }
 
     private void pin() {
