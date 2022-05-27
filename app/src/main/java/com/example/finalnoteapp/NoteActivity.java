@@ -77,9 +77,7 @@ public class NoteActivity extends AppCompatActivity {
         private DatabaseReference mDatabase;
         boolean isPin = false;
         private FirebaseUser user;
-        private String userId;
-        private  String noteID ;
-        DatabaseReference databaseReference;
+        private String urlImageforDeleted;
 
 
 
@@ -98,6 +96,8 @@ public class NoteActivity extends AppCompatActivity {
                             try {
                                 bitmap = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), imageUrl);
                                 app_image_view.setImageBitmap(bitmap);
+                                binding.imageGr.setVisibility(View.VISIBLE);
+                                binding.btnDeleteImage.setVisibility(View.VISIBLE);
                                 uploadImage();
                             } catch (IOException e) {
                                 e.printStackTrace();
@@ -119,6 +119,7 @@ public class NoteActivity extends AppCompatActivity {
             storage = FirebaseStorage.getInstance();
             storageReference = storage.getReference();
             mDatabase = FirebaseDatabase.getInstance().getReference();
+            user = FirebaseAuth.getInstance().getCurrentUser();
 
         }
 
@@ -135,6 +136,10 @@ public class NoteActivity extends AppCompatActivity {
                     time_remind.setText("");
                 }
                 setDeleteRemindVisibility();
+            });
+            binding.btnDeleteImage.setOnClickListener(view -> {
+                binding.imageGr.setVisibility(View.GONE);
+                binding.btnDeleteImage.setVisibility(View.GONE);
             });
             setDeleteRemindVisibility();
             setPinStateText();
@@ -244,115 +249,122 @@ public class NoteActivity extends AppCompatActivity {
             mActivityResultLauncher.launch(i.createChooser(i,"Select picture"));
         }
 
+        private void deleteImage(String url){
 
-    private void uploadImage() {
-        final ProgressDialog pd  = new ProgressDialog(this);
-        pd.setTitle("Uploading Image ...");
-        pd.show();
-        final String randomKey = UUID.randomUUID().toString();
-        Log.e("url","key: "+ randomKey);
-        StorageReference riversRef = storageReference.child("images/"+ randomKey);
-        riversRef.putFile(imageUrl)
-                // Register observers to listen for when the download is done or if it fails
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception exception) {
-                        Log.e("TAG","msg: "+exception);
-                        // Handle unsuccessful uploads
-                        pd.dismiss();
+        }
 
-                    }
-                }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+        private void uploadImage() {
+            final ProgressDialog pd  = new ProgressDialog(this);
+            pd.setTitle("Uploading Image ...");
+            pd.show();
+            final String randomKey = UUID.randomUUID().toString();
+            Log.e("url","key: "+ randomKey);
+            StorageReference riversRef = storageReference.child("images/"+ randomKey);
+            riversRef.putFile(imageUrl)
+                    // Register observers to listen for when the download is done or if it fails
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception exception) {
+                            Log.e("TAG","msg: "+exception);
+                            // Handle unsuccessful uploads
+                            pd.dismiss();
 
-                riversRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uridownload) {
-                        pd.dismiss();
-                        downloadImageUrl = uridownload.toString();
-                    }
-                });
-                Log.e("url","url: "+ downloadImageUrl);
-                Snackbar.make(binding.editNoteRelativeLayout,"image uploaded !",Snackbar.LENGTH_LONG);
+                        }
+                    }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-            }
-        })
-                .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
-                        double progressPecent = (100.00 * snapshot.getBytesTransferred() / snapshot.getTotalByteCount());
-                        pd.setMessage("Progress : " + (int) progressPecent + "%");
-                    }
-                });
-    }
+                    riversRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uridownload) {
+                            pd.dismiss();
 
+                            downloadImageUrl = uridownload.toString();
+                        }
+                    });
+                    Log.e("url","url: "+ downloadImageUrl);
+                    Snackbar.make(binding.editNoteRelativeLayout,"image uploaded !",Snackbar.LENGTH_LONG);
 
-    @Override
-        public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-            if(requestCode == MY_REQUEST_CODE){
-                if(grantResults.length > 0 && grantResults[0]==PackageManager.PERMISSION_GRANTED){
-                    openGallery();
                 }
+            })
+                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+                            double progressPecent = (100.00 * snapshot.getBytesTransferred() / snapshot.getTotalByteCount());
+                            pd.setMessage("Progress : " + (int) progressPecent + "%");
+                        }
+                    });
+        }
+
+
+        @Override
+            public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+                if(requestCode == MY_REQUEST_CODE){
+                    if(grantResults.length > 0 && grantResults[0]==PackageManager.PERMISSION_GRANTED){
+                        openGallery();
+                    }
+                }
+
             }
 
-        }
+            private void saveData() {
 
-        private void saveData() {
+                  String noteTitle = note_title.getEditText().getText().toString();
+                  String noteTextContent = note_text_content.getEditText().getText().toString();
+                  String remindTime = time_remind.getText().toString();
 
-              String noteTitle = note_title.getEditText().getText().toString();
-              String noteTextContent = note_text_content.getEditText().getText().toString();
-              String remindTime = time_remind.getText().toString();
+                  if(noteTitle.isEmpty()){
+                      noteTitle = "Untitle";
+                  }
 
-              if(noteTitle.isEmpty()){
-                  noteTitle = "Untitle";
-              }
 
-              FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-              String userId = user.getUid(); //lấy UID của user hiện tại
-              String noteID = mDatabase.push().getKey(); //tạo id cho note
-              DatabaseReference databaseReference = mDatabase.child("User").child(userId).child("NoteList").child(noteID); //dẫn databaseRef tới note
-              databaseReference.child("title").setValue(noteTitle);//set note's title
-              databaseReference.child("text").setValue(noteTextContent);//set note's text
-              databaseReference.child("remindTime").setValue(remindTime);
-              databaseReference.child("inTrash").setValue(false);
-              databaseReference.child("isPin").setValue(isPin);
-              if(downloadImageUrl != null){
-                    databaseReference.child("image").setValue(downloadImageUrl);
-              }
-                databaseReference.child("image").addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        String imageLink = snapshot.getValue(String.class);
-                        Glide.with(binding.getRoot()).load(imageLink).into(binding.appImageView);
-                    }
+                  String userId = user.getUid(); //lấy UID của user hiện tại
+                  String noteID = mDatabase.push().getKey(); //tạo id cho note
+                  DatabaseReference databaseReference = mDatabase.child("User").child(userId).child("NoteList").child(noteID); //dẫn databaseRef tới note
+                  databaseReference.child("title").setValue(noteTitle);//set note's title
+                  databaseReference.child("text").setValue(noteTextContent);//set note's text
+                  databaseReference.child("remindTime").setValue(remindTime);
+                  databaseReference.child("inTrash").setValue(false);
+                  databaseReference.child("isPin").setValue(isPin);
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        return;
+                  if(downloadImageUrl != null){
+                        databaseReference.child("image").setValue(downloadImageUrl);
+                  }else{
+                      databaseReference.child("image").setValue("");
+                  }
+                    databaseReference.child("image").addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            String imageLink = snapshot.getValue(String.class);
+                            Glide.with(getApplicationContext()).load(imageLink).into(binding.appImageView);
+                        }
 
-                    }
-                });
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            return;
 
-              finish();
+                        }
+                    });
 
-//            String dateResult =  txtDate.getEditText().getText().toString() + txtTime.getEditText().getText().toString();
-//
-//
-//            Events event = new Events(name,place,dateResult);
-//
-//            if(event == null){
-//                Toast.makeText(this,"DO not have any event ",Toast.LENGTH_LONG);
-//                return;
-//            }else{
-//                Intent intent = new Intent();
-//                intent.putExtra("data",event);
-//                setResult(1,intent);
-//            }
-//
-//            finish();
+                  finish();
 
-        }
+    //            String dateResult =  txtDate.getEditText().getText().toString() + txtTime.getEditText().getText().toString();
+    //
+    //
+    //            Events event = new Events(name,place,dateResult);
+    //
+    //            if(event == null){
+    //                Toast.makeText(this,"DO not have any event ",Toast.LENGTH_LONG);
+    //                return;
+    //            }else{
+    //                Intent intent = new Intent();
+    //                intent.putExtra("data",event);
+    //                setResult(1,intent);
+    //            }
+    //
+    //            finish();
+
+            }
     }
 

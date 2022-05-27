@@ -55,7 +55,8 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_below="@id/note_textContent"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/app_image_view"

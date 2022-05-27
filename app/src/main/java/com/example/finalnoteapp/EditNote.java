@@ -98,6 +98,7 @@ public class EditNote extends AppCompatActivity {
                         try {
                             bitmap = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), imageUrl);
                             app_image_view.setImageBitmap(bitmap);
+                            binding.imageGr.setVisibility(View.VISIBLE);
                             uploadImage();
                         } catch (IOException e) {
                             e.printStackTrace();
@@ -135,7 +136,13 @@ public class EditNote extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 String imageLink = snapshot.getValue(String.class);
-                Glide.with(binding.getRoot()).load(imageLink).into(binding.appImageView);
+                if(!imageLink.equals("")){
+                    Glide.with(getApplicationContext()).load(imageLink).into(binding.appImageView);
+                    binding.imageGr.setVisibility(View.VISIBLE);
+                    binding.btnDeleteImage.setVisibility(View.VISIBLE);
+                }
+
+
             }
 
             @Override
@@ -163,6 +170,11 @@ public class EditNote extends AppCompatActivity {
         });
         setDeleteRemindVisibility();
         setPinStateText();
+        binding.btnDeleteImage.setOnClickListener(view -> {
+            binding.imageGr.setVisibility(View.GONE);
+            binding.btnDeleteImage.setVisibility(View.GONE);
+            databaseReference.child("imaage").setValue("");
+        });
     }
 
     public void setPinStateText(){
@@ -228,6 +240,8 @@ public class EditNote extends AppCompatActivity {
         databaseReference.child("isPin").setValue(isPin);
         if(downloadImageUrl != null){
             databaseReference.child("image").setValue(downloadImageUrl);
+        }else{
+            databaseReference.child("image").setValue("");
         }
 
         finish();
