@@ -60,6 +60,7 @@ public class NoteActivity extends AppCompatActivity {
         private int seclectd = -1;
         private TextInputLayout note_title;
         private TextInputLayout note_text_content;
+        private TextView pinState;
         private ActivityNoteBinding binding;
         private TextView time_remind;
         private ImageView app_image_upload;
@@ -70,6 +71,7 @@ public class NoteActivity extends AppCompatActivity {
         private StorageReference storageReference;
         private Task<Uri> downloadImageUrl;
         private DatabaseReference mDatabase;
+        boolean isPin = false;
 
 
 
@@ -109,11 +111,13 @@ public class NoteActivity extends AppCompatActivity {
             storage = FirebaseStorage.getInstance();
             storageReference = storage.getReference();
             mDatabase = FirebaseDatabase.getInstance().getReference();
+
         }
 
         private void initViews() {
             note_title = binding.noteTitle;
             note_text_content = binding.noteTextContent;
+            pinState = binding.pinState;
             time_remind = binding.timeRemind;
             app_image_upload = binding.navBottomMenu.appImageUpload;
             app_image_view = binding.appImageView;
@@ -125,8 +129,15 @@ public class NoteActivity extends AppCompatActivity {
                 setDeleteRemindVisibility();
             });
             setDeleteRemindVisibility();
+            setPinStateText();
+        }
 
-
+        public void setPinStateText(){
+            if(isPin){
+                pinState.setText("Trạng thái ghim: Đã ghim");
+            }else{
+                pinState.setText("Trạng thái ghim: Không ghim");
+            }
         }
 
         public void setDeleteRemindVisibility(){
@@ -165,6 +176,12 @@ public class NoteActivity extends AppCompatActivity {
         }
 
         private void pin() {
+            if(isPin){
+                isPin = false;
+            }else {
+                isPin = true;
+            }
+            setPinStateText();
         }
 
         private void remind() {
@@ -286,6 +303,7 @@ public class NoteActivity extends AppCompatActivity {
               databaseReference.child("text").setValue(noteTextContent);//set note's text
               databaseReference.child("remindTime").setValue(remindTime);
               databaseReference.child("inTrash").setValue(false);
+              databaseReference.child("isPin").setValue(isPin);
 
               finish();
 

@@ -116,7 +116,7 @@ public class HomeFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 notes = new ArrayList<>();
                 for (DataSnapshot childSnapshot:
-                     snapshot.getChildren()) {
+                        snapshot.getChildren()) {
                     if (String.valueOf(childSnapshot.child("inTrash").getValue()).equals("false")){
                         String text = String.valueOf(childSnapshot.child("text").getValue());
                         String title = String.valueOf(childSnapshot.child("title").getValue());
@@ -125,10 +125,37 @@ public class HomeFragment extends Fragment {
                             remindTime = "";
                         }
                         String noteId = String.valueOf(childSnapshot.getKey());
-                        notes.add(new Note(noteId, title,text,null,null,null,null,false, false,null, remindTime,false,null));
+                        boolean isPin;
+                        if (childSnapshot.child("isPin").getValue() != null){
+                            isPin = (boolean) childSnapshot.child("isPin").getValue();
+                            if(!isPin){
+                                notes.add(new Note(noteId, title,text,null,null,null,null, isPin, false,null, remindTime,false,null));
+                            }
+                        }else {
+                            notes.add(new Note(noteId, title,text,null,null,null,null, false, false,null, remindTime,false,null));
+                        }
                     }
-
                 }
+                for (DataSnapshot childSnapshot:
+                        snapshot.getChildren()) {
+                    if (String.valueOf(childSnapshot.child("inTrash").getValue()).equals("false")){
+                        String text = String.valueOf(childSnapshot.child("text").getValue());
+                        String title = String.valueOf(childSnapshot.child("title").getValue());
+                        String remindTime = String.valueOf(childSnapshot.child("remindTime").getValue());
+                        if(remindTime == "null"){
+                            remindTime = "";
+                        }
+                        String noteId = String.valueOf(childSnapshot.getKey());
+                        boolean isPin;
+                        if (childSnapshot.child("isPin").getValue() != null){
+                            isPin = (boolean) childSnapshot.child("isPin").getValue();
+                            if(isPin){
+                                notes.add(new Note(noteId, title,text,null,null,null,null, isPin, false,null, remindTime,false,null));
+                            }
+                        }
+                    }
+                }
+
 //                Log.d("tag", String.valueOf(snapshot.getValue()));
                 Collections.reverse(notes);
                 noteAdapter = new NoteAdapter(HomeFragment.this,notes);

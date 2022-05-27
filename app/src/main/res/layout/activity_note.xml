@@ -66,6 +66,14 @@
         android:layout_below="@+id/app_image_view"
         android:layout_marginTop="20dp"/>
     <TextView
+        android:id="@+id/pinState"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/titleTest"
+        android:text="Trạng thái ghim: "
+        android:paddingLeft="15sp"
+        android:layout_marginTop="20dp"/>
+    <TextView
         android:id="@+id/contentText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -1,6 +1,7 @@
 package com.example.finalnoteapp.adapter;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -83,6 +84,9 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.MyHolder> {
         holder.title.setText(note.getTitle());
         holder.noteContent.setOnClickListener(view -> editNote(note));
         holder.deleteBtn.setOnClickListener(view -> deleteNote(position));
+        if(note.isPin()){
+            holder.note_layout.setBackgroundColor(Color.YELLOW);
+        }
     }
 
     private void deleteNote(Integer position) {
@@ -111,12 +115,14 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.MyHolder> {
         TextView title;
         LinearLayout noteContent;
         ImageView deleteBtn ;
+        LinearLayout note_layout;
         public MyHolder(@NonNull View itemView) {
             super(itemView);
             noteContent = itemView.findViewById(R.id.noteContent);
             title = itemView.findViewById(R.id.title);
             content = itemView.findViewById(R.id.content);
             deleteBtn = itemView.findViewById(R.id.deleteBtn);
+            note_layout = itemView.findViewById(R.id.note_layout);
         }
     }
 }
