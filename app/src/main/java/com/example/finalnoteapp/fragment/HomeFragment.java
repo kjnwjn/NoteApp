@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.example.finalnoteapp.MainActivity;
 import com.example.finalnoteapp.NoteActivity;
@@ -38,7 +39,7 @@ public class HomeFragment extends Fragment {
     public static  RecyclerView recyclerView;
     public static NoteAdapter noteAdapter;
     private FragmentHomeBinding binding;
-    public static GridLayoutManager mGridLayoutManager;
+    public static StaggeredGridLayoutManager mGridLayoutManager;
     public static LinearLayoutManager mLinearLayoutManager;
     public static List<Note> notes;
     private ImageView app_image_upload;
@@ -139,7 +140,7 @@ public class HomeFragment extends Fragment {
 //                Log.d("tag", String.valueOf(snapshot.getValue()));
                 Collections.reverse(notes);
                 noteAdapter = new NoteAdapter(HomeFragment.this,notes);
-                mGridLayoutManager = new GridLayoutManager(getContext(),2);
+                mGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
                 mLinearLayoutManager = new LinearLayoutManager(getContext());
                 setTypeDisplayRecyclerView(Note.TYPE_GRID);
                 recyclerView.setLayoutManager(mGridLayoutManager);
