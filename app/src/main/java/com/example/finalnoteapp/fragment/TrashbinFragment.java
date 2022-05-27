@@ -34,10 +34,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class TrashbinFragment extends Fragment {
 
@@ -101,6 +106,35 @@ public class TrashbinFragment extends Fragment {
                 recyclerView.setLayoutManager(mGridLayoutManager);
                 recyclerView.setHasFixedSize(true);
                 recyclerView.setAdapter(noteDeletedAdapter);
+
+                Date currentTime = Calendar.getInstance().getTime();
+                DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+                String date = dateFormat.format(currentTime);
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+                try {
+                    Date current = simpleDateFormat.parse(date);
+                    for (Note note :
+                            notes) {
+                        String dTrash = note.getDateInTrash();
+                        try {
+                            Date dateTrash = simpleDateFormat.parse(dTrash);
+                            long diffInMillie = Math.abs(current.getTime() - dateTrash.getTime());
+                            long diff = TimeUnit.MINUTES.convert(diffInMillie, TimeUnit.MILLISECONDS);
+                            long limit = 30;
+                            if (diff > limit){
+                                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                                String userId = user.getUid();
+                                mDatabase.child("User").child(userId).child("NoteList").child(note.getNoteID()).removeValue();
+                            }
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+
             }
 
             @Override
