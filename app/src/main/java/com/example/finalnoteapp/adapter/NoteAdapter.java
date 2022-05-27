@@ -89,7 +89,10 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.MyHolder> {
         holder.noteContent.setOnClickListener(view -> editNote(note));
         holder.deleteBtn.setOnClickListener(view -> deleteNote(position));
         if(note.isPin()){
-            holder.note_layout.setBackgroundColor(Color.YELLOW);
+            holder.note_layout.setBackgroundResource(R.drawable.border_pin);
+        }
+        if(!note.isPin()){
+            holder.note_layout.setBackgroundResource(R.drawable.border);
         }
     }
 
