@@ -19,6 +19,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.SimpleDateFormat;
+
 public class NoteDeletedDetail extends AppCompatActivity {
     private ActivityNoteDeletedDetailBinding binding;
 
@@ -37,7 +39,7 @@ public class NoteDeletedDetail extends AppCompatActivity {
         note = intent.getParcelableExtra("note");
         binding.noteDeletedtitle.setText(note.getTitle());
         binding.noteDeletedtextContent.setText(note.getText());
-
+        binding.noteDateInTrash.setText("Ngày thêm vào trash: "+note.getDateInTrash());
     }
 
     private void initViews() {
@@ -72,6 +74,7 @@ public class NoteDeletedDetail extends AppCompatActivity {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String userId = user.getUid();
         mDatabase.child("User").child(userId).child("NoteList").child(note.getNoteID()).child("inTrash").setValue(false);
+        mDatabase.child("User").child(userId).child("NoteList").child(note.getNoteID()).child("dateInTrash").removeValue();
         finish();
     }
 

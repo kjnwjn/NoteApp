@@ -28,6 +28,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.MyHolder> {
@@ -93,7 +97,12 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.MyHolder> {
         Note note = notes.get(position);
         String noteID = note.getNoteID();
         DatabaseReference noteListRef = mDatabase.child("User").child(userId).child("NoteList").child(noteID);
+        Date currentTime = Calendar.getInstance().getTime();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+        String date = dateFormat.format(currentTime);
         noteListRef.child("inTrash").setValue(true);
+        noteListRef.child("dateInTrash").setValue(date);
+
     }
 
     private void editNote(Note note) {

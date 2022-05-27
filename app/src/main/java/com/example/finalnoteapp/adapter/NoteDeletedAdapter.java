@@ -91,6 +91,7 @@ public class NoteDeletedAdapter extends RecyclerView.Adapter<NoteDeletedAdapter.
         String noteID = note.getNoteID();
         DatabaseReference noteListRef = mDatabase.child("User").child(userId).child("NoteList").child(noteID);
         noteListRef.child("inTrash").setValue(false);
+        noteListRef.child("dateInTrash").removeValue();
     }
 
 

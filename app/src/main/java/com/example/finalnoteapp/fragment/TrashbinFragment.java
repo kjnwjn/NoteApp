@@ -36,6 +36,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 public class TrashbinFragment extends Fragment {
@@ -86,7 +87,8 @@ public class TrashbinFragment extends Fragment {
                         String text = String.valueOf(childSnapshot.child("text").getValue());
                         String title = String.valueOf(childSnapshot.child("title").getValue());
                         String noteId = String.valueOf(childSnapshot.getKey());
-                        notes.add(new Note(noteId, title,text,null,null,null,null,false, false,null,null,true,null));
+                        String dateInTrash = String.valueOf(childSnapshot.child("dateInTrash").getValue());
+                        notes.add(new Note(noteId, title,text,null,null,null,null,false, false,null,null,true,dateInTrash));
                     }
 
                 }
