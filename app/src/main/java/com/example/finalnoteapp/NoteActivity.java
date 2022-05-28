@@ -176,7 +176,11 @@ public class NoteActivity extends AppCompatActivity {
             ImageView appDraw = findViewById(R.id.app_draw);
             appDraw.setOnClickListener(view -> chooseVideo(view));
             binding.btnUploadVideo.setOnClickListener(view -> uploadvideo());
+            binding.btnDeleteVideo.setOnClickListener(view -> deleteVideo(view));
 
+        }
+        private void deleteVideo(View view) {
+            videoView.setVideoURI(null);
         }
 //        Video method handler
         private void chooseVideo(View view){

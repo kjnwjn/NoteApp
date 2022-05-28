@@ -231,6 +231,11 @@ public class EditNote extends AppCompatActivity {
         ImageView appDraw = findViewById(R.id.app_draw);
         appDraw.setOnClickListener(view -> chooseVideo(view));
         binding.btnUploadVideo.setOnClickListener(view -> uploadvideo());
+        binding.btnDeleteVideo.setOnClickListener(view -> deleteVideo(view));
+    }
+
+    private void deleteVideo(View view) {
+        videoView.setVideoURI(null);
     }
 
     public void setPinStateText(){
@@ -332,7 +337,12 @@ public class EditNote extends AppCompatActivity {
         }else{
             databaseReference.child("image").setValue("");
         }
+        if(downloadVideoUrl ==null){
+            databaseReference.child("video").setValue("");
 
+        }else{
+            databaseReference.child("video").setValue(downloadVideoUrl.toString());
+        }
         finish();
     }
 
