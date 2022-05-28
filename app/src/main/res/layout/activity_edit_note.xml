@@ -132,11 +132,21 @@
 
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/txtPass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="15sp"
+        android:textSize="15sp"
+        android:text="Đặt mật khẩu: "
+        android:layout_below="@+id/layoutRemind"
+        android:layout_marginTop="20dp"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_below="@+id/layoutRemind">
+        android:layout_below="@+id/txtPass">
         <EditText
             android:id="@+id/editPass"
             android:layout_width="0dp"
@@ -150,7 +160,7 @@
             android:layout_marginTop="20dp"/>
         <ToggleButton
             android:id="@+id/setPass"
-            android:layout_weight="1"
+            android:layout_weight="0.1"
             android:layout_marginTop="10sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
