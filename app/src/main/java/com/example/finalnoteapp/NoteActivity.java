@@ -22,12 +22,15 @@ import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.MediaController;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 import android.util.*;
 import android.widget.ToggleButton;
 import android.widget.Toolbar;
+import android.widget.VideoView;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -76,16 +79,18 @@ public class NoteActivity extends AppCompatActivity {
         private TextView time_remind;
         private ImageView app_image_upload;
         private ImageView app_image_view;
-        private Toolbar toolbar;
         public Uri imageUrl;
         private FirebaseStorage storage;
         private StorageReference storageReference;
         private String  downloadImageUrl;
         private DatabaseReference mDatabase;
-        boolean isPin = false;
+        private boolean isPin = false;
         private FirebaseUser user;
-        private String urlImageforDeleted;
-
+        public static final int PICK_VIDEO = 15;
+        private VideoView videoView;
+        private ProgressBar progressBar;
+        private Uri videoUri;
+        MediaController mediaController;
 
 
         private ActivityResultLauncher<Intent> mActivityResultLauncher = registerForActivityResult(
@@ -128,6 +133,10 @@ public class NoteActivity extends AppCompatActivity {
             mDatabase = FirebaseDatabase.getInstance().getReference();
             user = FirebaseAuth.getInstance().getCurrentUser();
 
+
+            mediaController = new MediaController(this);
+            videoView.setMediaController(mediaController);
+            videoView.start();
         }
 
         private void initViews() {
@@ -153,6 +162,28 @@ public class NoteActivity extends AppCompatActivity {
             setDeleteRemindVisibility();
             setPinStateText();
 
+//            Video element
+            videoView = binding.appVideoView;
+            progressBar = binding.progressBarForVideo;
+
+            binding.btnUploadVideo.setOnClickListener(view -> chooseVideo(view));
+
+        }
+//        Video method handler
+        public void chooseVideo(View view){
+            Intent i = new Intent();
+            i.setType("video/*");
+            i.setAction(Intent.ACTION_GET_CONTENT);
+            startActivityForResult(i,PICK_VIDEO);
+        }
+
+        @Override
+        protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+            super.onActivityResult(requestCode, resultCode, data);
+            if(resultCode == PICK_VIDEO || resultCode == RESULT_OK || data != null || data.getData() != null){
+                videoUri = data.getData();
+                videoView.setVideoURI(videoUri);
+            }
         }
 
         public void setPinStateText(){
@@ -201,41 +232,41 @@ public class NoteActivity extends AppCompatActivity {
             return super.onOptionsItemSelected(item);
         }
 
-    private void shareItem() {
-        String noteTitle = note_title.getEditText().getText().toString().trim();
-        String noteTextContent = note_text_content.getEditText().getText().toString().trim();
+        private void shareItem() {
+            String noteTitle = note_title.getEditText().getText().toString().trim();
+            String noteTextContent = note_text_content.getEditText().getText().toString().trim();
 
-        Drawable drawable = app_image_view.getDrawable();
-        Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
-        String path = MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, null, null);
-        Uri uri = Uri.parse(path);
+            Drawable drawable = app_image_view.getDrawable();
+            Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
+            String path = MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, null, null);
+            Uri uri = Uri.parse(path);
 
-        if(noteTitle.isEmpty()){
-            noteTitle = "Untitle";
-        }
-        if(noteTextContent.isEmpty()){
-            noteTextContent = "";
-        }
-        Intent send = new Intent();
-        send.setAction(Intent.ACTION_SEND);
-        send.setType("*/*");
-        send.putExtra(Intent.EXTRA_TEXT, noteTitle+": "+noteTextContent);
-        send.putExtra(Intent.EXTRA_SUBJECT, noteTitle);
-        if(binding.imageGr.getVisibility() == View.VISIBLE){
-            send.putExtra(Intent.EXTRA_STREAM, uri);
-        }
-        Intent share = Intent.createChooser(send, "Share note");
-        startActivity(share);
-    }
-
-    private void pin() {
-            if(isPin){
-                isPin = false;
-            }else {
-                isPin = true;
+            if(noteTitle.isEmpty()){
+                noteTitle = "Untitle";
             }
-            setPinStateText();
+            if(noteTextContent.isEmpty()){
+                noteTextContent = "";
+            }
+            Intent send = new Intent();
+            send.setAction(Intent.ACTION_SEND);
+            send.setType("*/*");
+            send.putExtra(Intent.EXTRA_TEXT, noteTitle+": "+noteTextContent);
+            send.putExtra(Intent.EXTRA_SUBJECT, noteTitle);
+            if(binding.imageGr.getVisibility() == View.VISIBLE){
+                send.putExtra(Intent.EXTRA_STREAM, uri);
+            }
+            Intent share = Intent.createChooser(send, "Share note");
+            startActivity(share);
         }
+
+        private void pin() {
+                if(isPin){
+                    isPin = false;
+                }else {
+                    isPin = true;
+                }
+                setPinStateText();
+            }
 
         private void remind() {
             final Calendar currentDate = Calendar.getInstance();
@@ -280,6 +311,7 @@ public class NoteActivity extends AppCompatActivity {
                 String [] permission = {android.Manifest.permission.READ_EXTERNAL_STORAGE};
                 requestPermissions(permission,MY_REQUEST_CODE);
             }
+
         }
         private void openGallery() {
             Intent i = new Intent();
@@ -288,9 +320,6 @@ public class NoteActivity extends AppCompatActivity {
             mActivityResultLauncher.launch(i.createChooser(i,"Select picture"));
         }
 
-        private void deleteImage(String url){
-
-        }
 
         private void uploadImage() {
             final ProgressDialog pd  = new ProgressDialog(this);
@@ -336,77 +365,77 @@ public class NoteActivity extends AppCompatActivity {
         }
 
 
-        @Override
-            public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-                if(requestCode == MY_REQUEST_CODE){
-                    if(grantResults.length > 0 && grantResults[0]==PackageManager.PERMISSION_GRANTED){
-                        openGallery();
-                    }
+    @Override
+        public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+            if(requestCode == MY_REQUEST_CODE){
+                if(grantResults.length > 0 && grantResults[0]==PackageManager.PERMISSION_GRANTED){
+                    openGallery();
                 }
-
             }
 
-            private void saveData() {
+        }
 
-                  String noteTitle = note_title.getEditText().getText().toString().trim();
-                  String noteTextContent = note_text_content.getEditText().getText().toString().trim();
-                  String remindTime = time_remind.getText().toString();
-                  String pass = editPass.getText().toString().trim();
+        private void saveData() {
 
-                  if(noteTitle.isEmpty()){
-                      noteTitle = "Untitle";
-                  }
+              String noteTitle = note_title.getEditText().getText().toString().trim();
+              String noteTextContent = note_text_content.getEditText().getText().toString().trim();
+              String remindTime = time_remind.getText().toString();
+              String pass = editPass.getText().toString().trim();
+
+              if(noteTitle.isEmpty()){
+                  noteTitle = "Untitle";
+              }
 
 
-                  String userId = user.getUid(); //lấy UID của user hiện tại
-                  String noteID = mDatabase.push().getKey(); //tạo id cho note
-                  DatabaseReference databaseReference = mDatabase.child("User").child(userId).child("NoteList").child(noteID); //dẫn databaseRef tới note
-                  databaseReference.child("title").setValue(noteTitle);//set note's title
-                  databaseReference.child("text").setValue(noteTextContent);//set note's text
-                  databaseReference.child("remindTime").setValue(remindTime);
-                  databaseReference.child("inTrash").setValue(false);
-                  databaseReference.child("isPin").setValue(isPin);
-                  databaseReference.child("hasPassword").setValue(setPass.isChecked());
-                  databaseReference.child("password").setValue(pass);
+              String userId = user.getUid(); //lấy UID của user hiện tại
+              String noteID = mDatabase.push().getKey(); //tạo id cho note
+              DatabaseReference databaseReference = mDatabase.child("User").child(userId).child("NoteList").child(noteID); //dẫn databaseRef tới note
+              databaseReference.child("title").setValue(noteTitle);//set note's title
+              databaseReference.child("text").setValue(noteTextContent);//set note's text
+              databaseReference.child("remindTime").setValue(remindTime);
+              databaseReference.child("inTrash").setValue(false);
+              databaseReference.child("isPin").setValue(isPin);
+              databaseReference.child("hasPassword").setValue(setPass.isChecked());
+              databaseReference.child("password").setValue(pass);
 
-                  if(downloadImageUrl != null){
-                        databaseReference.child("image").setValue(downloadImageUrl);
-                  }else{
-                      databaseReference.child("image").setValue("");
-                  }
-                    databaseReference.child("image").addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            String imageLink = snapshot.getValue(String.class);
-                            Glide.with(getApplicationContext()).load(imageLink).into(binding.appImageView);
-                        }
+              if(downloadImageUrl != null){
+                    databaseReference.child("image").setValue(downloadImageUrl);
+              }else{
+                  databaseReference.child("image").setValue("");
+              }
+                databaseReference.child("image").addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        String imageLink = snapshot.getValue(String.class);
+                        Glide.with(getApplicationContext()).load(imageLink).into(binding.appImageView);
+                    }
 
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-                            return;
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        return;
 
-                        }
-                    });
+                    }
+                });
 
-                  finish();
+              finish();
 
-    //            String dateResult =  txtDate.getEditText().getText().toString() + txtTime.getEditText().getText().toString();
-    //
-    //
-    //            Events event = new Events(name,place,dateResult);
-    //
-    //            if(event == null){
-    //                Toast.makeText(this,"DO not have any event ",Toast.LENGTH_LONG);
-    //                return;
-    //            }else{
-    //                Intent intent = new Intent();
-    //                intent.putExtra("data",event);
-    //                setResult(1,intent);
-    //            }
-    //
-    //            finish();
+//            String dateResult =  txtDate.getEditText().getText().toString() + txtTime.getEditText().getText().toString();
+//
+//
+//            Events event = new Events(name,place,dateResult);
+//
+//            if(event == null){
+//                Toast.makeText(this,"DO not have any event ",Toast.LENGTH_LONG);
+//                return;
+//            }else{
+//                Intent intent = new Intent();
+//                intent.putExtra("data",event);
+//                setResult(1,intent);
+//            }
+//
+//            finish();
 
-            }
+        }
     }
 

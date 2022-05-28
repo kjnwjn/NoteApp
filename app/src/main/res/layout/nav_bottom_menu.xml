@@ -4,9 +4,7 @@
         android:layout_height="100dp"
         android:gravity="bottom"
         android:orientation="horizontal"
-        android:padding="15dp"
-
-        >
+        android:padding="15dp">
     <LinearLayout
         android:layout_height="wrap_content"
         android:layout_weight="1"

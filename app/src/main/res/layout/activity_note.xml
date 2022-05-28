@@ -3,8 +3,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".NoteActivity"
-    android:id="@+id/edit_note_RelativeLayout">
+    android:id="@+id/edit_note_RelativeLayout"
+    tools:context=".NoteActivity">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/scrollView_layout"
+        android:layout_marginBottom="80dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/action_bar_note_activity"
@@ -77,11 +89,45 @@
             android:text="Delete"
             android:visibility="gone"/>
     </LinearLayout>
+    <LinearLayout
+        android:id="@+id/videoGr"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/imageGr"
+        android:orientation="vertical"
+        android:layout_margin="10dp">
+
+        <VideoView
+            android:id="@+id/app_video_view"
+            android:layout_width="match_parent"
+            android:layout_height="230dp"
+            android:backgroundTint="@android:color/black"
+             />
+
+        <Button
+            android:id="@+id/btnDeleteVideo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Delete"/>
+        <Button
+            android:id="@+id/btnUploadVideo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Upload Video"/>
+        <ProgressBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:indeterminate="true"
+            android:indeterminateTint="@android:color/holo_purple"
+            android:visibility="invisible"
+            android:id="@+id/progressBar_forVideo"/>
+    </LinearLayout>
     <TextView
         android:id="@+id/titleTest"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/imageGr"
+        android:layout_below="@+id/videoGr"
         android:layout_marginTop="20dp"/>
     <TextView
         android:id="@+id/pinState"
@@ -132,30 +178,34 @@
         android:layout_below="@+id/layoutRemind"
         android:layout_marginTop="20dp"/>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_below="@+id/txtPass">
-        <EditText
-            android:id="@+id/editPass"
-            android:layout_width="0dp"
-            android:layout_weight="2"
-            android:layout_height="match_parent"
-            android:paddingLeft="15sp"
-            android:hint="Mật khẩu ghi chú"
-            android:inputType="textPassword"
-            android:textSize="16sp"
-            android:layout_below="@+id/contentText"
-            android:layout_marginTop="20dp"/>
-        <ToggleButton
-            android:id="@+id/setPass"
-            android:layout_weight="0.1"
-            android:layout_marginTop="10sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtPass"
+                android:orientation="horizontal">
 
-    </LinearLayout>
+                <EditText
+                    android:id="@+id/editPass"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/contentText"
+                    android:layout_marginTop="20dp"
+                    android:layout_weight="2"
+                    android:hint="Mật khẩu ghi chú"
+                    android:inputType="textPassword"
+                    android:paddingLeft="15sp"
+                    android:textSize="16sp" />
+
+                <ToggleButton
+                    android:id="@+id/setPass"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10sp"
+                    android:layout_weight="0.1" />
+
+            </LinearLayout>
+        </RelativeLayout>
+    </ScrollView>
 
     <include
         android:id="@+id/nav_bottom_menu"
