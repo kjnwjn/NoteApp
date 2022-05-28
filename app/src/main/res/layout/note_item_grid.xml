@@ -15,7 +15,15 @@
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="wrap_content"
+        android:paddingLeft="8sp"
         android:orientation="vertical">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_lock_24"
+            android:id="@+id/lockIcon"
+            android:layout_marginBottom="-10dp"
+            android:visibility="visible"></ImageView>
         <TextView
             android:id="@+id/title"
             android:layout_width="match_parent"
@@ -29,10 +37,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="nội dung note"/>
+
     </LinearLayout>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"
-        android:layout_weight="1"
+        android:layout_weight="0.2"
         android:layout_height="match_parent"
         android:orientation="vertical"
         >

@@ -97,8 +97,10 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.MyHolder> {
         holder.deleteBtn.setOnClickListener(view -> deleteNote(position));
         if(note.isHasPassword()){
             holder.content.setText("***");
+            holder.lockIcon.setVisibility(View.VISIBLE);
         }else{
             holder.content.setText(note.getText());
+            holder.lockIcon.setVisibility(View.GONE);
         }
         if(note.isPin()){
             holder.note_layout.setBackgroundResource(R.drawable.border_pin);
@@ -161,6 +163,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.MyHolder> {
         TextView title;
         LinearLayout noteContent;
         ImageView deleteBtn ;
+        ImageView lockIcon;
         LinearLayout note_layout;
         public MyHolder(@NonNull View itemView) {
             super(itemView);
@@ -169,6 +172,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.MyHolder> {
             content = itemView.findViewById(R.id.content);
             deleteBtn = itemView.findViewById(R.id.deleteBtn);
             note_layout = itemView.findViewById(R.id.note_layout);
+            lockIcon = itemView.findViewById(R.id.lockIcon);
         }
     }
 }
