@@ -16,12 +16,15 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 import android.util.*;
+import android.widget.ToggleButton;
 import android.widget.Toolbar;
 
 import androidx.activity.result.ActivityResult;
@@ -65,6 +68,8 @@ public class NoteActivity extends AppCompatActivity {
         private TextInputLayout note_title;
         private TextInputLayout note_text_content;
         private TextView pinState;
+        private EditText editPass;
+        private ToggleButton setPass;
         private ActivityNoteBinding binding;
         private TextView time_remind;
         private ImageView app_image_upload;
@@ -127,6 +132,8 @@ public class NoteActivity extends AppCompatActivity {
             note_title = binding.noteTitle;
             note_text_content = binding.noteTextContent;
             pinState = binding.pinState;
+            editPass = binding.editPass;
+            setPass = binding.setPass;
             time_remind = binding.timeRemind;
             app_image_upload = binding.navBottomMenu.appImageUpload;
             app_image_view = binding.appImageView;
@@ -310,9 +317,10 @@ public class NoteActivity extends AppCompatActivity {
 
             private void saveData() {
 
-                  String noteTitle = note_title.getEditText().getText().toString();
-                  String noteTextContent = note_text_content.getEditText().getText().toString();
+                  String noteTitle = note_title.getEditText().getText().toString().trim();
+                  String noteTextContent = note_text_content.getEditText().getText().toString().trim();
                   String remindTime = time_remind.getText().toString();
+                  String pass = editPass.getText().toString().trim();
 
                   if(noteTitle.isEmpty()){
                       noteTitle = "Untitle";
@@ -327,6 +335,8 @@ public class NoteActivity extends AppCompatActivity {
                   databaseReference.child("remindTime").setValue(remindTime);
                   databaseReference.child("inTrash").setValue(false);
                   databaseReference.child("isPin").setValue(isPin);
+                  databaseReference.child("hasPassword").setValue(setPass.isChecked());
+                  databaseReference.child("password").setValue(pass);
 
                   if(downloadImageUrl != null){
                         databaseReference.child("image").setValue(downloadImageUrl);

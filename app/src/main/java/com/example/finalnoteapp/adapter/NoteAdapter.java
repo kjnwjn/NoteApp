@@ -1,13 +1,20 @@
 package com.example.finalnoteapp.adapter;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.text.InputType;
+import android.text.method.PasswordTransformationMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
@@ -109,9 +116,31 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.MyHolder> {
     }
 
     private void editNote(Note note) {
-            Intent intent = new Intent(context.getContext(), EditNote.class);
-            intent.putExtra("note",note);
-            context.startActivityForResult(intent,12);
+            if(note.isHasPassword()){
+                final EditText inputText = new EditText(context.getActivity());
+                inputText.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                new AlertDialog.Builder(context.getActivity())
+                        .setTitle("Yêu cầu Password").setView(inputText)
+                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                String input = inputText.getText().toString();
+                                if(input.equals(note.getPassword())){
+                                    Intent intent = new Intent(context.getContext(), EditNote.class);
+                                    intent.putExtra("note",note);
+                                    context.startActivityForResult(intent,12);
+                                }else{
+                                    Toast.makeText(context.getActivity(), "Sai mật khẩu", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        }).show();
+                return;
+            }else {
+                Intent intent = new Intent(context.getContext(), EditNote.class);
+                intent.putExtra("note",note);
+                context.startActivityForResult(intent,12);
+            }
+
     }
 
     @Override
