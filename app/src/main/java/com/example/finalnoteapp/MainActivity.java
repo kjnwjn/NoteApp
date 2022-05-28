@@ -3,6 +3,10 @@
 
 package com.example.finalnoteapp;
 
+import static com.example.finalnoteapp.fragment.HomeFragment.noteAdapter;
+import static com.example.finalnoteapp.fragment.HomeFragment.notes;
+import static com.example.finalnoteapp.fragment.HomeFragment.recyclerView;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,15 +22,19 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.finalnoteapp.adapter.NoteAdapter;
 import com.example.finalnoteapp.data.Note;
 import com.example.finalnoteapp.databinding.ActivityMainBinding;
 import com.example.finalnoteapp.databinding.LayoutHeaderNavBinding;
@@ -43,6 +51,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity  implements NavigationView.OnNavigationItemSelectedListener {
     private static final int FRAGMENT_HOME = 0;
@@ -97,6 +108,45 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
         nav = findViewById(R.id.navigation_view);
         nav.getMenu().findItem(R.id.app_note).setChecked(true);
         nav.setNavigationItemSelectedListener(this);
+
+        List<Note> tempArrayList = new ArrayList<>();
+        EditText editText = toolbar.findViewById(R.id.search);
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                int textLength = charSequence.length();
+                tempArrayList.clear();
+                for(Note c: notes){
+                    if (textLength <= c.getTitle().length()) {
+                        if (c.getTitle().toLowerCase().contains(charSequence.toString().toLowerCase())) {
+                            tempArrayList.add(c);
+                        }
+                    }
+                    if (textLength <= c.getText().length()) {
+                        if (c.getText().toLowerCase().contains(charSequence.toString().toLowerCase())) {
+                            tempArrayList.add(c);
+                        }
+                    }
+                    if (textLength == 0){
+                        noteAdapter = new NoteAdapter(noteAdapter.context, notes);
+                        recyclerView.setAdapter(noteAdapter);
+                        return;
+                    }
+                }
+                noteAdapter = new NoteAdapter(noteAdapter.context, tempArrayList);
+                recyclerView.setAdapter(noteAdapter);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
 
 
     }
@@ -166,7 +216,7 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
 //            mCurrentTypeDisplay =  Note.TYPE_GRID;
 //            TrashbinFragment.recyclerView.setLayoutManager(TrashbinFragment.mGridLayoutManager);
         }
-        HomeFragment.noteAdapter.notifyDataSetChanged();
+        noteAdapter.notifyDataSetChanged();
 //        TrashbinFragment.noteDeletedAdapter.notifyDataSetChanged();
         setIconToolbar();
 

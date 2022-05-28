@@ -15,6 +15,7 @@
             android:fitsSystemWindows="true"
             android:background="@color/color_primary">
             <EditText
+                android:id="@+id/search"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:hint="Tìm kiếm ghi chú"

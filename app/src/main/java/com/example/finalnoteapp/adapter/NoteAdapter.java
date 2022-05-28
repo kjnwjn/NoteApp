@@ -44,8 +44,8 @@ import java.util.List;
 public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.MyHolder> {
 
 
-    private HomeFragment context;
-    private List<Note> notes;
+    public HomeFragment context;
+    public List<Note> notes;
     private TrashbinFragment contextTrashbin;
     DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
