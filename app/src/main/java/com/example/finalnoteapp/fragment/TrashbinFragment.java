@@ -40,6 +40,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -98,6 +99,22 @@ public class TrashbinFragment extends Fragment {
 
                 }
 //                Log.d("tag", String.valueOf(snapshot.getValue()));
+                Collections.sort(notes, new Comparator<Note>() {
+                    @Override
+                    public int compare(Note note, Note t1) {
+                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+                        String strDate1 = note.getDateInTrash();
+                        String strDate2 = t1.getDateInTrash();
+                        try {
+                            Date date1 = simpleDateFormat.parse(strDate1);
+                            Date date2 = simpleDateFormat.parse(strDate2);
+                            return date1.compareTo(date2);
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        return 0;
+                    }
+                });
                 Collections.reverse(notes);
                 noteDeletedAdapter = new NoteDeletedAdapter(TrashbinFragment.this,notes);
                 mGridLayoutManager = new GridLayoutManager(getContext(),2);
