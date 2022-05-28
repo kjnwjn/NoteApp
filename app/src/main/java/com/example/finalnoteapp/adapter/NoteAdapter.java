@@ -91,10 +91,15 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.MyHolder> {
         if(note == null){
             return;
         }
-        holder.content.setText(note.getText());
+
         holder.title.setText(note.getTitle());
         holder.noteContent.setOnClickListener(view -> editNote(note));
         holder.deleteBtn.setOnClickListener(view -> deleteNote(position));
+        if(note.isHasPassword()){
+            holder.content.setText("***");
+        }else{
+            holder.content.setText(note.getText());
+        }
         if(note.isPin()){
             holder.note_layout.setBackgroundResource(R.drawable.border_pin);
         }
