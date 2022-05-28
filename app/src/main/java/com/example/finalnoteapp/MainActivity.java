@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
         nav.getMenu().findItem(R.id.app_note).setChecked(true);
         nav.setNavigationItemSelectedListener(this);
 
-        List<Note> tempArrayList = new ArrayList<>();
+        List<Note> tempList = new ArrayList<>();
         EditText editText = toolbar.findViewById(R.id.search);
         editText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -120,19 +120,19 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 int textLength = charSequence.length();
-                tempArrayList.clear();
+                tempList.clear();
                 for(Note note: notes){
                     if (textLength <= note.getTitle().length()) {
                         if (note.getTitle().toLowerCase().contains(charSequence.toString().toLowerCase())) {
-                            if(!tempArrayList.contains(note)){
-                                tempArrayList.add(note);
+                            if(!tempList.contains(note)){
+                                tempList.add(note);
                             };
                         }
                     }
                     if (textLength <= note.getText().length()) {
                         if (note.getText().toLowerCase().contains(charSequence.toString().toLowerCase())) {
-                            if(!tempArrayList.contains(note)){
-                                tempArrayList.add(note);
+                            if(!tempList.contains(note)){
+                                tempList.add(note);
                             }
                         }
                     }
@@ -142,7 +142,7 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
                         return;
                     }
                 }
-                noteAdapter = new NoteAdapter(noteAdapter.context, tempArrayList);
+                noteAdapter = new NoteAdapter(noteAdapter.context, tempList);
                 recyclerView.setAdapter(noteAdapter);
             }
 
