@@ -179,10 +179,10 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
         inflater.inflate(R.menu.menu, menu);
 
         // below line is to get our menu item.
-        MenuItem searchItem = menu.findItem(R.id.actionSearch);
+        //MenuItem searchItem = menu.findItem(R.id.actionSearch);
 
         // getting search view of our item.
-        SearchView searchView = (SearchView) searchItem.getActionView();
+        //SearchView searchView = (SearchView) searchItem.getActionView();
 
         this.mMenu = menu;
         // below line is to call set on query text listener method.
@@ -192,9 +192,6 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.actionSearch:
-                Toast.makeText(this, "view was changed", Toast.LENGTH_SHORT).show();
-                break;
             case R.id.view:
                 onChangeTypeDisplay();
                 break;

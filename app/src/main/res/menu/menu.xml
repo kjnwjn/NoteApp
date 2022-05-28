@@ -10,7 +10,8 @@
         android:icon="@drawable/ic_baseline_search_24"
         android:title=""
         app:actionViewClass="androidx.appcompat.widget.SearchView"
-        app:showAsAction="ifRoom|collapseActionView"></item>
+        app:showAsAction="ifRoom|collapseActionView"
+        android:visible="false"></item>
     <item
         android:id="@+id/view"
         android:icon="@drawable/ic_baseline_grid_view_24"
@@ -19,7 +20,8 @@
     <item android:id="@+id/account"
         android:icon="@drawable/ic_baseline_account_circle_24"
         android:title="profile"
-        app:showAsAction="ifRoom|collapseActionView"></item>
+        app:showAsAction="ifRoom|collapseActionView"
+        android:visible="false"></item>
 
 
 </menu>
