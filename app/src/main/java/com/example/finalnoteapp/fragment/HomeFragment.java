@@ -134,6 +134,7 @@ public class HomeFragment extends Fragment {
                         String text = String.valueOf(childSnapshot.child("text").getValue());
                         String title = String.valueOf(childSnapshot.child("title").getValue());
                         String remindTime = String.valueOf(childSnapshot.child("remindTime").getValue());
+                        String password = String.valueOf(childSnapshot.child("password").getValue());
                         boolean hasPass;
                         if (childSnapshot.child("hasPassword").getValue() != null){
                             hasPass = (boolean) childSnapshot.child("hasPassword").getValue();
@@ -143,12 +144,15 @@ public class HomeFragment extends Fragment {
                         if(remindTime == "null"){
                             remindTime = "";
                         }
+                        if(password == "null"){
+                            password = "";
+                        }
                         String noteId = String.valueOf(childSnapshot.getKey());
                         boolean isPin;
                         if (childSnapshot.child("isPin").getValue() != null){
                             isPin = (boolean) childSnapshot.child("isPin").getValue();
                             if(isPin){
-                                notes.add(new Note(noteId, title,text,null,null,null,null, isPin, hasPass,null, remindTime,false,null));
+                                notes.add(new Note(noteId, title,text,null,null,null,null, isPin, hasPass,password, remindTime,false,null));
                             }
                         }
                     }
