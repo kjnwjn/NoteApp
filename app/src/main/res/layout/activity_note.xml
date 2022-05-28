@@ -5,19 +5,6 @@
     android:layout_height="match_parent"
     android:id="@+id/edit_note_RelativeLayout"
     tools:context=".NoteActivity">
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/scrollView_layout"
-        android:layout_marginBottom="80dp">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-
-
-
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/action_bar_note_activity"
         android:layout_width="match_parent"
@@ -35,12 +22,21 @@
 
 
     </com.google.android.material.appbar.AppBarLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/scrollView_layout"
+        android:layout_marginBottom="80dp"
+        android:layout_below="@+id/action_bar_note_activity">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/note_title"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/action_bar_note_activity">
+        android:layout_height="wrap_content">
 
 
         <com.google.android.material.textfield.TextInputEditText
@@ -119,7 +115,7 @@
             android:layout_height="wrap_content"
             style="@style/Widget.AppCompat.ProgressBar.Horizontal"
             android:indeterminate="true"
-            android:indeterminateTint="@android:color/holo_purple"
+            android:indeterminateTint="@android:color/holo_orange_dark"
             android:visibility="invisible"
             android:id="@+id/progressBar_forVideo"/>
     </LinearLayout>

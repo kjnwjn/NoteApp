@@ -23,12 +23,21 @@
 
 
     </com.google.android.material.appbar.AppBarLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/scrollView_layout"
+        android:layout_marginBottom="80dp"
+        android:layout_below="@+id/action_bar_note_activity">
 
-    <com.google.android.material.textfield.TextInputLayout
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/note_title"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/action_bar_note_activity">
+        android:layout_height="wrap_content">
 
 
         <com.google.android.material.textfield.TextInputEditText
@@ -75,12 +84,45 @@
             android:layout_weight="1"
             android:text="Delete" />
     </LinearLayout>
+    <LinearLayout
+        android:id="@+id/videoGr"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/imageGr"
+        android:orientation="vertical"
+        android:layout_margin="10dp">
 
+        <VideoView
+            android:id="@+id/app_video_view"
+            android:layout_width="match_parent"
+            android:layout_height="230dp"
+            android:backgroundTint="@android:color/black"
+            />
+
+        <Button
+            android:id="@+id/btnDeleteVideo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Delete"/>
+        <Button
+            android:id="@+id/btnUploadVideo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Upload Video"/>
+        <ProgressBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:indeterminate="true"
+            android:indeterminateTint="@android:color/holo_orange_dark"
+            android:visibility="invisible"
+            android:id="@+id/progressBar_forVideo"/>
+    </LinearLayout>
     <TextView
         android:id="@+id/titleTest_deleted"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/imageGr"
+        android:layout_below="@+id/videoGr"
         android:layout_marginTop="20dp"/>
     <TextView
         android:id="@+id/pinState"
@@ -166,7 +208,8 @@
             android:layout_height="wrap_content" />
 
     </LinearLayout>
-
+        </RelativeLayout>
+    </ScrollView>
 
 
     <include

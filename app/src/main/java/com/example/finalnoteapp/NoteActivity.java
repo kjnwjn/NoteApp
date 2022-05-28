@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -14,10 +15,12 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -44,6 +47,8 @@ import androidx.core.app.ActivityCompat;
 import com.bumptech.glide.Glide;
 import com.example.finalnoteapp.databinding.ActivityNoteBinding;
 import com.example.finalnoteapp.fragment.HomeFragment;
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -91,6 +96,8 @@ public class NoteActivity extends AppCompatActivity {
         private ProgressBar progressBar;
         private Uri videoUri;
         MediaController mediaController;
+        private UploadTask uploadTask;
+        private Uri  downloadVideoUrl;
 
 
         private ActivityResultLauncher<Intent> mActivityResultLauncher = registerForActivityResult(
@@ -140,13 +147,14 @@ public class NoteActivity extends AppCompatActivity {
         }
 
         private void initViews() {
+            downloadVideoUrl = null;
             note_title = binding.noteTitle;
             note_text_content = binding.noteTextContent;
             pinState = binding.pinState;
             editPass = binding.editPass;
             setPass = binding.setPass;
             time_remind = binding.timeRemind;
-            app_image_upload = binding.navBottomMenu.appImageUpload;
+            app_image_upload = findViewById(R.id.app_image_upload);
             app_image_view = binding.appImageView;
             app_image_upload.setOnClickListener(view -> onClickRequestPermission());
             binding.btnDeleteRemind.setOnClickListener(view -> {
@@ -165,12 +173,13 @@ public class NoteActivity extends AppCompatActivity {
 //            Video element
             videoView = binding.appVideoView;
             progressBar = binding.progressBarForVideo;
-
-            binding.btnUploadVideo.setOnClickListener(view -> chooseVideo(view));
+            ImageView appDraw = findViewById(R.id.app_draw);
+            appDraw.setOnClickListener(view -> chooseVideo(view));
+            binding.btnUploadVideo.setOnClickListener(view -> uploadvideo());
 
         }
 //        Video method handler
-        public void chooseVideo(View view){
+        private void chooseVideo(View view){
             Intent i = new Intent();
             i.setType("video/*");
             i.setAction(Intent.ACTION_GET_CONTENT);
@@ -363,6 +372,45 @@ public class NoteActivity extends AppCompatActivity {
                         }
                     });
         }
+        private String getExt(Uri uri){
+            ContentResolver contentResolver = getContentResolver();
+            MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
+            return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
+        }
+        private void uploadvideo(){
+            if(videoUri != null){
+                progressBar.setVisibility(View.VISIBLE);
+                StorageReference videoref = storageReference.child("video");
+                StorageReference videoRefVal = videoref.child(System.currentTimeMillis()+ "." + getExt(videoUri));
+                uploadTask = videoRefVal.putFile(videoUri);
+                Task<Uri> uniTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                    @Override
+                    public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                        if(!task.isSuccessful()){
+                            throw task.getException();
+                        }
+                        return videoRefVal.getDownloadUrl();
+                    }
+                })
+                        .addOnCompleteListener(new OnCompleteListener<Uri>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Uri> task) {
+                                if(task.isSuccessful()){
+                                    downloadVideoUrl = task.getResult();
+                                    Log.e("urlvideo", "msg: "+ downloadVideoUrl.toString());
+                                    progressBar.setVisibility(View.INVISIBLE);
+                                    Toast.makeText(NoteActivity.this, "Data save", Toast.LENGTH_SHORT).show();
+                                }else{
+                                    Toast.makeText(NoteActivity.this, "Data save failed", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+
+            }else{
+                Toast.makeText(NoteActivity.this, "All field are require", Toast.LENGTH_SHORT).show();
+
+            }
+        }
 
 
     @Override
@@ -399,11 +447,19 @@ public class NoteActivity extends AppCompatActivity {
               databaseReference.child("hasPassword").setValue(setPass.isChecked());
               databaseReference.child("password").setValue(pass);
 
+
               if(downloadImageUrl != null){
                     databaseReference.child("image").setValue(downloadImageUrl);
               }else{
                   databaseReference.child("image").setValue("");
               }
+              if(downloadVideoUrl ==null){
+                  databaseReference.child("video").setValue("");
+
+              }else{
+                  databaseReference.child("video").setValue(downloadVideoUrl.toString());
+              }
+
                 databaseReference.child("image").addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -417,6 +473,7 @@ public class NoteActivity extends AppCompatActivity {
 
                     }
                 });
+
 
               finish();
 
