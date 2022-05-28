@@ -121,15 +121,19 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 int textLength = charSequence.length();
                 tempArrayList.clear();
-                for(Note c: notes){
-                    if (textLength <= c.getTitle().length()) {
-                        if (c.getTitle().toLowerCase().contains(charSequence.toString().toLowerCase())) {
-                            tempArrayList.add(c);
+                for(Note note: notes){
+                    if (textLength <= note.getTitle().length()) {
+                        if (note.getTitle().toLowerCase().contains(charSequence.toString().toLowerCase())) {
+                            if(!tempArrayList.contains(note)){
+                                tempArrayList.add(note);
+                            };
                         }
                     }
-                    if (textLength <= c.getText().length()) {
-                        if (c.getText().toLowerCase().contains(charSequence.toString().toLowerCase())) {
-                            tempArrayList.add(c);
+                    if (textLength <= note.getText().length()) {
+                        if (note.getText().toLowerCase().contains(charSequence.toString().toLowerCase())) {
+                            if(!tempArrayList.contains(note)){
+                                tempArrayList.add(note);
+                            }
                         }
                     }
                     if (textLength == 0){
