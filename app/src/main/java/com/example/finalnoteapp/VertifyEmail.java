@@ -13,18 +13,21 @@ import com.example.finalnoteapp.databinding.ActivityVertifyEmailBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class VertifyEmail extends AppCompatActivity {
 
     private ActivityVertifyEmailBinding binding;
     FirebaseAuth auth;
     private ProgressDialog progressDialog;
+    FirebaseUser user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityVertifyEmailBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         initView();
+        user = FirebaseAuth.getInstance().getCurrentUser();
 
     }
 

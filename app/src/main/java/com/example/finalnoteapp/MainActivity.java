@@ -50,6 +50,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -73,6 +74,8 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
     private Toolbar toolbar;
     private NavigationView nav;
     private Menu mMenu;
+    private DatabaseReference databaseReference;
+    private FirebaseUser user;
 
 
     @Override
@@ -81,19 +84,23 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         initView();
-
+        user = FirebaseAuth.getInstance().getCurrentUser();
         mDrawerLayout = binding.drawerLayout;
         auth = FirebaseAuth.getInstance();
         if (!auth.getCurrentUser().isEmailVerified()) {
             binding.appBarMain.contentMain.verify.setVisibility(View.VISIBLE);
+        }else{
+            binding.appBarMain.contentMain.verify.setVisibility(View.GONE);
         }
         binding.appBarMain.contentMain.verify.setOnClickListener(view -> {
             progressDialog.show();
             auth = FirebaseAuth.getInstance();
             auth.getCurrentUser().sendEmailVerification().addOnCompleteListener((OnCompleteListener<Void>) unused -> {
-                progressDialog.dismiss();
-                Toast.makeText(this, "Verify Email successfully!", Toast.LENGTH_SHORT).show();
-                binding.appBarMain.contentMain.verify.setVisibility(View.GONE);
+
+                    progressDialog.dismiss();
+                    Toast.makeText(this, "Verify Email successfully!", Toast.LENGTH_SHORT).show();
+                    binding.appBarMain.contentMain.verify.setVisibility(View.GONE);
+
             });
         });
         showUserInfo();
