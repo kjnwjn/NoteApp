@@ -235,7 +235,7 @@ public class EditNote extends AppCompatActivity {
     }
 
     private void deleteVideo(View view) {
-        videoView.setVideoURI(null);
+        databaseReference.child("video").setValue("");
     }
 
     public void setPinStateText(){
