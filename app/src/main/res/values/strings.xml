@@ -22,4 +22,17 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="Profile">Profile</string>
     <string name="logout">Logout</string>
+    <!-- Strings used for spinner for auto delete -->
+    <string-array name="time">
+        <item>7 ngày</item>
+        <item>14 ngày</item>
+        <item>30 ngày</item>
+        <item>15s</item>
+    </string-array>
+    <string-array name="sound">
+        <item>Rain forest</item>
+        <item>Savana</item>
+        <item>Australia</item>
+        <item>The Artic</item>
+    </string-array>
 </resources>

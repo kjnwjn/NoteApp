@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@android:color/black"
+    android:background="@android:color/white"
     android:orientation="vertical"
     android:paddingTop="20dp"
     android:paddingLeft="10dp">
@@ -24,7 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:text="Setting"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="40dp"
             android:paddingLeft="10dp"
             android:layout_toRightOf="@id/icon_setting"
@@ -51,14 +51,14 @@
             android:layout_height="30dp"
             android:layout_margin="5dp"
             android:text="Thiết lập font chữ"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="20dp" />
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:src="@drawable/ic_baseline_arrow_forward_ios"
+            android:src="@drawable/ic_baseline_arrow_forward_ios_24"
             android:paddingRight="20dp"
             android:paddingTop="8dp"/>
     </RelativeLayout>
@@ -73,12 +73,12 @@
             android:layout_margin="5dp"
             android:text="Thiết lập thời gian ghi chú tự xóa"
             android:textSize="20dp"
-            android:textColor="@color/white" />
+            android:textColor="@color/black" />
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:src="@drawable/ic_baseline_arrow_forward_ios"
+            android:src="@drawable/ic_baseline_arrow_forward_ios_24"
             android:paddingRight="20dp"
             android:paddingTop="8dp"/>
     </RelativeLayout>
@@ -93,12 +93,12 @@
             android:layout_margin="5dp"
             android:text="Thay đổi âm thanh thông báo"
             android:textSize="20dp"
-            android:textColor="@color/white" />
+            android:textColor="@color/black" />
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:src="@drawable/ic_baseline_arrow_forward_ios"
+            android:src="@drawable/ic_baseline_arrow_forward_ios_24"
             android:paddingRight="20dp"
             android:paddingTop="8dp"/>
     </RelativeLayout>
@@ -125,7 +125,7 @@
             android:layout_height="30dp"
             android:text="Đổi mật khẩu"
             android:textSize="20dp"
-            android:textColor="@color/white" />
+            android:textColor="@color/black" />
     </RelativeLayout>
 
 

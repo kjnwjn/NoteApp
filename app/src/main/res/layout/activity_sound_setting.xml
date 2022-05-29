@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:paddingTop="20dp"
+    android:paddingLeft="10dp">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/label"
+        app:layout_constraintTop_toTopOf="parent">
+        <ImageView
+            android:layout_width="33dp"
+            android:layout_height="42dp"
+            android:src="@drawable/ic_baseline_notifications"
+            android:layout_alignParentLeft="true"
+            android:id="@+id/icon_notification"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_toRightOf="@id/icon_notification"
+            android:paddingLeft="10dp"
+            android:text="Thay đổi âm thanh thông báo"
+            android:textColor="@color/black"
+            android:textSize="26dp"
+            android:paddingTop="3dp"/>
+    </RelativeLayout>
+    <TextView
+        app:layout_constraintTop_toBottomOf="@id/label"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:gravity="fill"
+        android:layout_marginTop="10dp"
+        android:text="Tùy chọn âm báo"
+        android:textColor="@color/dodgerblue"
+        android:textSize="18dp"
+        android:id="@+id/hienthi" />
+    <RelativeLayout
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/hienthi"
+        android:id="@+id/font">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:text="Chọn âm báo"
+            android:textColor="@color/black"
+            android:textSize="20dp" />
+
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:paddingTop="38dp"
+            android:paddingRight="20dp" />
+    </RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

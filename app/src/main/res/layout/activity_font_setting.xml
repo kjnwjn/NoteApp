@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fontSetting"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:paddingTop="20dp"
+    android:paddingLeft="10dp">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/label"
+        app:layout_constraintTop_toTopOf="parent">
+        <ImageView
+            android:layout_width="33dp"
+            android:layout_height="44dp"
+            android:src="@drawable/ic_baseline_font_download_24"
+            android:layout_alignParentLeft="true"
+            android:id="@+id/icon_font"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="Thiết lập font chữ"
+            android:textColor="@color/black"
+            android:textSize="30dp"
+            android:paddingLeft="10dp"
+            android:layout_toRightOf="@id/icon_font"
+            />
+    </RelativeLayout>
+    <TextView
+        app:layout_constraintTop_toBottomOf="@id/label"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:gravity="fill"
+        android:layout_marginTop="10dp"
+        android:text="Cỡ font"
+        android:textColor="@color/dodgerblue"
+        android:textSize="18dp"
+        android:id="@+id/hienthi" />
+    <com.google.android.material.slider.Slider
+        android:id="@+id/slider"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:valueFrom="0.0"
+        android:valueTo="100.0"
+        app:layout_constraintTop_toBottomOf="@+id/hienthi"
+        tools:ignore="MissingConstraints" />
+</androidx.constraintlayout.widget.ConstraintLayout>

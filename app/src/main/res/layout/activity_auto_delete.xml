@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:paddingTop="20dp"
+    android:paddingLeft="10dp">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/label"
+        app:layout_constraintTop_toTopOf="parent">
+        <ImageView
+            android:layout_width="33dp"
+            android:layout_height="44dp"
+            android:src="@drawable/ic_baseline_delete_24"
+            android:layout_alignParentLeft="true"
+            android:id="@+id/icon_trash"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="Thiết lập ghi chú tự xóa"
+            android:textColor="@color/black"
+            android:textSize="30dp"
+            android:paddingLeft="10dp"
+            android:layout_toRightOf="@id/icon_trash"
+            />
+    </RelativeLayout>
+    <TextView
+        app:layout_constraintTop_toBottomOf="@id/label"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:gravity="fill"
+        android:layout_marginTop="10dp"
+        android:text="Tùy chọn thời gian"
+        android:textColor="@color/dodgerblue"
+        android:textSize="18dp"
+        android:id="@+id/hienthi" />
+    <RelativeLayout
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/hienthi"
+        android:id="@+id/font">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_margin="5dp"
+            android:text="Thời gian tự động xóa"
+            android:textColor="@color/black"
+            android:textSize="20dp" />
+
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:paddingTop="38dp"
+            android:paddingRight="20dp" />
+    </RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

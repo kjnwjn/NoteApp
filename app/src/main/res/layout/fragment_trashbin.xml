@@ -5,7 +5,7 @@
     tools:context="com.example.finalnoteapp.MainActivity"
     android:background="@color/white">
 
-    <!-- TODO: Update blank fragment layout -->
+
 
 
     <LinearLayout

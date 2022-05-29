@@ -14,6 +14,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FinalNoteApp">
         <activity
+            android:name=".fontSetting"
+            android:exported="false" />
+        <activity
+            android:name=".AutoDeleteActivity"
+            android:exported="false" />
+        <activity
             android:name=".NoteDeletedDetail"
             android:exported="false" />
         <activity
