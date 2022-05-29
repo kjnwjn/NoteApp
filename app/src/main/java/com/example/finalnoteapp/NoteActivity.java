@@ -238,39 +238,10 @@ public class NoteActivity extends AppCompatActivity {
                 case R.id.pin:
                     pin();
                     break;
-                case R.id.shareItem:
-                    shareItem();
-                    break;
             }
             return super.onOptionsItemSelected(item);
         }
 
-        private void shareItem() {
-            String noteTitle = note_title.getEditText().getText().toString().trim();
-            String noteTextContent = note_text_content.getEditText().getText().toString().trim();
-
-            Drawable drawable = app_image_view.getDrawable();
-            Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
-            String path = MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, null, null);
-            Uri uri = Uri.parse(path);
-
-            if(noteTitle.isEmpty()){
-                noteTitle = "Untitle";
-            }
-            if(noteTextContent.isEmpty()){
-                noteTextContent = "";
-            }
-            Intent send = new Intent();
-            send.setAction(Intent.ACTION_SEND);
-            send.setType("*/*");
-            send.putExtra(Intent.EXTRA_TEXT, noteTitle+": "+noteTextContent);
-            send.putExtra(Intent.EXTRA_SUBJECT, noteTitle);
-            if(binding.imageGr.getVisibility() == View.VISIBLE){
-                send.putExtra(Intent.EXTRA_STREAM, uri);
-            }
-            Intent share = Intent.createChooser(send, "Share note");
-            startActivity(share);
-        }
 
         private void pin() {
                 if(isPin){
