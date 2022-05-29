@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -72,8 +73,28 @@ public class HomeFragment extends Fragment {
     private void initView(View view) {
         btnAdd = view.findViewById(binding.fltbtn.getId());
         btnAdd.setOnClickListener(view1 -> {
-            Intent intent = new Intent(getContext(), NoteActivity.class);
-            startActivityForResult(intent,1);
+            DatabaseReference activeRef = mDatabase.child("User").child(userId).child("active");
+            activeRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    String active = "true";
+                    if (snapshot.getValue() != null){
+                        active = snapshot.getValue().toString();
+                    }
+                    if(active == "false" && noteAdapter.getItemCount() > 4){
+                        Toast.makeText(getContext(), "Yêu cầu kích hoạt tài khoản", Toast.LENGTH_SHORT).show();
+                    }else{
+                        Intent intent = new Intent(getContext(), NoteActivity.class);
+                        startActivityForResult(intent,1);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
         });
 
     }
