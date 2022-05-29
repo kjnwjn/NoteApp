@@ -18,13 +18,15 @@
             android:exported="false" />
         <activity
             android:name=".EditNote"
-            android:exported="false" />
+            android:exported="false"
+            android:hardwareAccelerated="false"/>
         <activity
             android:name=".TagActivity"
             android:exported="false" />
         <activity
             android:name=".NoteActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:hardwareAccelerated="false"/>
         <activity
             android:name=".VertifyEmail"
             android:exported="false" />
