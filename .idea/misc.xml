@@ -35,6 +35,7 @@
         <entry key="..\:/Users/admin/AndroidStudioProjects/FinalNoteApp/app/src/main/res/layout/activity_vertify_email.xml" value="0.25" />
         <entry key="..\:/Users/admin/AndroidStudioProjects/FinalNoteApp/app/src/main/res/layout/app_bar_main.xml" value="0.18840579710144928" />
         <entry key="..\:/Users/admin/AndroidStudioProjects/FinalNoteApp/app/src/main/res/layout/content_main.xml" value="0.5" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/FinalNoteApp/app/src/main/res/layout/fragment_change_password.xml" value="0.18958333333333333" />
         <entry key="..\:/Users/admin/AndroidStudioProjects/FinalNoteApp/app/src/main/res/layout/fragment_home.xml" value="0.16032608695652173" />
         <entry key="..\:/Users/admin/AndroidStudioProjects/FinalNoteApp/app/src/main/res/layout/fragment_new_reminder.xml" value="0.16032608695652173" />
         <entry key="..\:/Users/admin/AndroidStudioProjects/FinalNoteApp/app/src/main/res/layout/fragment_reminder.xml" value="0.16032608695652173" />
@@ -55,6 +56,7 @@
         <entry key="..\:/Users/admin/AndroidStudioProjects/FinalNoteApp/app/src/main/res/menu/bottom_nav_menu.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/admin/AndroidStudioProjects/FinalNoteApp/app/src/main/res/menu/edit_tag_menu.xml" value="0.22" />
         <entry key="..\:/Users/admin/AndroidStudioProjects/FinalNoteApp/app/src/main/res/menu/menu.xml" value="0.2" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/FinalNoteApp/app/src/main/res/menu/menu_change_pass.xml" value="0.20364583333333333" />
         <entry key="..\:/Users/admin/AndroidStudioProjects/FinalNoteApp/app/src/main/res/menu/menu_deleted_note_toolbar.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/admin/AndroidStudioProjects/FinalNoteApp/app/src/main/res/menu/menu_nav.xml" value="0.2" />
         <entry key="..\:/Users/admin/AndroidStudioProjects/FinalNoteApp/app/src/main/res/menu/menu_note_details.xml" value="0.20416666666666666" />

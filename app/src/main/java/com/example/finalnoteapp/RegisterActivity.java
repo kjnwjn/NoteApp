@@ -139,7 +139,7 @@ public class RegisterActivity extends AppCompatActivity {
         if(isValidEmail(email) == false | email == null){
             binding.email.setError("Invalid email");
             return false;
-        }else if(password.length() < 6 | password.length() == 0){
+        }else if(password.length() < 6){
             binding.password.setError("Password must be at least 6 character");
             return false;
         }else if(!password.equals(confirmPassword)){

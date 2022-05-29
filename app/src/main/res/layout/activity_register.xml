@@ -63,15 +63,16 @@
         android:background="#84a2f1"
         android:drawableLeft="@drawable/ic_password"
         android:drawablePadding="15dp"/>
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnRegister"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ConfirmPassword"
-        android:text="Register"
+        android:layout_centerHorizontal="true"
         android:backgroundTint="@color/white"
-        android:textColor="@color/black"
-        android:layout_centerHorizontal="true"/>
+        android:text="Register"
+        android:textColor="@color/black" />
 
     <TextView
         android:id="@+id/loginPage"

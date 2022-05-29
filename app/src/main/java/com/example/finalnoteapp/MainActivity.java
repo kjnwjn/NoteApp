@@ -38,6 +38,7 @@ import com.example.finalnoteapp.adapter.NoteAdapter;
 import com.example.finalnoteapp.data.Note;
 import com.example.finalnoteapp.databinding.ActivityMainBinding;
 import com.example.finalnoteapp.databinding.LayoutHeaderNavBinding;
+import com.example.finalnoteapp.fragment.ChangePasswordFragment;
 import com.example.finalnoteapp.fragment.HomeFragment;
 import com.example.finalnoteapp.fragment.NewReminderFragment;
 import com.example.finalnoteapp.fragment.ReminderFragment;
@@ -63,6 +64,7 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
     private static final int FRAGMENT_TRANSBIN = 3;
     private static final int FRAGMENT_SETTING = 4;
     private static final int FRAGMENT_SAVING_NOTE = 5;
+    private static final int FRAGMENT_CHANGE_PASSWORD = 6;
 
 
     private int mCurrentFragment = FRAGMENT_HOME;
@@ -96,11 +98,10 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
             progressDialog.show();
             auth = FirebaseAuth.getInstance();
             auth.getCurrentUser().sendEmailVerification().addOnCompleteListener((OnCompleteListener<Void>) unused -> {
-
-                    progressDialog.dismiss();
-                    Toast.makeText(this, "Verify Email successfully!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Check your email now!", Toast.LENGTH_SHORT).show();
                     binding.appBarMain.contentMain.verify.setVisibility(View.GONE);
-
+                    gotoLogin();
+                progressDialog.dismiss();
             });
         });
         showUserInfo();
@@ -163,6 +164,11 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
         });
 
 
+    }
+    private void gotoLogin() {
+        Intent i = new Intent(this,LoginActivity.class);
+        startActivity(i);
+        finishAffinity();
     }
 
     private void showUserInfo() {
@@ -282,6 +288,12 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
                 if(mCurrentFragment != FRAGMENT_SETTING){
                     replaceFragment(new SettingFragment(),"FRAGMENT_SETTING");
                     mCurrentFragment = FRAGMENT_SETTING;
+                }
+                break;
+            case R.id.changePassword:
+                if(mCurrentFragment != FRAGMENT_CHANGE_PASSWORD){
+                    replaceFragment(new ChangePasswordFragment(),"FRAGMENT_CHANGE_PASSWORD");
+                    mCurrentFragment = FRAGMENT_CHANGE_PASSWORD;
                 }
                 break;
             case R.id.logout:

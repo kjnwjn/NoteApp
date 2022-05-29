@@ -26,6 +26,9 @@
                 <item android:id="@+id/app_profile"
                     android:title="@string/Profile"
                     android:icon="@drawable/ic_baseline_grid_view_24"/>
+                <item android:id="@+id/changePassword"
+                    android:title="Change Password"
+                    android:icon="@drawable/ic_key"/>
                 <item android:id="@+id/logout"
                     android:title="@string/logout"
                     android:icon="@drawable/ic_return"/>

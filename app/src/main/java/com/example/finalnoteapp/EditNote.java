@@ -10,8 +10,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.ContentResolver;
@@ -94,8 +96,12 @@ public class EditNote extends AppCompatActivity {
     private String userId;
     private  String noteID ;
     DatabaseReference databaseReference;
+    private Calendar date;
+    private PendingIntent alarmIntent;
+    private AlarmManager alarm;
+    private StringBuilder s;
 
-
+    private int notificationId = 1;
     private VideoView videoView;
     private ProgressBar progressBar;
     private Uri videoUri;
@@ -199,6 +205,22 @@ public class EditNote extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void setRemidTime(String title){
+        Intent i = new Intent(this,AlarmReceiver.class);
+        i.putExtra("notificationId",notificationId);
+        i.putExtra("title",title);
+        alarmIntent = PendingIntent.getBroadcast(this, 0, i, PendingIntent.FLAG_CANCEL_CURRENT);
+        alarm = (AlarmManager) getSystemService(ALARM_SERVICE);
+        Long alarmTime = date.getTimeInMillis();
+
+        alarm.set(AlarmManager.RTC_WAKEUP, alarmTime, alarmIntent);
+        Toast.makeText(this, "Set alarm time done!", Toast.LENGTH_SHORT).show();
+    }
+    private void deleteRemidTime(){
+        alarm.cancel(alarmIntent);
+        Toast.makeText(this, "Canceled Remind ", Toast.LENGTH_SHORT).show();
     }
 
 
@@ -332,6 +354,11 @@ public class EditNote extends AppCompatActivity {
         databaseReference.child("isPin").setValue(isPin);
         databaseReference.child("hasPassword").setValue(setPass.isChecked());
         databaseReference.child("password").setValue(pass);
+        if(!remindTime.equals("")){
+            setRemidTime(noteTitle);
+        }else{
+            deleteRemidTime();
+        }
         if(downloadImageUrl != null){
             databaseReference.child("image").setValue(downloadImageUrl);
         }else{

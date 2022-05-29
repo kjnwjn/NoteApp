@@ -1,8 +1,10 @@
 package com.example.finalnoteapp;
 
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.ContentResolver;
@@ -98,9 +100,14 @@ public class NoteActivity extends AppCompatActivity {
         MediaController mediaController;
         private UploadTask uploadTask;
         private Uri  downloadVideoUrl;
+        private int notificationId = 1;
+        private Calendar date;
+        private PendingIntent alarmIntent;
+        private AlarmManager alarm;
+        private StringBuilder s;
 
 
-        private ActivityResultLauncher<Intent> mActivityResultLauncher = registerForActivityResult(
+    private ActivityResultLauncher<Intent> mActivityResultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 new ActivityResultCallback<ActivityResult>() {
                     @Override
@@ -217,8 +224,6 @@ public class NoteActivity extends AppCompatActivity {
 
         @Override
         public boolean onCreateOptionsMenu(Menu menu) {
-//            getMenuInflater().inflate(R.menu.menu_user_details,menu);
-
             MenuInflater inflater = getMenuInflater();
             inflater.inflate(R.menu.menu_note_details, menu);
 
@@ -254,14 +259,17 @@ public class NoteActivity extends AppCompatActivity {
 
         private void remind() {
             final Calendar currentDate = Calendar.getInstance();
-            Calendar date = Calendar.getInstance();
-            StringBuilder s = new StringBuilder();
+            date = Calendar.getInstance();
+            s = new StringBuilder();
             time_remind.setText("Ngày nhắc");
             DatePickerDialog dialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
 
                 @Override
                 public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                    date.set(year, monthOfYear, dayOfMonth);
+//                    date.set(year, monthOfYear, dayOfMonth);
+                    date.set(Calendar.YEAR,year);
+                    date.set(Calendar.MONTH,monthOfYear);
+                    date.set(Calendar.DAY_OF_MONTH,dayOfMonth);
                     s.append(dayOfMonth +"/"  + (monthOfYear+1) + "/" + year + ' ');
                     TimePickerDialog dialog1 = new TimePickerDialog(NoteActivity.this, new TimePickerDialog.OnTimeSetListener() {
 
@@ -271,7 +279,7 @@ public class NoteActivity extends AppCompatActivity {
                             date.set(Calendar.MINUTE, minute);
                             s.append(hourOfDay +":"  + minute );
                             binding.timeRemind.setText(s);
-                            Log.v("TAG", "The choosen one " + date.getTime());
+                            Log.e("TAG", "The choosen one " + date.getTime());
                         }
 
 
@@ -399,6 +407,22 @@ public class NoteActivity extends AppCompatActivity {
 
         }
 
+        private void setRemidTime(String title){
+            Intent i = new Intent(this,AlarmReceiver.class);
+            i.putExtra("notificationId",notificationId);
+            i.putExtra("title",title);
+            alarmIntent = PendingIntent.getBroadcast(this, 0, i, PendingIntent.FLAG_CANCEL_CURRENT);
+            alarm = (AlarmManager) getSystemService(ALARM_SERVICE);
+            Long alarmTime = date.getTimeInMillis();
+
+            alarm.set(AlarmManager.RTC_WAKEUP, alarmTime, alarmIntent);
+            Toast.makeText(this, "Set alarm time done!", Toast.LENGTH_SHORT).show();
+        }
+        private void deleteRemidTime(){
+            alarm.cancel(alarmIntent);
+            Toast.makeText(this, "Canceled Remind ", Toast.LENGTH_SHORT).show();
+        }
+
         private void saveData() {
 
               String noteTitle = note_title.getEditText().getText().toString().trim();
@@ -422,6 +446,11 @@ public class NoteActivity extends AppCompatActivity {
               databaseReference.child("hasPassword").setValue(setPass.isChecked());
               databaseReference.child("password").setValue(pass);
 
+              if(!remindTime.equals("")){
+                  setRemidTime(noteTitle);
+              }else{
+                  deleteRemidTime();
+              }
 
               if(downloadImageUrl != null){
                     databaseReference.child("image").setValue(downloadImageUrl);
@@ -452,21 +481,6 @@ public class NoteActivity extends AppCompatActivity {
 
               finish();
 
-//            String dateResult =  txtDate.getEditText().getText().toString() + txtTime.getEditText().getText().toString();
-//
-//
-//            Events event = new Events(name,place,dateResult);
-//
-//            if(event == null){
-//                Toast.makeText(this,"DO not have any event ",Toast.LENGTH_LONG);
-//                return;
-//            }else{
-//                Intent intent = new Intent();
-//                intent.putExtra("data",event);
-//                setResult(1,intent);
-//            }
-//
-//            finish();
 
         }
     }
