@@ -90,11 +90,11 @@ public class TrashbinFragment extends Fragment {
                 for (DataSnapshot childSnapshot:
                         snapshot.getChildren()) {
                     if (String.valueOf(childSnapshot.child("inTrash").getValue()).equals("true")){
-                        String text = String.valueOf(childSnapshot.child("text").getValue());
+//                        String text = String.valueOf(childSnapshot.child("text").getValue());
                         String title = String.valueOf(childSnapshot.child("title").getValue());
                         String noteId = String.valueOf(childSnapshot.getKey());
                         String dateInTrash = String.valueOf(childSnapshot.child("dateInTrash").getValue());
-                        notes.add(new Note(noteId, title,text,null,null,null,null,false, false,null,null,true,dateInTrash));
+                        notes.add(new Note(noteId, title,"",null,null,null,null,false, false,null,null,true,dateInTrash));
                     }
 
                 }
