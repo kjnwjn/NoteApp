@@ -89,7 +89,7 @@ public class NewReminderFragment extends Fragment {
                     tags.add(new Tag(tagID ,text));
 
                 }
-//                Log.d("tag", String.valueOf(snapshot.getValue()));
+
                 Collections.reverse(tags);
                 tagAdapter = new TagAdapter(NewReminderFragment.this, tags);
                 mGridLayoutManager = new GridLayoutManager(getContext(),1);

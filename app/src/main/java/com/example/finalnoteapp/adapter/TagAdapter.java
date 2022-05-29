@@ -1,5 +1,6 @@
 package com.example.finalnoteapp.adapter;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.finalnoteapp.EditTagActivity;
 import com.example.finalnoteapp.R;
 import com.example.finalnoteapp.data.Note;
 import com.example.finalnoteapp.data.Tag;
@@ -20,6 +22,7 @@ public class TagAdapter extends RecyclerView.Adapter<TagAdapter.TagHolder>{
 
     private NewReminderFragment context;
     private List<Tag> tags;
+    public static final int TAG_CODE = 21;
 
     public TagAdapter(NewReminderFragment context, List<Tag> tags){
         this.context = context;
@@ -39,6 +42,13 @@ public class TagAdapter extends RecyclerView.Adapter<TagAdapter.TagHolder>{
             return;
         }
         holder.tagName.setText(tag.getTagName());
+        holder.tagName.setOnClickListener(view -> gotoEditTag(view,tag));
+    }
+
+    private void gotoEditTag(View view,Tag tag) {
+        Intent i = new Intent(context.getContext(), EditTagActivity.class);
+        i.putExtra("tag",tag);
+        context.startActivityForResult(i,TAG_CODE);
     }
 
     @Override

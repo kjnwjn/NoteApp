@@ -21,6 +21,7 @@
         <entry key="..\:/Users/admin/AndroidStudioProjects/FinalNoteApp/app/src/main/res/layout/activity_confirmotp.xml" value="0.25" />
         <entry key="..\:/Users/admin/AndroidStudioProjects/FinalNoteApp/app/src/main/res/layout/activity_edit_note.xml" value="0.25" />
         <entry key="..\:/Users/admin/AndroidStudioProjects/FinalNoteApp/app/src/main/res/layout/activity_edit_note_actitvity.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/FinalNoteApp/app/src/main/res/layout/activity_edit_tag.xml" value="0.2" />
         <entry key="..\:/Users/admin/AndroidStudioProjects/FinalNoteApp/app/src/main/res/layout/activity_flash.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/admin/AndroidStudioProjects/FinalNoteApp/app/src/main/res/layout/activity_forgot_password.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/admin/AndroidStudioProjects/FinalNoteApp/app/src/main/res/layout/activity_login.xml" value="0.20416666666666666" />
@@ -52,6 +53,7 @@
         <entry key="..\:/Users/admin/AndroidStudioProjects/FinalNoteApp/app/src/main/res/layout/note_item_list.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/admin/AndroidStudioProjects/FinalNoteApp/app/src/main/res/layout/tag_item.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/admin/AndroidStudioProjects/FinalNoteApp/app/src/main/res/menu/bottom_nav_menu.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/admin/AndroidStudioProjects/FinalNoteApp/app/src/main/res/menu/edit_tag_menu.xml" value="0.22" />
         <entry key="..\:/Users/admin/AndroidStudioProjects/FinalNoteApp/app/src/main/res/menu/menu.xml" value="0.2" />
         <entry key="..\:/Users/admin/AndroidStudioProjects/FinalNoteApp/app/src/main/res/menu/menu_deleted_note_toolbar.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/admin/AndroidStudioProjects/FinalNoteApp/app/src/main/res/menu/menu_nav.xml" value="0.2" />
@@ -64,10 +66,8 @@
         <entry key="..\:/Users/huuho/AndroidStudioProjects/NoteApp/app/src/main/res/layout/fragment_setting.xml" value="0.1" />
         <entry key="..\:/Users/huuho/AndroidStudioProjects/NoteApp/app/src/main/res/layout/fragment_trashbin.xml" value="0.264" />
         <entry key="..\:/Users/vuhau/AndroidStudioProjects/NoteApp/app/src/main/res/drawable/ic_baseline_lock_24.xml" value="0.1" />
-        <entry key="..\:/Users/vuhau/AndroidStudioProjects/NoteApp/app/src/main/res/drawable/ic_delete_big_size.xml" value="0.172" />
         <entry key="..\:/Users/vuhau/AndroidStudioProjects/NoteApp/app/src/main/res/drawable/ic_tag.xml" value="0.172" />
         <entry key="..\:/Users/vuhau/AndroidStudioProjects/NoteApp/app/src/main/res/drawable/round_corner.xml" value="0.172" />
-        <entry key="..\:/Users/vuhau/AndroidStudioProjects/NoteApp/app/src/main/res/layout/activity_auto_delete.xml" value="0.264" />
         <entry key="..\:/Users/vuhau/AndroidStudioProjects/NoteApp/app/src/main/res/layout/activity_edit_note.xml" value="0.264" />
         <entry key="..\:/Users/vuhau/AndroidStudioProjects/NoteApp/app/src/main/res/layout/activity_flash.xml" value="0.12158054711246201" />
         <entry key="..\:/Users/vuhau/AndroidStudioProjects/NoteApp/app/src/main/res/layout/activity_forgot_password.xml" value="0.22826086956521738" />
@@ -82,7 +82,6 @@
         <entry key="..\:/Users/vuhau/AndroidStudioProjects/NoteApp/app/src/main/res/layout/fragment_home.xml" value="0.22826086956521738" />
         <entry key="..\:/Users/vuhau/AndroidStudioProjects/NoteApp/app/src/main/res/layout/fragment_new_reminder.xml" value="0.22826086956521738" />
         <entry key="..\:/Users/vuhau/AndroidStudioProjects/NoteApp/app/src/main/res/layout/fragment_reminder.xml" value="0.25" />
-        <entry key="..\:/Users/vuhau/AndroidStudioProjects/NoteApp/app/src/main/res/layout/fragment_setting.xml" value="0.10733695652173914" />
         <entry key="..\:/Users/vuhau/AndroidStudioProjects/NoteApp/app/src/main/res/layout/fragment_trashbin.xml" value="0.25" />
         <entry key="..\:/Users/vuhau/AndroidStudioProjects/NoteApp/app/src/main/res/layout/layout_header_nav.xml" value="0.12158054711246201" />
         <entry key="..\:/Users/vuhau/AndroidStudioProjects/NoteApp/app/src/main/res/layout/nav_bottom_menu.xml" value="0.12158054711246201" />

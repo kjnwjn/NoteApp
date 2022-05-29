@@ -14,6 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FinalNoteApp">
         <activity
+            android:name=".EditTagActivity"
+            android:exported="false" />
+        <activity
             android:name=".fontSetting"
             android:exported="false" />
         <activity
@@ -25,14 +28,14 @@
         <activity
             android:name=".EditNote"
             android:exported="false"
-            android:hardwareAccelerated="false"/>
+            android:hardwareAccelerated="false" />
         <activity
             android:name=".TagActivity"
             android:exported="false" />
         <activity
             android:name=".NoteActivity"
             android:exported="false"
-            android:hardwareAccelerated="false"/>
+            android:hardwareAccelerated="false" />
         <activity
             android:name=".VertifyEmail"
             android:exported="false" />

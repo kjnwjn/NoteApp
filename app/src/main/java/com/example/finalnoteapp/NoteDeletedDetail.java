@@ -46,8 +46,6 @@ public class NoteDeletedDetail extends AppCompatActivity {
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-//            getMenuInflater().inflate(R.menu.menu_user_details,menu);
-
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_deleted_note_toolbar, menu);
 
