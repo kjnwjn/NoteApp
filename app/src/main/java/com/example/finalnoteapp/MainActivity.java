@@ -121,29 +121,32 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 int textLength = charSequence.length();
                 tempList.clear();
-                for(Note note: notes){
-                    if (textLength <= note.getTitle().length()) {
-                        if (note.getTitle().toLowerCase().contains(charSequence.toString().toLowerCase())) {
-                            if(!tempList.contains(note)){
-                                tempList.add(note);
-                            };
-                        }
-                    }
-                    if (textLength <= note.getText().length()) {
-                        if (note.getText().toLowerCase().contains(charSequence.toString().toLowerCase())) {
-                            if(!tempList.contains(note)){
-                                tempList.add(note);
+                if (notes != null){
+                    for(Note note: notes){
+                        if (textLength <= note.getTitle().length()) {
+                            if (note.getTitle().toLowerCase().contains(charSequence.toString().toLowerCase())) {
+                                if(!tempList.contains(note)){
+                                    tempList.add(note);
+                                };
                             }
                         }
+                        if (textLength <= note.getText().length()) {
+                            if (note.getText().toLowerCase().contains(charSequence.toString().toLowerCase())) {
+                                if(!tempList.contains(note)){
+                                    tempList.add(note);
+                                }
+                            }
+                        }
+                        if (textLength == 0){
+                            noteAdapter = new NoteAdapter(noteAdapter.context, notes);
+                            recyclerView.setAdapter(noteAdapter);
+                            return;
+                        }
                     }
-                    if (textLength == 0){
-                        noteAdapter = new NoteAdapter(noteAdapter.context, notes);
-                        recyclerView.setAdapter(noteAdapter);
-                        return;
-                    }
+                    noteAdapter = new NoteAdapter(noteAdapter.context, tempList);
+                    recyclerView.setAdapter(noteAdapter);
                 }
-                noteAdapter = new NoteAdapter(noteAdapter.context, tempList);
-                recyclerView.setAdapter(noteAdapter);
+
             }
 
             @Override
