@@ -124,32 +124,60 @@ public class TrashbinFragment extends Fragment {
                 recyclerView.setHasFixedSize(true);
                 recyclerView.setAdapter(noteDeletedAdapter);
 
-                Date currentTime = Calendar.getInstance().getTime();
-                DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
-                String date = dateFormat.format(currentTime);
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
-                try {
-                    Date current = simpleDateFormat.parse(date);
-                    for (Note note :
-                            notes) {
-                        String dTrash = note.getDateInTrash();
+                final long[] limit = new long[1];
+                DatabaseReference timeRef = mDatabase.child("User").child(userId).child("Setting").child("AutoDeleteTime");
+                timeRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        String value = String.valueOf(snapshot.getValue());
+                        if(value != "null"){
+                            value = value.replaceAll("[^\\d.]", "");
+                            limit[0] = Long.parseLong(value);
+
+                        }else { limit[0] = 7;}
+
+                        if(limit[0] != 1){
+                            limit[0] = limit[0]*60*60*24;
+                        }else{
+                            limit[0] = limit[0]*60;
+                        }
+                        Log.d("TAG", String.valueOf(limit[0]));
+
+                        Date currentTime = Calendar.getInstance().getTime();
+                        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+                        String date = dateFormat.format(currentTime);
+                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
                         try {
-                            Date dateTrash = simpleDateFormat.parse(dTrash);
-                            long diffInMillie = Math.abs(current.getTime() - dateTrash.getTime());
-                            long diff = TimeUnit.MINUTES.convert(diffInMillie, TimeUnit.MILLISECONDS);
-                            long limit = 30;
-                            if (diff > limit){
-                                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                                String userId = user.getUid();
-                                mDatabase.child("User").child(userId).child("NoteList").child(note.getNoteID()).removeValue();
+                            Date current = simpleDateFormat.parse(date);
+                            for (Note note :
+                                    notes) {
+                                String dTrash = note.getDateInTrash();
+                                try {
+                                    Date dateTrash = simpleDateFormat.parse(dTrash);
+                                    long diffInMillie = Math.abs(current.getTime() - dateTrash.getTime());
+                                    long diff = TimeUnit.SECONDS.convert(diffInMillie, TimeUnit.MILLISECONDS);
+//                                    limit[0] = 30;
+                                    if (diff > limit[0]){
+                                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                                        String userId = user.getUid();
+                                        mDatabase.child("User").child(userId).child("NoteList").child(note.getNoteID()).removeValue();
+                                    }
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
                             }
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }
                     }
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+
 
 
             }

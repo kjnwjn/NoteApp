@@ -27,7 +27,7 @@
         <item>7 ngày</item>
         <item>14 ngày</item>
         <item>30 ngày</item>
-        <item>15s</item>
+        <item>1 phút</item>
     </string-array>
     <string-array name="sound">
         <item>Rain forest</item>
