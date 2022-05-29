@@ -83,27 +83,13 @@ public class HomeFragment extends Fragment {
                     long numChildren = snapshot.getChildrenCount();
                     Log.d("TAG", String.valueOf(numChildren));
 
-                    DatabaseReference activeRef = mDatabase.child("User").child(userId).child("active");
-                    activeRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            String active = "true";
-                            if (snapshot.getValue() != null){
-                                active = snapshot.getValue().toString();
-                            }
-                            if(active == "false" && numChildren > 4){
-                                Toast.makeText(getContext(), "Yêu cầu kích hoạt tài khoản", Toast.LENGTH_SHORT).show();
-                            }else{
-                                Intent intent = new Intent(getContext(), NoteActivity.class);
-                                startActivityForResult(intent,1);
-                            }
-                        }
 
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
-                    });
+                    if(!user.isEmailVerified() && numChildren > 4){
+                        Toast.makeText(getContext(), "Yêu cầu kích hoạt tài khoản", Toast.LENGTH_SHORT).show();
+                    }else{
+                        Intent intent = new Intent(getContext(), NoteActivity.class);
+                        startActivityForResult(intent,1);
+                    }
                 }
 
                 @Override
