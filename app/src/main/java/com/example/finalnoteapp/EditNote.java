@@ -323,7 +323,7 @@ public class EditNote extends AppCompatActivity {
 
 
         if(noteTitle.isEmpty()){
-            noteTitle = "Untitle";
+            noteTitle = "Untitled";
         }
         if(noteTextContent.isEmpty()){
             noteTextContent = "";
@@ -353,7 +353,7 @@ public class EditNote extends AppCompatActivity {
         String pass = editPass.getText().toString().trim();
 
         if(noteTitle.isEmpty()){
-            noteTitle = "Untitle";
+            noteTitle = "Untitled";
         }
         if(remindTime.isEmpty() || remindTime == null){
             databaseReference.child("remindTime").setValue("");

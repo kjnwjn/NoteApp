@@ -434,7 +434,7 @@ public class NoteActivity extends AppCompatActivity {
               String pass = editPass.getText().toString().trim();
 
               if(noteTitle.isEmpty()){
-                  noteTitle = "Untitle";
+                  noteTitle = "Untitled";
               }
 
 
