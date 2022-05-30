@@ -490,13 +490,6 @@ public class EditNote extends AppCompatActivity {
         send.setType("*/*");
         send.putExtra(Intent.EXTRA_TEXT, noteTitle+": "+noteTextContent);
         send.putExtra(Intent.EXTRA_SUBJECT, noteTitle);
-        if(binding.imageGr.getVisibility() == View.VISIBLE){
-            Drawable drawable = app_image_view.getDrawable();
-            Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
-            String path = MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, null, null);
-            Uri uri = Uri.parse(path);
-            send.putExtra(Intent.EXTRA_STREAM, uri);
-        }
         Intent share = Intent.createChooser(send, "Share note");
         startActivity(share);
     }
