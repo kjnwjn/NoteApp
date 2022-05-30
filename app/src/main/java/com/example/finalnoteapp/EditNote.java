@@ -190,6 +190,10 @@ public class EditNote extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 String videoLinkString = snapshot.getValue(String.class);
+
+                if(videoLinkString == null){
+                    return;
+                }
                 Uri video = Uri.parse(videoLinkString);
                 if(!videoLinkString.equals("")){
                     mediaController = new MediaController(EditNote.this);
@@ -214,7 +218,7 @@ public class EditNote extends AppCompatActivity {
         Intent i = new Intent(this,AlarmReceiver.class);
         i.putExtra("notificationId",notificationId);
         i.putExtra("title",title);
-        alarmIntent = PendingIntent.getBroadcast(this, 0, i, PendingIntent.FLAG_CANCEL_CURRENT);
+        alarmIntent = PendingIntent.getBroadcast(this, 0, i, PendingIntent.FLAG_MUTABLE);
         alarm = (AlarmManager) getSystemService(ALARM_SERVICE);
         Long alarmTime = date.getTimeInMillis();
 

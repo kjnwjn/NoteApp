@@ -411,7 +411,7 @@ public class NoteActivity extends AppCompatActivity {
             Intent i = new Intent(this,AlarmReceiver.class);
             i.putExtra("notificationId",notificationId);
             i.putExtra("title",title);
-            alarmIntent = PendingIntent.getBroadcast(this, 0, i, PendingIntent.FLAG_CANCEL_CURRENT);
+            alarmIntent = PendingIntent.getBroadcast(this, 0, i, PendingIntent.FLAG_MUTABLE);
             alarm = (AlarmManager) getSystemService(ALARM_SERVICE);
             Long alarmTime = date.getTimeInMillis();
 
