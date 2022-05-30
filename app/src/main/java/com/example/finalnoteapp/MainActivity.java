@@ -238,23 +238,10 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
                     mCurrentFragment = FRAGMENT_HOME;
                 }
                 break;
-            case R.id.reminder:
-                if(mCurrentFragment != FRAGMENT_REMINDER){
-                    replaceFragment(new ReminderFragment(),"FRAGMENT_REMINDER");
-                    mCurrentFragment = FRAGMENT_REMINDER;
-                }
-                break;
             case R.id.app_new_reminder:
                 if(mCurrentFragment != FRAGMENT_NEW_REMINDER){
                     replaceFragment(new NewReminderFragment(),"FRAGMENT_NEW_REMINDER");
                     mCurrentFragment = FRAGMENT_NEW_REMINDER;
-                }
-                break;
-            case R.id.app_savingNote:
-                Toast.makeText(this,"app_savingNote" ,Toast.LENGTH_SHORT).show();
-                if(mCurrentFragment != FRAGMENT_SAVING_NOTE){
-                    replaceFragment(new SavingNoteFragment(),"FRAGMENT_SAVING_NOTE");
-                    mCurrentFragment = FRAGMENT_SAVING_NOTE;
                 }
                 break;
             case R.id.app_trashbin:

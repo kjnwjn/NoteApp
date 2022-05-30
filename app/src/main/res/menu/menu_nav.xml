@@ -4,15 +4,9 @@
         <item android:id="@+id/app_note"
             android:title="@string/app_note"
             android:icon="@drawable/ic_baseline_wb_incandescent_24"/>
-        <item android:id="@+id/reminder"
-            android:title="@string/app_loinhac"
-            android:icon="@drawable/ic_baseline_notifications"/>
         <item android:id="@+id/app_new_reminder"
             android:title="@string/app_taonhanmoi"
             android:icon="@drawable/ic_baseline_add_add_24"/>
-        <item android:id="@+id/app_savingNote"
-            android:title="@string/app_luutru"
-            android:icon="@drawable/ic_baseline_save_alt_24"/>
         <item android:id="@+id/app_trashbin"
             android:title="@string/app_trashbin"
             android:icon="@drawable/ic_baseline_delete_24"/>
@@ -23,9 +17,6 @@
     <item android:title="Account">
         <menu>
             <group android:checkableBehavior="single">
-                <item android:id="@+id/app_profile"
-                    android:title="@string/Profile"
-                    android:icon="@drawable/ic_baseline_grid_view_24"/>
                 <item android:id="@+id/changePassword"
                     android:title="Change Password"
                     android:icon="@drawable/ic_key"/>
