@@ -1,5 +1,6 @@
 package com.example.finalnoteapp;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
@@ -8,14 +9,19 @@ import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.ContentResolver;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.media.MediaParser;
+import android.media.MediaPlayer;
+import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.view.Menu;
@@ -45,6 +51,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
 import com.example.finalnoteapp.databinding.ActivityNoteBinding;
@@ -68,6 +75,7 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.UUID;
@@ -105,9 +113,14 @@ public class NoteActivity extends AppCompatActivity {
         private PendingIntent alarmIntent;
         private AlarmManager alarm;
         private StringBuilder s;
+        public static final int MICRO_PHONE_CODE = 50;
+        private MediaRecorder mediaRecorder;
+        private MediaPlayer mediaPlayer;
+        private String fileAudioPath;
+        private Uri downloadAudioUrl;
+        private ProgressDialog progressDialog;
 
-
-    private ActivityResultLauncher<Intent> mActivityResultLauncher = registerForActivityResult(
+        private ActivityResultLauncher<Intent> mActivityResultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 new ActivityResultCallback<ActivityResult>() {
                     @Override
@@ -151,6 +164,11 @@ public class NoteActivity extends AppCompatActivity {
             mediaController = new MediaController(this);
             videoView.setMediaController(mediaController);
             videoView.start();
+
+            if(isMicroPhoneExits()){
+                getMicroPhonePermission();
+            }
+            progressDialog = new ProgressDialog(this);
         }
 
         private void initViews() {
@@ -185,11 +203,121 @@ public class NoteActivity extends AppCompatActivity {
             binding.btnUploadVideo.setOnClickListener(view -> uploadvideo());
             binding.btnDeleteVideo.setOnClickListener(view -> deleteVideo(view));
 
+            binding.btnPlay.setOnClickListener(view -> playAudio());
+            binding.btnStop.setOnClickListener(view -> stopAudio());
+            binding.navBottomMenu.appMic.setOnClickListener(view -> recordAudio());
+            binding.btnUploadAudio.setOnClickListener(view -> uploadAudioToStorage());
+
         }
+
+        private void recordAudio() {
+
+            try {
+                mediaRecorder = new MediaRecorder();
+                mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+                mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+                mediaRecorder.setOutputFile(getFileRecordPath());
+                mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+                mediaRecorder.prepare();
+                mediaRecorder.start();
+                Toast.makeText(this, "Recording is started", Toast.LENGTH_SHORT).show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        private void stopAudio() {
+            if(mediaRecorder != null){
+                mediaRecorder.stop();
+                mediaRecorder.release();
+                mediaRecorder = null;
+                Toast.makeText(this, "Recording is stopped", Toast.LENGTH_SHORT).show();
+            }else{
+                return;
+            }
+
+        }
+
+        private void playAudio() {
+            try {
+                if(fileAudioPath!=null){
+                    mediaPlayer = new MediaPlayer();
+                    mediaPlayer.setDataSource(fileAudioPath);
+                    mediaPlayer.prepare();
+                    mediaPlayer.start();
+                    Toast.makeText(this, "Recording is playing", Toast.LENGTH_SHORT).show();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        private void uploadAudioToStorage(){
+            progressDialog.setTitle("Uploading Audio ...");
+            progressDialog.show();
+            if(fileAudioPath!= null){
+
+                Uri file = Uri.fromFile(new File(fileAudioPath));
+                StorageReference audioRef = storageReference;
+                StorageReference riversRef = audioRef.child("audio/"+file.getLastPathSegment());
+                uploadTask = riversRef.putFile(file);
+                Task<Uri> uniTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                    @Override
+                    public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                        progressDialog.dismiss();
+                        if(!task.isSuccessful()){
+                            throw task.getException();
+                        }
+                        return riversRef.getDownloadUrl();
+                    }
+                })
+                        .addOnCompleteListener(new OnCompleteListener<Uri>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Uri> task) {
+                                progressDialog.dismiss();
+                                if(task.isSuccessful()){
+                                    downloadAudioUrl = task.getResult();
+                                    Log.e("urlaudio", "msg: "+ downloadAudioUrl.toString());
+                                    Toast.makeText(NoteActivity.this, "Data save", Toast.LENGTH_SHORT).show();
+                                }else{
+                                    Toast.makeText(NoteActivity.this, "Data save failed", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+
+            }else{
+                progressDialog.dismiss();
+                Toast.makeText(NoteActivity.this, "All field are require", Toast.LENGTH_SHORT).show();
+            }
+
+
+        }
+        private String getFileRecordPath(){
+            final String randomKey = UUID.randomUUID().toString().replace("-", "");
+            ContextWrapper contextWrapper = new ContextWrapper(getApplicationContext());
+            File audioPath = contextWrapper.getExternalFilesDir(Environment.DIRECTORY_MUSIC);
+            File file = new File(audioPath,"audio"+randomKey+".mp3");
+            Log.e("fileaudio","url: "+file.getPath());
+            fileAudioPath = file.getPath();
+            return fileAudioPath;
+        }
+
+        private boolean isMicroPhoneExits(){
+            if(this.getPackageManager().hasSystemFeature(PackageManager.FEATURE_MICROPHONE)){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        private void getMicroPhonePermission(){
+            if(ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_DENIED){
+                ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.RECORD_AUDIO},MICRO_PHONE_CODE);
+            }
+        }
+
         private void deleteVideo(View view) {
             videoView.setVideoURI(null);
         }
-//        Video method handler
         private void chooseVideo(View view){
             Intent i = new Intent();
             i.setType("video/*");
@@ -232,7 +360,6 @@ public class NoteActivity extends AppCompatActivity {
 
         @Override
         public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-            Log.e("TAG","onOptionsItemSelectedCalled");
             switch (item.getItemId()){
                 case R.id.saveItem:
                     saveData();
@@ -258,6 +385,7 @@ public class NoteActivity extends AppCompatActivity {
             }
 
         private void remind() {
+
             final Calendar currentDate = Calendar.getInstance();
             date = Calendar.getInstance();
             s = new StringBuilder();
@@ -396,7 +524,7 @@ public class NoteActivity extends AppCompatActivity {
         }
 
 
-    @Override
+        @Override
         public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);
             if(requestCode == MY_REQUEST_CODE){
@@ -408,15 +536,17 @@ public class NoteActivity extends AppCompatActivity {
         }
 
         private void setRemidTime(String title){
-            Intent i = new Intent(this,AlarmReceiver.class);
-            i.putExtra("notificationId",notificationId);
-            i.putExtra("title",title);
-            alarmIntent = PendingIntent.getBroadcast(this, 0, i, PendingIntent.FLAG_IMMUTABLE);
-            alarm = (AlarmManager) getSystemService(ALARM_SERVICE);
-            Long alarmTime = date.getTimeInMillis();
+            if(date != null){
+                Intent i = new Intent(this,AlarmReceiver.class);
+                i.putExtra("notificationId",notificationId);
+                i.putExtra("title",title);
+                alarmIntent = PendingIntent.getBroadcast(this, 0, i, PendingIntent.FLAG_IMMUTABLE);
+                alarm = (AlarmManager) getSystemService(ALARM_SERVICE);
+                Long alarmTime = date.getTimeInMillis();
 
-            alarm.set(AlarmManager.RTC_WAKEUP, alarmTime, alarmIntent);
-            Toast.makeText(this, "Set alarm time done!", Toast.LENGTH_SHORT).show();
+                alarm.set(AlarmManager.RTC_WAKEUP, alarmTime, alarmIntent);
+                Toast.makeText(this, "Set alarm time done!", Toast.LENGTH_SHORT).show();
+            }
         }
         private void deleteRemidTime(){
             if(alarm!=null){
@@ -448,6 +578,7 @@ public class NoteActivity extends AppCompatActivity {
               databaseReference.child("hasPassword").setValue(setPass.isChecked());
               databaseReference.child("password").setValue(pass);
               databaseReference.child("image").setValue("");
+              databaseReference.child("audio").setValue("");
 
               if(remindTime.isEmpty()){
                   databaseReference.child("remindTime").setValue("");
@@ -471,6 +602,11 @@ public class NoteActivity extends AppCompatActivity {
 
               }else{
                   databaseReference.child("video").setValue(downloadVideoUrl.toString());
+              }
+              if(downloadAudioUrl != null){
+                  databaseReference.child("audio").setValue(downloadAudioUrl.toString());
+              }else{
+                  databaseReference.child("audio").setValue("");
               }
 
                 databaseReference.child("image").addValueEventListener(new ValueEventListener() {

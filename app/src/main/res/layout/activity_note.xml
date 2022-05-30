@@ -19,16 +19,18 @@
             android:background="@color/color_primary">
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
+
     <ScrollView
+        android:id="@+id/scrollView_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/scrollView_layout"
-        android:layout_marginBottom="80dp"
-        android:layout_below="@+id/action_bar_note_activity">
+        android:layout_below="@+id/action_bar_note_activity"
+        android:layout_marginBottom="80dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/note_title"
                 android:layout_width="match_parent"
@@ -37,23 +39,25 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Title"
-                    android:background="@color/white"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginRight="15dp"/>
+                    android:layout_marginRight="15dp"
+                    android:background="@color/white"
+                    android:hint="Title" />
             </com.google.android.material.textfield.TextInputLayout>
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/note_textContent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/note_title">
+
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="15dp"
-                    android:hint="Content"
-                    android:background="@color/white" />
+                    android:background="@color/white"
+                    android:hint="Content" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <LinearLayout
@@ -76,71 +80,107 @@
                     android:id="@+id/btnDeleteImage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
+                    android:gravity="center"
                     android:text="Delete"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/videoGr"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/imageGr"
-                android:orientation="vertical"
                 android:layout_margin="10dp"
-                >
+                android:orientation="vertical">
 
                 <VideoView
                     android:id="@+id/app_video_view"
                     android:layout_width="match_parent"
                     android:layout_height="230dp"
-                    android:backgroundTint="@android:color/black"
-                    />
+                    android:backgroundTint="@android:color/black" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
+
                     <Button
                         android:id="@+id/btnDeleteVideo"
                         android:layout_width="0dp"
-                        android:layout_weight="1"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="5dp"
-                        android:text="Delete"/>
+                        android:layout_weight="1"
+                        android:text="Delete" />
+
                     <Button
                         android:id="@+id/btnUploadVideo"
                         android:layout_width="0dp"
-                        android:layout_weight="1"
                         android:layout_height="wrap_content"
-                        android:text="Upload Video"
-                        android:layout_marginLeft="5dp"/>
+                        android:layout_marginLeft="5dp"
+                        android:layout_weight="1"
+                        android:text="Upload Video" />
                 </LinearLayout>
+
                 <ProgressBar
+                    android:id="@+id/progressBar_forVideo"
+                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
                     android:indeterminate="true"
                     android:indeterminateTint="@android:color/holo_orange_dark"
-                    android:visibility="invisible"
-                    android:id="@+id/progressBar_forVideo"/>
+                    android:visibility="invisible" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/audioGr"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/videoGr"
+                android:orientation="horizontal">
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Play"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginStart="10dp"
+                    android:id="@+id/btnPlay"/>
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_weight="1"
+                    android:text="Stop"
+                    android:id="@+id/btnStop"/>
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_weight="1"
+                    android:text="Upload Audio"
+                    android:id="@+id/btnUploadAudio"/>
             </LinearLayout>
 
             <TextView
                 android:id="@+id/titleTest"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/videoGr"
+                android:layout_below="@+id/audioGr"
                 android:layout_marginTop="20dp" />
+
             <TextView
                 android:id="@+id/pinState"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/titleTest"
-                android:text="Trạng thái ghim: "
+                android:layout_marginTop="20dp"
                 android:paddingLeft="15sp"
-                android:textSize="18sp"
-                android:layout_marginTop="20dp"/>
+                android:text="Trạng thái ghim: "
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/contentText"
@@ -174,21 +214,23 @@
                     android:src="@drawable/ic_baseline_delete_24"
                     android:visibility="gone" />
             </LinearLayout>
+
             <TextView
                 android:id="@+id/txtPass"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingHorizontal="15sp"
-                android:textSize="15sp"
-                android:text="Đặt mật khẩu: "
                 android:layout_below="@+id/layoutRemind"
-                android:layout_marginTop="15dp"/>
+                android:layout_marginTop="15dp"
+                android:paddingHorizontal="15sp"
+                android:text="Đặt mật khẩu: "
+                android:textSize="15sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/txtPass"
                 android:orientation="horizontal">
+
                 <EditText
                     android:id="@+id/editPass"
                     android:layout_width="0dp"
@@ -206,8 +248,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10sp"
-                    android:layout_weight="0.1"
-                    android:layout_marginRight="15dp"/>
+                    android:layout_marginRight="15dp"
+                    android:layout_weight="0.1" />
 
             </LinearLayout>
         </RelativeLayout>

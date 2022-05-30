@@ -188,20 +188,9 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
-        // below line is to get our inflater
         MenuInflater inflater = getMenuInflater();
-
-        // inside inflater we are inflating our menu file.
         inflater.inflate(R.menu.menu, menu);
-
-        // below line is to get our menu item.
-        //MenuItem searchItem = menu.findItem(R.id.actionSearch);
-
-        // getting search view of our item.
-        //SearchView searchView = (SearchView) searchItem.getActionView();
-
         this.mMenu = menu;
-        // below line is to call set on query text listener method.
         return super.onCreateOptionsMenu(menu);
     }
 //
@@ -220,21 +209,12 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
             HomeFragment.setTypeDisplayRecyclerView(Note.TYPE_LIST);
             mCurrentTypeDisplay =  Note.TYPE_LIST;
             HomeFragment.recyclerView.setLayoutManager(HomeFragment.mLinearLayoutManager);
-
-//            TrashbinFragment.setTypeDisplayRecyclerView(Note.TYPE_LIST);
-//            mCurrentTypeDisplay =  Note.TYPE_LIST;
-//            TrashbinFragment.recyclerView.setLayoutManager(TrashbinFragment.mLinearLayoutManager);
         }else{
             HomeFragment.setTypeDisplayRecyclerView(Note.TYPE_GRID);
             mCurrentTypeDisplay =  Note.TYPE_GRID;
             HomeFragment.recyclerView.setLayoutManager(HomeFragment.mGridLayoutManager);
-
-//            TrashbinFragment.setTypeDisplayRecyclerView(Note.TYPE_GRID);
-//            mCurrentTypeDisplay =  Note.TYPE_GRID;
-//            TrashbinFragment.recyclerView.setLayoutManager(TrashbinFragment.mGridLayoutManager);
         }
         noteAdapter.notifyDataSetChanged();
-//        TrashbinFragment.noteDeletedAdapter.notifyDataSetChanged();
         setIconToolbar();
 
     }

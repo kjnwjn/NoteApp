@@ -102,8 +102,7 @@
                     android:id="@+id/app_video_view"
                     android:layout_width="match_parent"
                     android:layout_height="230dp"
-                    android:backgroundTint="@android:color/black"
-                    />
+                    android:backgroundTint="@android:color/black" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -132,11 +131,43 @@
                     android:visibility="invisible"
                     android:id="@+id/progressBar_forVideo"/>
             </LinearLayout>
+            <LinearLayout
+                android:id="@+id/audioGr"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/videoGr"
+                android:orientation="horizontal">
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Play"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginStart="10dp"
+                    android:id="@+id/btnPlay"/>
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_weight="1"
+                    android:text="Stop"
+                    android:id="@+id/btnStop"/>
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_weight="1"
+                    android:text="Upload Audio"
+                    android:id="@+id/btnUploadAudio"/>
+            </LinearLayout>
             <TextView
                 android:id="@+id/titleTest_deleted"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/videoGr"
+                android:layout_below="@+id/audioGr"
                 android:layout_marginTop="20dp"/>
             <TextView
                 android:id="@+id/pinState"
