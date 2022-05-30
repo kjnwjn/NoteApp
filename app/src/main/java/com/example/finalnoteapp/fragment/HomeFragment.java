@@ -117,7 +117,7 @@ public class HomeFragment extends Fragment {
         }
     }
     private void initNotes(){
-//        notes = new ArrayList<>();
+
         noteListRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -184,7 +184,7 @@ public class HomeFragment extends Fragment {
                     }
                 }
 
-//                Log.d("tag", String.valueOf(snapshot.getValue()));
+
                 Collections.reverse(notes);
                 noteAdapter = new NoteAdapter(HomeFragment.this,notes);
                 mGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);

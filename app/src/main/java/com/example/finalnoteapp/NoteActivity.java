@@ -483,16 +483,15 @@ public class NoteActivity extends AppCompatActivity {
                         }
                     });
         }
-        private String getExt(Uri uri){
-            ContentResolver contentResolver = getContentResolver();
+        private String getExtension(Uri uri){
             MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
-            return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
+            return mimeTypeMap.getExtensionFromMimeType(getContentResolver().getType(uri));
         }
         private void uploadvideo(){
             if(videoUri != null){
                 progressBar.setVisibility(View.VISIBLE);
                 StorageReference videoref = storageReference.child("video");
-                StorageReference videoRefVal = videoref.child(System.currentTimeMillis()+ "." + getExt(videoUri));
+                StorageReference videoRefVal = videoref.child(System.currentTimeMillis()+ "." + getExtension(videoUri));
                 uploadTask = videoRefVal.putFile(videoUri);
                 Task<Uri> uniTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
                     @Override

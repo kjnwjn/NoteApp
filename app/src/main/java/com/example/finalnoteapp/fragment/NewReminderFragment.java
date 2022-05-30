@@ -71,13 +71,12 @@ public class NewReminderFragment extends Fragment {
         btnAdd.setOnClickListener(view1 -> {
             Intent intent = new Intent(getContext(), TagActivity.class);
             startActivityForResult(intent,1);
-//            onClickRequestPermission();
-//            openGallery();
+
         });
     }
 
     private void initNotes(){
-//        notes = new ArrayList<>();
+
         tagListRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

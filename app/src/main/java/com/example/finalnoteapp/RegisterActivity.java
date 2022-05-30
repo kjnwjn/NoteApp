@@ -93,12 +93,10 @@ public class RegisterActivity extends AppCompatActivity {
                                 String userId = user.getUid();
 
                                 initUser(userId);
-                                // Sign in success, update UI with the signed-in user's information
                                 Toast.makeText(RegisterActivity.this, "Register successfully",
                                         Toast.LENGTH_SHORT).show();
                                 gotoVerifyEmail();
                             } else {
-                                // If sign in fails, display a message to the user.
                                 Log.e("TAG", "createUserWithEmail:failure", task.getException());
                                 Toast.makeText(RegisterActivity.this, "Authentication failed.",
                                         Toast.LENGTH_SHORT).show();

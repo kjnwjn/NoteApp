@@ -82,7 +82,7 @@ public class TrashbinFragment extends Fragment {
         }
     }
     private void initNotes(){
-//        notes = new ArrayList<>();
+
         noteListRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -90,7 +90,7 @@ public class TrashbinFragment extends Fragment {
                 for (DataSnapshot childSnapshot:
                         snapshot.getChildren()) {
                     if (String.valueOf(childSnapshot.child("inTrash").getValue()).equals("true")){
-//                        String text = String.valueOf(childSnapshot.child("text").getValue());
+
                         String title = String.valueOf(childSnapshot.child("title").getValue());
                         String noteId = String.valueOf(childSnapshot.getKey());
                         String dateInTrash = String.valueOf(childSnapshot.child("dateInTrash").getValue());
@@ -98,7 +98,6 @@ public class TrashbinFragment extends Fragment {
                     }
 
                 }
-//                Log.d("tag", String.valueOf(snapshot.getValue()));
                 Collections.sort(notes, new Comparator<Note>() {
                     @Override
                     public int compare(Note note, Note t1) {
@@ -141,7 +140,7 @@ public class TrashbinFragment extends Fragment {
                         }else{
                             limit[0] = limit[0]*60;
                         }
-                        Log.d("TAG", String.valueOf(limit[0]));
+
 
                         Date currentTime = Calendar.getInstance().getTime();
                         DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
@@ -156,7 +155,7 @@ public class TrashbinFragment extends Fragment {
                                     Date dateTrash = simpleDateFormat.parse(dTrash);
                                     long diffInMillie = Math.abs(current.getTime() - dateTrash.getTime());
                                     long diff = TimeUnit.SECONDS.convert(diffInMillie, TimeUnit.MILLISECONDS);
-//                                    limit[0] = 30;
+
                                     if (diff > limit[0]){
                                         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                                         String userId = user.getUid();
