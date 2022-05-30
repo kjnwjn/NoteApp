@@ -218,7 +218,7 @@ public class EditNote extends AppCompatActivity {
         Intent i = new Intent(this,AlarmReceiver.class);
         i.putExtra("notificationId",notificationId);
         i.putExtra("title",title);
-        alarmIntent = PendingIntent.getBroadcast(this, 0, i, PendingIntent.FLAG_MUTABLE);
+        alarmIntent = PendingIntent.getBroadcast(this, 0, i, PendingIntent.FLAG_IMMUTABLE);
         alarm = (AlarmManager) getSystemService(ALARM_SERVICE);
         Long alarmTime = date.getTimeInMillis();
 
