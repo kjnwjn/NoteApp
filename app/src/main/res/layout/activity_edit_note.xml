@@ -34,180 +34,199 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-        <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/note_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/note_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Title" />
-    </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Title"
+                    android:background="@color/white"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="15dp" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/note_textContent"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/note_title">
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/note_textContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/note_title">
 
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Content"/>
-    </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="15dp"
+                    android:hint="Content"
+                    android:background="@color/white" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-    <LinearLayout
-        android:id="@+id/imageGr"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_below="@id/note_textContent"
-        android:orientation="horizontal"
-        android:visibility="gone">
+            <LinearLayout
+                android:id="@+id/imageGr"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_below="@id/note_textContent"
+                android:orientation="horizontal"
+                android:visibility="gone">
 
-        <ImageView
-            android:id="@+id/app_image_view"
-            android:layout_width="158dp"
-            android:layout_height="match_parent"
-            android:layout_weight="3"
-            android:scaleType="fitCenter"
-            android:src="@drawable/flashlayout" />
+                <ImageView
+                    android:id="@+id/app_image_view"
+                    android:layout_width="158dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/flashlayout" />
 
-        <Button
-            android:id="@+id/btnDeleteImage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:text="Delete" />
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/videoGr"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/imageGr"
-        android:orientation="vertical"
-        android:layout_margin="10dp">
+                <Button
+                    android:id="@+id/btnDeleteImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:text="Delete" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/videoGr"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/imageGr"
+                android:orientation="vertical"
+                android:layout_margin="10dp">
 
-        <VideoView
-            android:id="@+id/app_video_view"
-            android:layout_width="match_parent"
-            android:layout_height="230dp"
-            android:backgroundTint="@android:color/black"
-            />
+                <VideoView
+                    android:id="@+id/app_video_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="230dp"
+                    android:backgroundTint="@android:color/black"
+                    />
 
-        <Button
-            android:id="@+id/btnDeleteVideo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Delete"/>
-        <Button
-            android:id="@+id/btnUploadVideo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Upload Video"/>
-        <ProgressBar
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-            android:indeterminate="true"
-            android:indeterminateTint="@android:color/holo_orange_dark"
-            android:visibility="invisible"
-            android:id="@+id/progressBar_forVideo"/>
-    </LinearLayout>
-    <TextView
-        android:id="@+id/titleTest_deleted"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/videoGr"
-        android:layout_marginTop="20dp"/>
-    <TextView
-        android:id="@+id/pinState"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/titleTest_deleted"
-        android:text="Trạng thái ghim: "
-        android:paddingLeft="15sp"
-        android:textSize="18sp"
-        android:layout_marginTop="20dp"/>
-    <TextView
-        android:id="@+id/contentText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/titleTest_deleted"
-        android:layout_marginTop="20dp"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <Button
+                        android:id="@+id/btnDeleteVideo"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:text="Delete"/>
+                    <Button
+                        android:id="@+id/btnUploadVideo"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="Upload Video"
+                        android:layout_marginLeft="5dp"/>
+                </LinearLayout>
+                <ProgressBar
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                    android:indeterminate="true"
+                    android:indeterminateTint="@android:color/holo_orange_dark"
+                    android:visibility="invisible"
+                    android:id="@+id/progressBar_forVideo"/>
+            </LinearLayout>
+            <TextView
+                android:id="@+id/titleTest_deleted"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/videoGr"
+                android:layout_marginTop="20dp"/>
+            <TextView
+                android:id="@+id/pinState"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/titleTest_deleted"
+                android:text="Trạng thái ghim: "
+                android:paddingLeft="15sp"
+                android:textSize="18sp"
+                android:layout_marginTop="20dp"/>
+            <TextView
+                android:id="@+id/contentText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/titleTest_deleted"
+                android:layout_marginTop="20dp"/>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:id="@+id/layoutRemind"
-        android:layout_below="@+id/contentText">
-        <TextView
-            android:id="@+id/txtNgayNhac"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:paddingLeft="15sp"
-            android:layout_below="@+id/contentText"
-            android:text="Ngày nhắc: "
-            android:textSize="13sp"
-            android:layout_marginTop="20dp"/>
-        <TextView
-            android:id="@+id/timeRemind"
-            android:layout_width="0dp"
-            android:layout_weight="2"
-            android:layout_height="match_parent"
-            android:paddingHorizontal="15sp"
-            android:textSize="15sp"
-            android:layout_below="@+id/contentText"
-            android:layout_marginTop="20dp"/>
-        <Button
-            android:id="@+id/btnDeleteRemind"
-            android:layout_weight="0.5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Delete"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:id="@+id/layoutRemind"
+                android:layout_below="@+id/contentText">
+                <TextView
+                    android:id="@+id/txtNgayNhac"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="15sp"
+                    android:layout_below="@+id/contentText"
+                    android:text="Ngày nhắc: "
+                    android:textSize="13sp"
+                    android:layout_marginTop="20dp"/>
+                <TextView
+                    android:id="@+id/timeRemind"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="match_parent"
+                    android:paddingHorizontal="15sp"
+                    android:textSize="15sp"
+                    android:layout_below="@+id/contentText"
+                    android:layout_marginTop="20dp"/>
+                <ImageButton
+                    android:id="@+id/btnDeleteRemind"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
 
-    </LinearLayout>
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_baseline_delete_24"
+                    />
 
-    <TextView
-        android:id="@+id/txtPass"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingHorizontal="15sp"
-        android:textSize="15sp"
-        android:text="Đặt mật khẩu: "
-        android:layout_below="@+id/layoutRemind"
-        android:layout_marginTop="20dp"/>
+            </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_below="@+id/txtPass">
-        <EditText
-            android:id="@+id/editPass"
-            android:layout_width="0dp"
-            android:layout_weight="2"
-            android:layout_height="match_parent"
-            android:paddingLeft="15sp"
-            android:hint="Mật khẩu ghi chú"
-            android:inputType="textPassword"
-            android:textSize="16sp"
-            android:layout_below="@+id/contentText"
-            android:layout_marginTop="20dp"/>
-        <ToggleButton
-            android:id="@+id/setPass"
-            android:layout_weight="0.1"
-            android:layout_marginTop="10sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/txtPass"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/layoutRemind"
+                android:layout_marginTop="20dp"
+                android:paddingHorizontal="15sp"
+                android:text="Đặt mật khẩu: "
+                android:textSize="15sp" />
 
-    </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_below="@+id/txtPass">
+                <EditText
+                    android:id="@+id/editPass"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="15sp"
+                    android:hint="Mật khẩu ghi chú"
+                    android:inputType="textPassword"
+                    android:textSize="16sp"
+                    android:layout_below="@+id/contentText"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="10dp"/>
+                <ToggleButton
+                    android:id="@+id/setPass"
+                    android:layout_weight="0.1"
+                    android:layout_marginTop="10sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"/>
+
+            </LinearLayout>
         </RelativeLayout>
     </ScrollView>
 
