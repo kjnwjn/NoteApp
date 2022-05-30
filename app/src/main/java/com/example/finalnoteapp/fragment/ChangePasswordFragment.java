@@ -1,5 +1,6 @@
 package com.example.finalnoteapp.fragment;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -32,49 +33,68 @@ public class ChangePasswordFragment extends Fragment {
     private String oldPass;
     private String newPass;
     private String confirmPass;
+    private View view;
+    private ProgressDialog progressDialog;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentChangePasswordBinding.inflate(inflater, container, false);
-        View view = binding.getRoot();
+        view = binding.getRoot();
+        initView();
+        binding.btnSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(validation() == true){
+                    updatepasswod();
+                }
+            }
+        });
+        user = FirebaseAuth.getInstance().getCurrentUser();
 
-
-        initView(view);
-        updatepasswod();
 
         return view;
     }
-    private void initView(View view) {
+    private void initView() {
+        progressDialog = new ProgressDialog(getContext());
+    }
+    private boolean validation() {
+        confirmPass = binding.ConfirmNewPass.getText().toString().trim();
         oldPass = binding.oldPass.getText().toString().trim();
         newPass = binding.newPass.getText().toString().trim();
-        confirmPass = binding.ConfirmNewPass.getText().toString().trim();
-        binding.btnSubmit.setOnClickListener(view1 -> updatepasswod());
-    }
-    private boolean validation(EditText password, EditText newPassword,String confirmPass) {
+        if(confirmPass.equals("") | oldPass.equals("") | newPass.equals("")){
+            Toast.makeText(getContext(), "Information not allow to be empty", Toast.LENGTH_SHORT).show();
+            return false;
+        }else if(confirmPass.length() < 6 | oldPass.length() < 6 | newPass.length() < 6){
+            Toast.makeText(getContext(), "Password must be at least 6 character", Toast.LENGTH_SHORT).show();
+            return false;
+        }else if(!newPass.equals(confirmPass)){
+            Toast.makeText(getContext(), "Confirm password is not correct", Toast.LENGTH_SHORT).show();
+            return false;
+        }
         return true;
     }
 
-    public boolean isValidEmail(CharSequence target) {
-        if(!TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches()){
-            return true;
-        }else{
-            return false;
-        }
-    }
+
 
     private void updatepasswod() {
 
-        user = FirebaseAuth.getInstance().getCurrentUser();
+
+
         String email = user.getEmail();
+        progressDialog.show();
         AuthCredential credential = EmailAuthProvider.getCredential(email,oldPass);
 
         user.reauthenticate(credential).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
+                progressDialog.dismiss();
                 if(task.isSuccessful()){
+
                     user.updatePassword(newPass).addOnCompleteListener(new OnCompleteListener<Void>() {
+
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
+                            progressDialog.dismiss();
                             if(!task.isSuccessful()){
                                 Toast.makeText(getContext(), "Something went wrong. Please try again later", Toast.LENGTH_SHORT).show();
 
@@ -85,7 +105,7 @@ public class ChangePasswordFragment extends Fragment {
                         }
                     });
                 }else {
-                    Toast.makeText(getContext(), "Authentication Failed", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Password is not correct. Please try again!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
