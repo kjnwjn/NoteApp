@@ -351,7 +351,11 @@ public class EditNote extends AppCompatActivity {
         if(noteTitle.isEmpty()){
             noteTitle = "Untitle";
         }
-
+        if(remindTime.isEmpty() || remindTime == null){
+            databaseReference.child("remindTime").setValue("");
+        }else{
+            databaseReference.child("remindTime").setValue(remindTime);
+        }
         databaseReference.child("title").setValue(noteTitle);//set note's title
         databaseReference.child("text").setValue(noteTextContent);//set note's text
         databaseReference.child("remindTime").setValue(remindTime);
@@ -359,11 +363,7 @@ public class EditNote extends AppCompatActivity {
         databaseReference.child("isPin").setValue(isPin);
         databaseReference.child("hasPassword").setValue(setPass.isChecked());
         databaseReference.child("password").setValue(pass);
-        if(remindTime.isEmpty()){
-            databaseReference.child("remindTime").setValue("");
-        }else{
-            databaseReference.child("remindTime").setValue(remindTime);
-        }
+
 
         if(!remindTime.isEmpty()){
             setRemidTime(noteTitle);
