@@ -419,8 +419,11 @@ public class NoteActivity extends AppCompatActivity {
             Toast.makeText(this, "Set alarm time done!", Toast.LENGTH_SHORT).show();
         }
         private void deleteRemidTime(){
-            alarm.cancel(alarmIntent);
-            Toast.makeText(this, "Canceled Remind ", Toast.LENGTH_SHORT).show();
+            if(alarm!=null){
+                alarm.cancel(alarmIntent);
+                Toast.makeText(this, "Canceled Remind ", Toast.LENGTH_SHORT).show();
+            }
+
         }
 
         private void saveData() {
@@ -440,19 +443,25 @@ public class NoteActivity extends AppCompatActivity {
               DatabaseReference databaseReference = mDatabase.child("User").child(userId).child("NoteList").child(noteID); //dẫn databaseRef tới note
               databaseReference.child("title").setValue(noteTitle);//set note's title
               databaseReference.child("text").setValue(noteTextContent);//set note's text
-              databaseReference.child("remindTime").setValue(remindTime);
               databaseReference.child("inTrash").setValue(false);
               databaseReference.child("isPin").setValue(isPin);
               databaseReference.child("hasPassword").setValue(setPass.isChecked());
               databaseReference.child("password").setValue(pass);
+              databaseReference.child("image").setValue("");
 
-              if(!remindTime.equals("")){
+              if(remindTime.isEmpty()){
+                  databaseReference.child("remindTime").setValue("");
+              }else{
+                  databaseReference.child("remindTime").setValue(remindTime);
+              }
+
+            if(!remindTime.equals("")){
                   setRemidTime(noteTitle);
               }else{
                   deleteRemidTime();
               }
 
-              if(downloadImageUrl != null){
+              if(downloadImageUrl != null ){
                     databaseReference.child("image").setValue(downloadImageUrl);
               }else{
                   databaseReference.child("image").setValue("");

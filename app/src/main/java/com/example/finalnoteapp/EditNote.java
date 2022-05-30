@@ -168,6 +168,9 @@ public class EditNote extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 String imageLink = snapshot.getValue(String.class);
+                if(imageLink == null){
+                    return;
+                }
                 if(!imageLink.equals("")){
                     Glide.with(getApplicationContext()).load(imageLink).into(binding.appImageView);
                     binding.imageGr.setVisibility(View.VISIBLE);
@@ -219,8 +222,10 @@ public class EditNote extends AppCompatActivity {
         Toast.makeText(this, "Set alarm time done!", Toast.LENGTH_SHORT).show();
     }
     private void deleteRemidTime(){
-        alarm.cancel(alarmIntent);
-        Toast.makeText(this, "Canceled Remind ", Toast.LENGTH_SHORT).show();
+        if(alarm !=null){
+            alarm.cancel(alarmIntent);
+            Toast.makeText(this, "Canceled Remind ", Toast.LENGTH_SHORT).show();
+        }
     }
 
 
@@ -354,7 +359,13 @@ public class EditNote extends AppCompatActivity {
         databaseReference.child("isPin").setValue(isPin);
         databaseReference.child("hasPassword").setValue(setPass.isChecked());
         databaseReference.child("password").setValue(pass);
-        if(!remindTime.equals("")){
+        if(remindTime.isEmpty()){
+            databaseReference.child("remindTime").setValue("");
+        }else{
+            databaseReference.child("remindTime").setValue(remindTime);
+        }
+
+        if(!remindTime.isEmpty()){
             setRemidTime(noteTitle);
         }else{
             deleteRemidTime();
@@ -384,7 +395,7 @@ public class EditNote extends AppCompatActivity {
 
     private void remind() {
         final Calendar currentDate = Calendar.getInstance();
-        Calendar date = Calendar.getInstance();
+        date = Calendar.getInstance();
         StringBuilder s = new StringBuilder();
         time_remind.setText("Ngày nhắc");
         DatePickerDialog dialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {

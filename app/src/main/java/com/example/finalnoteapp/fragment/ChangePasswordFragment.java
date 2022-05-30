@@ -64,31 +64,31 @@ public class ChangePasswordFragment extends Fragment {
 
     private void updatepasswod() {
 
-//        user = FirebaseAuth.getInstance().getCurrentUser();
-//        String email = user.getEmail();
-//        AuthCredential credential = EmailAuthProvider.getCredential(email,oldPass);
-//
-//        user.reauthenticate(credential).addOnCompleteListener(new OnCompleteListener<Void>() {
-//            @Override
-//            public void onComplete(@NonNull Task<Void> task) {
-//                if(task.isSuccessful()){
-//                    user.updatePassword(newPass).addOnCompleteListener(new OnCompleteListener<Void>() {
-//                        @Override
-//                        public void onComplete(@NonNull Task<Void> task) {
-//                            if(!task.isSuccessful()){
-//                                Toast.makeText(getContext(), "Something went wrong. Please try again later", Toast.LENGTH_SHORT).show();
-//
-//                            }else {
-//                                Toast.makeText(getContext(), "Password Successfully Modified", Toast.LENGTH_SHORT).show();
-//
-//                            }
-//                        }
-//                    });
-//                }else {
-//                    Toast.makeText(getContext(), "Authentication Failed", Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        });
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        String email = user.getEmail();
+        AuthCredential credential = EmailAuthProvider.getCredential(email,oldPass);
+
+        user.reauthenticate(credential).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()){
+                    user.updatePassword(newPass).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if(!task.isSuccessful()){
+                                Toast.makeText(getContext(), "Something went wrong. Please try again later", Toast.LENGTH_SHORT).show();
+
+                            }else {
+                                Toast.makeText(getContext(), "Password Successfully Modified", Toast.LENGTH_SHORT).show();
+
+                            }
+                        }
+                    });
+                }else {
+                    Toast.makeText(getContext(), "Authentication Failed", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
 
