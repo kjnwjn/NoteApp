@@ -109,21 +109,21 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void initUser(String userId) {
-        DatabaseReference userListRef = mDatabase.getRef().child("User");
-        userListRef.setValue(userId, new DatabaseReference.CompletionListener() {
-            @Override
-            public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
-                Log.e("tag","create user successfully");
-            }
-        });
+//        DatabaseReference userListRef = mDatabase.getRef().child("User");
+//        userListRef.setValue(userId, new DatabaseReference.CompletionListener() {
+//            @Override
+//            public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
+//                Log.e("tag","create user successfully");
+//            }
+//        });
 
-        DatabaseReference userActive = mDatabase.getRef().child("User").child(userId).child("active");
-        userActive.setValue(false, new DatabaseReference.CompletionListener() {
-            @Override
-            public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
-                Log.e("tag","set active user successfully");
-            }
-        });
+//        DatabaseReference userActive = mDatabase.getRef().child("User").child(userId).child("active");
+//        userActive.setValue(false, new DatabaseReference.CompletionListener() {
+//            @Override
+//            public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
+//                Log.e("tag","set active user successfully");
+//            }
+//        });
 
     }
 
